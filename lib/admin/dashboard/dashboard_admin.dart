@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myhealthbd_app/admin/add_patient/view/patient_portal_user_list.dart';
+import 'package:myhealthbd_app/admin/appointment_report/view/appointment_report.dart';
+import 'package:myhealthbd_app/admin/collection_report/view/collection_report_screen.dart';
 import 'package:myhealthbd_app/admin/dashboard/widgets/admin_drawer.dart';
 import 'package:myhealthbd_app/admin/dashboard/widgets/manage_admin_profile_prompt.dart';
 import 'package:myhealthbd_app/admin/organization_setup/view/organization_setup_screen.dart';
@@ -40,58 +42,70 @@ class _AdminDashboardState extends State<AdminDashboard> {
     var companyInfoVm = Provider.of<UserImageViewModel>(context, listen: true);
     var photo = companyInfoVm.details?.photo ?? '';
     var width = MediaQuery.of(context).size.width;
-    var appointmentReport = Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(width: 1, color: AppTheme.appbarPrimary)),
-      height:  width<=330? 80 : 100,
-      width: width<=330? 140 : 180,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            appointReport,
-            width: 20,
-            height: width<=330? 25 :30,
-            color: AppTheme.buttonActiveColor,
-            fit: BoxFit.fitWidth,
-            allowDrawingOutsideViewBox: true,
-            matchTextDirection: true,
-          ),
-          Text(
-            'Appointment Report',
-            style: GoogleFonts.poppins(fontSize: width<=330? 11 : 14),
-          )
-        ],
+    var appointmentReport =
+    InkWell(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>DoctorAppointmentReport()));
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(width: 1, color: AppTheme.appbarPrimary)),
+        height:  width<=330? 80 : 100,
+        width: width<=330? 140 : 180,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              appointReport,
+              width: 20,
+              height: width<=330? 25 :30,
+              color: AppTheme.buttonActiveColor,
+              fit: BoxFit.fitWidth,
+              allowDrawingOutsideViewBox: true,
+              matchTextDirection: true,
+            ),
+            Text(
+              'Appointment Report',
+              style: GoogleFonts.poppins(fontSize: width<=330? 11 : 14),
+            )
+          ],
+        ),
       ),
     );
-    var collectionreport = Container(
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(width: 1, color: AppTheme.appbarPrimary)),
-      height:  width<=330? 80 : 100,
-      width: width<=330? 140 : 180,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            reportCheckIcon,
-            width: 20,
-            height: width<=330? 25 :30,
-            color: AppTheme.buttonActiveColor,
-            fit: BoxFit.fitWidth,
-            allowDrawingOutsideViewBox: true,
-            matchTextDirection: true,
-          ),
-          Text(
-            'Collection Report',
-            style: GoogleFonts.poppins(fontSize: width<=330? 11 : 14),
-          )
-        ],
-      ),
-    );
+    var collectionreport =
+   InkWell(
+     onTap: (){
+       Navigator.push(context, MaterialPageRoute(builder: (context)=>CollectionReportScreen()));
+     },
+     child:  Container(
+       decoration: BoxDecoration(
+           borderRadius: BorderRadius.circular(10),
+           border: Border.all(width: 1, color: AppTheme.appbarPrimary)),
+       height:  width<=330? 80 : 100,
+       width: width<=330? 140 : 180,
+       child: Column(
+         crossAxisAlignment: CrossAxisAlignment.center,
+         mainAxisAlignment: MainAxisAlignment.center,
+         children: [
+           SvgPicture.asset(
+             reportCheckIcon,
+             width: 20,
+             height: width<=330? 25 :30,
+             color: AppTheme.buttonActiveColor,
+             fit: BoxFit.fitWidth,
+             allowDrawingOutsideViewBox: true,
+             matchTextDirection: true,
+           ),
+           Text(
+             'Collection Report',
+             style: GoogleFonts.poppins(fontSize: width<=330? 11 : 14),
+           )
+         ],
+       ),
+     ),
+   );
     var addOrganization = Container(
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),

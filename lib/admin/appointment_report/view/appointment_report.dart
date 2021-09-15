@@ -446,13 +446,12 @@ class _DoctorAppointmentReportState extends State<DoctorAppointmentReport> {
         ],
       ),
       onTap: () {
-        selectDate2(context);
+        docselectDate2(context);
         FocusManager.instance.primaryFocus.unfocus();
       },
     );
 
-var shift=
-Container(
+var shift= Container(
   height: isTablet ? 50 : 50.0,
   width: width,
   decoration: BoxDecoration(
@@ -628,6 +627,9 @@ var doctorName=Padding(
 );
     return Scaffold(
       appBar: AppBar(
+        leading: InkWell(onTap: (){
+          Navigator.pop(context);
+        },child: Icon(Icons.arrow_back)),
         title: Text("MHB-APPADMIN"),
         backgroundColor: AppTheme.appbarPrimary,
         actions: [
@@ -691,968 +693,303 @@ var doctorName=Padding(
                 children: [
                   RefreshIndicator(
                       onRefresh: () {},
-                      child: WillPopScope(
-                        onWillPop: () async {},
-                        child: Scaffold(
-                            body: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  Container(
-                                    width: double.infinity,
-                                    height: 350,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 5,
-                                          blurRadius: 7,
-                                          offset: Offset(0, 3), // changes position of shadow
-                                        ),
-                                      ],
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        SizedBox(height: 15,),
-                                        organizationName,
-                                        SizedBox(height: 15,),
-                                        companyName,
-                                        SizedBox(height: 15,),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left:18.0,right:18),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              fromDate,
-                                              toDate,
-                                              shift,
+                      child: Scaffold(
+                          body: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  height: 350,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 5,
+                                        blurRadius: 7,
+                                        offset: Offset(0, 3), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(height: 15,),
+                                      organizationName,
+                                      SizedBox(height: 15,),
+                                      companyName,
+                                      SizedBox(height: 15,),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left:18.0,right:18),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            fromDate,
+                                            toDate,
+                                            shift,
 
-                                            ],
-                                          ),
+                                          ],
                                         ),
-                                        SizedBox(height: 15,),
-                                        doctorName,
-                                        SizedBox(height: 15,),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left:18.0,right: 18),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            children: [
-                                              downloadButton,
-                                              SizedBox(width: 15,),
-                                              previewButton
-                                            ],
-                                          ),
+                                      ),
+                                      SizedBox(height: 15,),
+                                      doctorName,
+                                      SizedBox(height: 15,),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left:18.0,right: 18),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            downloadButton,
+                                            SizedBox(width: 15,),
+                                            previewButton
+                                          ],
                                         ),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                          SizedBox(height: 20,),
-                          ExpandableNotifier(
-                                controller:controller,
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                    left: isTablet ? 20 : 10,
-                                    right: isTablet ? 20 : 10,
-                                    top: isTablet ? 10 : 5,
-                                    bottom: isTablet ? 10 : 5,
-                                  ),
-                                  child: ScrollOnExpand(
-                                    child: Card(
-                                      clipBehavior: Clip.antiAlias,
-                                      child: Column(
-                                        children: <Widget>[
-                                          ExpandablePanel(
-                                            controller:controller,
-                                            theme: ExpandableThemeData(
-                                              headerAlignment: ExpandablePanelHeaderAlignment.center,
-                                              tapBodyToExpand: true,
-                                              tapBodyToCollapse: true,
-                                              hasIcon: false,
-                                            ),
-                                            header: Container(
-                                              decoration: BoxDecoration(
-                                                color: AppTheme.buttonActiveColor,
-                                                border: Border(
-                                                  top: BorderSide(
-                                                    color: AppTheme.buttonActiveColor,
-                                                  ),
-                                                  right: BorderSide(
-                                                    color:AppTheme.buttonActiveColor,
-                                                  ),
-                                                  left: BorderSide(
-                                                    color:  AppTheme.buttonActiveColor,
-                                                  ),
+                                ),
+                        SizedBox(height: 20,),
+                        ExpandableNotifier(
+                              controller:controller,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  left: isTablet ? 20 : 10,
+                                  right: isTablet ? 20 : 10,
+                                  top: isTablet ? 10 : 5,
+                                  bottom: isTablet ? 10 : 5,
+                                ),
+                                child: ScrollOnExpand(
+                                  child: Card(
+                                    clipBehavior: Clip.antiAlias,
+                                    child: Column(
+                                      children: <Widget>[
+                                        ExpandablePanel(
+                                          controller:controller,
+                                          theme: ExpandableThemeData(
+                                            headerAlignment: ExpandablePanelHeaderAlignment.center,
+                                            tapBodyToExpand: true,
+                                            tapBodyToCollapse: true,
+                                            hasIcon: false,
+                                          ),
+                                          header: Container(
+                                            decoration: BoxDecoration(
+                                              color: AppTheme.buttonActiveColor,
+                                              border: Border(
+                                                top: BorderSide(
+                                                  color: AppTheme.buttonActiveColor,
                                                 ),
-                                              ),
-                                              child: Padding(
-                                                padding: EdgeInsets.all(10.0),
-                                                child: Column(
-                                                  children: [
-                                                    Row(
-                                                      children: [
-                                                        Expanded(
-                                                          child: Row(
-                                                            children: [
-                                                              Container(
-                                                                height: isTablet ? 140 : 30,
-                                                                width: isTablet
-                                                                    ? 180
-                                                                    : width < 330
-                                                                    ? 20
-                                                                    : 80,
-                                                                child: Image.asset(
-                                                                  "assets/icons/dct.png",
-                                                                  fit: BoxFit.contain,
-                                                                ),
-                                                              ),
-                                                              SizedBox(width: 8,),
-                                                              Text(
-                                                                "Assoc. Prof. Dr. Mahmud Rahim",
-                                                                style: Theme.of(context)
-                                                                    .textTheme
-                                                                    .bodyText1
-                                                                    .copyWith(
-                                                                    color:  Colors.white,
-                                                                    fontSize: isTablet ? 18 : 16),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        ExpandableIcon(
-                                                          theme: ExpandableThemeData(
-                                                            expandIcon:
-                                                            Icons.keyboard_arrow_down_outlined,
-                                                            collapseIcon:
-                                                            Icons.keyboard_arrow_up_outlined,
-                                                            iconColor: Colors.white,
-                                                            iconSize: isTablet ? 35 : 28.0,
-                                                            iconRotationAngle: math.pi / 2,
-                                                            iconPadding: EdgeInsets.only(right: 5),
-                                                            hasIcon: false,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                      height: isTablet ? 8 : 5,
-                                                    ),
-                                                  ],
+                                                right: BorderSide(
+                                                  color:AppTheme.buttonActiveColor,
+                                                ),
+                                                left: BorderSide(
+                                                  color:  AppTheme.buttonActiveColor,
                                                 ),
                                               ),
                                             ),
-                                            collapsed: Container(),
-                                            expanded: Container(
-                                              decoration: BoxDecoration(
-                                                  border: Border.all(color: AppTheme.buttonActiveColor, width: 2)),
+                                            child: Padding(
+                                              padding: EdgeInsets.all(10.0),
                                               child: Column(
                                                 children: [
-                                                  Container(
-                                                    height:40,
-                                                    decoration:  BoxDecoration(
-                                                      color: HexColor('#E9ECFE'),
-                                                      border: Border(
-                                                        bottom: BorderSide( //                    <--- top side
-                                                          color: Colors.grey,
-                                                          width: 1.0,
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: Row(
+                                                          children: [
+                                                            Container(
+                                                              height: isTablet ? 140 : 30,
+                                                              width: isTablet
+                                                                  ? 180
+                                                                  : width < 330
+                                                                  ? 20
+                                                                  : 80,
+                                                              child: Image.asset(
+                                                                "assets/icons/dct.png",
+                                                                fit: BoxFit.contain,
+                                                              ),
+                                                            ),
+                                                            SizedBox(width: 8,),
+                                                            Text(
+                                                              "Assoc. Prof. Dr. Mahmud Rahim",
+                                                              style: Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText1
+                                                                  .copyWith(
+                                                                  color:  Colors.white,
+                                                                  fontSize: isTablet ? 18 : 16),
+                                                            ),
+                                                          ],
                                                         ),
                                                       ),
-                                                    ),
-                                                      width:double.infinity,
-                                                      child: Center(child: Text('Today , 22 February 2021 (5)',style: TextStyle(fontSize: 15,color: Colors.grey),)),
-                                                    ),
-                                                  SizedBox(
-                                                    height: 15,
-                                                  ),
-                                                  Text(
-                                                    'New Patient (3)',
-                                                    style: GoogleFonts.poppins(
-                                                      // color: HexColor(
-                                                      //   '#354291',
-                                                      // ),
-                                                        fontSize: isTablet
-                                                            ? 20
-                                                            : width <= 330
-                                                            ? 13
-                                                            : 16,
-                                                        fontWeight: FontWeight.w500,color: Color(0xff6374DF)),
-                                                    maxLines: 1,
-                                                    overflow:
-                                                    TextOverflow
-                                                        .ellipsis,
-                                                  ),
-                                                  SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Container(
-                                                      width: double.infinity,
-                                                      height: 200,
-                                                      decoration:BoxDecoration(
-                                                          borderRadius:  BorderRadius.all(
-                                                           Radius.circular(10.0),
-                                                          ),
-                                                          border: Border.all(color: Colors.grey)
+                                                      ExpandableIcon(
+                                                        theme: ExpandableThemeData(
+                                                          expandIcon:
+                                                          Icons.keyboard_arrow_down_outlined,
+                                                          collapseIcon:
+                                                          Icons.keyboard_arrow_up_outlined,
+                                                          iconColor: Colors.white,
+                                                          iconSize: isTablet ? 35 : 28.0,
+                                                          iconRotationAngle: math.pi / 2,
+                                                          iconPadding: EdgeInsets.only(right: 5),
+                                                          hasIcon: false,
+                                                        ),
                                                       ),
-                                                      child:  ListView.separated(
-                                                          itemCount: 8,
-                                                          shrinkWrap: true,
-                                                          itemBuilder:
-                                                              (BuildContext context,
-                                                              int index) {
-                                                            return Padding(
-                                                              padding:
-                                                              const EdgeInsets.only(
-                                                                  left: 10.0,
-                                                                  right: 10,bottom: 8),
-                                                              child: Container(
-                                                                child: Row(
-                                                                  children: [
-                                                                    Column(
-                                                                      crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                      children: [
-                                                                        Container(
-                                                                          width: isTablet
-                                                                              ? MediaQuery.of(context)
-                                                                              .size
-                                                                              .width *
-                                                                              0.65
-                                                                              : width <=
-                                                                              330
-                                                                              ? MediaQuery.of(context).size.width *
-                                                                              0.50
-                                                                              : MediaQuery.of(context).size.width *
-                                                                              0.50,
-                                                                          child: Column(
-                                                                            crossAxisAlignment:
-                                                                            CrossAxisAlignment
-                                                                                .start,
-                                                                            children: [
-                                                                              Row(
-                                                                                children: [
-                                                                                  Text(
-                                                                                    'Name: ',
-                                                                                    style: GoogleFonts.poppins(
-                                                                                      // color: HexColor(
-                                                                                      //   '#354291',
-                                                                                      // ),
-                                                                                        fontSize: isTablet
-                                                                                            ? 20
-                                                                                            : width <= 330
-                                                                                            ? 13
-                                                                                            : 16,
-                                                                                        fontWeight: FontWeight.w500),
-                                                                                    maxLines: 1,
-                                                                                    overflow:
-                                                                                    TextOverflow
-                                                                                        .ellipsis,
-                                                                                  ),
-                                                                                  Text(
-                                                                                    'Jahid Hasan kakon ',
-                                                                                    style: GoogleFonts.poppins(
-                                                                                      // color: HexColor(
-                                                                                      //   '#354291',
-                                                                                      // ),
-                                                                                        fontSize: isTablet
-                                                                                            ? 20
-                                                                                            : width <= 330
-                                                                                            ? 13
-                                                                                            : 16,
-                                                                                        fontWeight: FontWeight.w500,color: Color(0xffFFBC64)),
-                                                                                    maxLines: 1,
-                                                                                    overflow:
-                                                                                    TextOverflow
-                                                                                        .ellipsis,
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                              Row(
-                                                                                children: [
-                                                                                  Text(
-                                                                                    'App ID: ',
-                                                                                    style: GoogleFonts.poppins(
-                                                                                      // color: HexColor(
-                                                                                      //   '#354291',
-                                                                                      // ),
-                                                                                        fontSize: isTablet
-                                                                                            ? 20
-                                                                                            : width <= 330
-                                                                                            ? 13
-                                                                                            : 16,
-                                                                                        fontWeight: FontWeight.w500),
-                                                                                    maxLines: 1,
-                                                                                    overflow:
-                                                                                    TextOverflow
-                                                                                        .ellipsis,
-                                                                                  ),
-                                                                                  Text(
-                                                                                    '22107018771 ',
-                                                                                    style: GoogleFonts.poppins(
-                                                                                      // color: HexColor(
-                                                                                      //   '#354291',
-                                                                                      // ),
-                                                                                        fontSize: isTablet
-                                                                                            ? 20
-                                                                                            : width <= 330
-                                                                                            ? 13
-                                                                                            : 16,
-                                                                                        fontWeight: FontWeight.w500,color: Color(0xff56CF8A)),
-                                                                                    maxLines: 1,
-                                                                                    overflow:
-                                                                                    TextOverflow
-                                                                                        .ellipsis,
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                              Row(
-                                                                                children: [
-                                                                                  Text(
-                                                                                    'Start Time: ',
-                                                                                    style: GoogleFonts.poppins(
-                                                                                      // color: HexColor(
-                                                                                      //   '#354291',
-                                                                                      // ),
-                                                                                        fontSize: isTablet
-                                                                                            ? 20
-                                                                                            : width <= 330
-                                                                                            ? 13
-                                                                                            : 16,
-                                                                                        fontWeight: FontWeight.w500),
-                                                                                    maxLines: 1,
-                                                                                    overflow:
-                                                                                    TextOverflow
-                                                                                        .ellipsis,
-                                                                                  ),
-                                                                                  Text(
-                                                                                    '10:00 AM ',
-                                                                                    style: GoogleFonts.poppins(
-                                                                                      // color: HexColor(
-                                                                                      //   '#354291',
-                                                                                      // ),
-                                                                                        fontSize: isTablet
-                                                                                            ? 20
-                                                                                            : width <= 330
-                                                                                            ? 13
-                                                                                            : 16,
-                                                                                        fontWeight: FontWeight.w400),
-                                                                                    maxLines: 1,
-                                                                                    overflow:
-                                                                                    TextOverflow
-                                                                                        .ellipsis,
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                        SizedBox(
-                                                                          height: 10,
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    Spacer(),
-                                                                Align(
-                                                                  alignment: Alignment.centerRight,
-                                                                  child: FlatButton(
-                                                                      minWidth: isTablet? width*.4 : width * .45,
-                                                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                                                      color: AppTheme.buttonInActiveColor,
-                                                                      onPressed: () async {
-                                                                        // SVProgressHUD.show(status: 'Loading');
-                                                                        // await appointmentReport.getData(fromDate:TimeUtil().formattedDate(DateTime.parse( pickedFromDate.toString()??DateTime.now())),toDate:TimeUtil().formattedDate(DateTime.parse( pickedToDate.toString()??DateTime.now())),doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo,shiftNo: selectedIndex==0?0:selectedIndex==1?2000001:2000002);
-                                                                        // SVProgressHUD.dismiss();
-                                                                      },
-                                                                      child:Row(
-                                                                        children: [
-                                                                          Text(
-                                                                            'Details',
-                                                                            style: GoogleFonts.roboto(
-                                                                                color: Colors.white,
-                                                                                fontSize: isTablet? 17 : width <= 330 ? 17 : 15,
-                                                                                fontWeight: FontWeight.w600),
-                                                                          ),
-                                                                        ],
-                                                                      )),
-                                                                ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            );
-                                                          },
-                                                          separatorBuilder:
-                                                              (context, index) {
-                                                            return Divider();
-                                                          }),
-                                                    ),
+                                                    ],
                                                   ),
                                                   SizedBox(
-                                                    height: 15,
+                                                    height: isTablet ? 8 : 5,
                                                   ),
-                                                  Text(
-                                                    '1st Follow Up (2)',
-                                                    style: GoogleFonts.poppins(
-                                                      // color: HexColor(
-                                                      //   '#354291',
-                                                      // ),
-                                                        fontSize: isTablet
-                                                            ? 20
-                                                            : width <= 330
-                                                            ? 13
-                                                            : 16,
-                                                        fontWeight: FontWeight.w500,color: Color(0xff6374DF)),
-                                                    maxLines: 1,
-                                                    overflow:
-                                                    TextOverflow
-                                                        .ellipsis,
-                                                  ),
-                                                  SizedBox(
-                                                    height: 10,
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Container(
-                                                      width: double.infinity,
-                                                      height: 200,
-                                                      decoration:BoxDecoration(
-                                                          borderRadius:  BorderRadius.all(
-                                                            Radius.circular(10.0),
-                                                          ),
-                                                          border: Border.all(color: Colors.grey)
-                                                      ),
-                                                      child:  ListView.separated(
-                                                          itemCount: 8,
-                                                          shrinkWrap: true,
-                                                          itemBuilder:
-                                                              (BuildContext context,
-                                                              int index) {
-                                                            return Padding(
-                                                              padding:
-                                                              const EdgeInsets.only(
-                                                                  left: 10.0,
-                                                                  right: 10,bottom: 8),
-                                                              child: Container(
-                                                                child: Row(
-                                                                  children: [
-                                                                    Column(
-                                                                      crossAxisAlignment:
-                                                                      CrossAxisAlignment
-                                                                          .start,
-                                                                      children: [
-                                                                        Container(
-                                                                          width: isTablet
-                                                                              ? MediaQuery.of(context)
-                                                                              .size
-                                                                              .width *
-                                                                              0.65
-                                                                              : width <=
-                                                                              330
-                                                                              ? MediaQuery.of(context).size.width *
-                                                                              0.50
-                                                                              : MediaQuery.of(context).size.width *
-                                                                              0.50,
-                                                                          child: Column(
-                                                                            crossAxisAlignment:
-                                                                            CrossAxisAlignment
-                                                                                .start,
-                                                                            children: [
-                                                                              Row(
-                                                                                children: [
-                                                                                  Text(
-                                                                                    'Name: ',
-                                                                                    style: GoogleFonts.poppins(
-                                                                                      // color: HexColor(
-                                                                                      //   '#354291',
-                                                                                      // ),
-                                                                                        fontSize: isTablet
-                                                                                            ? 20
-                                                                                            : width <= 330
-                                                                                            ? 13
-                                                                                            : 16,
-                                                                                        fontWeight: FontWeight.w500),
-                                                                                    maxLines: 1,
-                                                                                    overflow:
-                                                                                    TextOverflow
-                                                                                        .ellipsis,
-                                                                                  ),
-                                                                                  Text(
-                                                                                    'Jahid Hasan kakon ',
-                                                                                    style: GoogleFonts.poppins(
-                                                                                      // color: HexColor(
-                                                                                      //   '#354291',
-                                                                                      // ),
-                                                                                        fontSize: isTablet
-                                                                                            ? 20
-                                                                                            : width <= 330
-                                                                                            ? 13
-                                                                                            : 16,
-                                                                                        fontWeight: FontWeight.w500,color: Color(0xffFFBC64)),
-                                                                                    maxLines: 1,
-                                                                                    overflow:
-                                                                                    TextOverflow
-                                                                                        .ellipsis,
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                              Row(
-                                                                                children: [
-                                                                                  Text(
-                                                                                    'App ID: ',
-                                                                                    style: GoogleFonts.poppins(
-                                                                                      // color: HexColor(
-                                                                                      //   '#354291',
-                                                                                      // ),
-                                                                                        fontSize: isTablet
-                                                                                            ? 20
-                                                                                            : width <= 330
-                                                                                            ? 13
-                                                                                            : 16,
-                                                                                        fontWeight: FontWeight.w500),
-                                                                                    maxLines: 1,
-                                                                                    overflow:
-                                                                                    TextOverflow
-                                                                                        .ellipsis,
-                                                                                  ),
-                                                                                  Text(
-                                                                                    '22107018771 ',
-                                                                                    style: GoogleFonts.poppins(
-                                                                                      // color: HexColor(
-                                                                                      //   '#354291',
-                                                                                      // ),
-                                                                                        fontSize: isTablet
-                                                                                            ? 20
-                                                                                            : width <= 330
-                                                                                            ? 13
-                                                                                            : 16,
-                                                                                        fontWeight: FontWeight.w500,color: Color(0xff56CF8A)),
-                                                                                    maxLines: 1,
-                                                                                    overflow:
-                                                                                    TextOverflow
-                                                                                        .ellipsis,
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                              Row(
-                                                                                children: [
-                                                                                  Text(
-                                                                                    'Start Time: ',
-                                                                                    style: GoogleFonts.poppins(
-                                                                                      // color: HexColor(
-                                                                                      //   '#354291',
-                                                                                      // ),
-                                                                                        fontSize: isTablet
-                                                                                            ? 20
-                                                                                            : width <= 330
-                                                                                            ? 13
-                                                                                            : 16,
-                                                                                        fontWeight: FontWeight.w500),
-                                                                                    maxLines: 1,
-                                                                                    overflow:
-                                                                                    TextOverflow
-                                                                                        .ellipsis,
-                                                                                  ),
-                                                                                  Text(
-                                                                                    '10:00 AM ',
-                                                                                    style: GoogleFonts.poppins(
-                                                                                      // color: HexColor(
-                                                                                      //   '#354291',
-                                                                                      // ),
-                                                                                        fontSize: isTablet
-                                                                                            ? 20
-                                                                                            : width <= 330
-                                                                                            ? 13
-                                                                                            : 16,
-                                                                                        fontWeight: FontWeight.w400),
-                                                                                    maxLines: 1,
-                                                                                    overflow:
-                                                                                    TextOverflow
-                                                                                        .ellipsis,
-                                                                                  ),
-                                                                                ],
-                                                                              ),
-                                                                            ],
-                                                                          ),
-                                                                        ),
-                                                                        SizedBox(
-                                                                          height: 10,
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                    Spacer(),
-                                                                    Align(
-                                                                      alignment: Alignment.centerRight,
-                                                                      child: FlatButton(
-                                                                          minWidth: isTablet? width*.4 : width * .45,
-                                                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                                                          color: AppTheme.buttonInActiveColor,
-                                                                          onPressed: () async {
-                                                                            // SVProgressHUD.show(status: 'Loading');
-                                                                            // await appointmentReport.getData(fromDate:TimeUtil().formattedDate(DateTime.parse( pickedFromDate.toString()??DateTime.now())),toDate:TimeUtil().formattedDate(DateTime.parse( pickedToDate.toString()??DateTime.now())),doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo,shiftNo: selectedIndex==0?0:selectedIndex==1?2000001:2000002);
-                                                                            // SVProgressHUD.dismiss();
-                                                                          },
-                                                                          child:Row(
-                                                                            children: [
-                                                                              Text(
-                                                                                'Details',
-                                                                                style: GoogleFonts.roboto(
-                                                                                    color: Colors.white,
-                                                                                    fontSize: isTablet? 17 : width <= 330 ? 17 : 15,
-                                                                                    fontWeight: FontWeight.w600),
-                                                                              ),
-                                                                            ],
-                                                                          )),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            );
-                                                          },
-                                                          separatorBuilder:
-                                                              (context, index) {
-                                                            return Divider();
-                                                          }),
-                                                    ),
-                                                  )
-
                                                 ],
                                               ),
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ))
-                                ],
-                              ),
-                            )),
-                      )),
-
-                 //Doctor Schedule
-                  RefreshIndicator(
-                      onRefresh: () {},
-                      child: WillPopScope(
-                        onWillPop: () async {},
-                        child: Scaffold(
-                            body: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  Container(
-                                    width: double.infinity,
-                                    height: 220,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey.withOpacity(0.5),
-                                          spreadRadius: 5,
-                                          blurRadius: 7,
-                                          offset: Offset(0, 3), // changes position of shadow
-                                        ),
-                                      ],
-                                    ),
-                                    child: Column(
-                                      children: [
-                                        SizedBox(height: 15,),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left:18.0,right:18),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              docFromDate,
-                                              docToDate,
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(height: 15,),
-                                        doctorName,
-                                        SizedBox(height: 15,),
-                                        Padding(
-                                          padding: const EdgeInsets.only(left:18.0,right: 18),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.end,
-                                            children: [
-                                              downloadButton,
-                                              SizedBox(width: 15,),
-                                              previewButton
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(height: 20,),
-                                  ExpandableNotifier(
-                                      controller:controller2,
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                          left: isTablet ? 20 : 10,
-                                          right: isTablet ? 20 : 10,
-                                          top: isTablet ? 10 : 5,
-                                          bottom: isTablet ? 10 : 5,
-                                        ),
-                                        child: ScrollOnExpand(
-                                          child: Card(
-                                            clipBehavior: Clip.antiAlias,
+                                          collapsed: Container(),
+                                          expanded: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(color: AppTheme.buttonActiveColor, width: 2)),
                                             child: Column(
-                                              children: <Widget>[
-                                                ExpandablePanel(
-                                                  controller:controller2,
-                                                  theme: ExpandableThemeData(
-                                                    headerAlignment: ExpandablePanelHeaderAlignment.center,
-                                                    tapBodyToExpand: true,
-                                                    tapBodyToCollapse: true,
-                                                    hasIcon: false,
-                                                  ),
-                                                  header: Container(
-                                                    decoration: BoxDecoration(
-                                                      color: AppTheme.buttonActiveColor,
-                                                      border: Border(
-                                                        top: BorderSide(
-                                                          color: AppTheme.buttonActiveColor,
-                                                        ),
-                                                        right: BorderSide(
-                                                          color:AppTheme.buttonActiveColor,
-                                                        ),
-                                                        left: BorderSide(
-                                                          color:  AppTheme.buttonActiveColor,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    child: Padding(
-                                                      padding: EdgeInsets.all(10.0),
-                                                      child: Column(
-                                                        children: [
-                                                          Row(
-                                                            children: [
-                                                              Expanded(
-                                                                child: Row(
-                                                                  children: [
-                                                                    Container(
-                                                                      height: isTablet ? 140 : 30,
-                                                                      width: isTablet
-                                                                          ? 180
-                                                                          : width < 330
-                                                                          ? 20
-                                                                          : 80,
-                                                                      child: Image.asset(
-                                                                        "assets/icons/dct.png",
-                                                                        fit: BoxFit.contain,
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(width: 8,),
-                                                                    Text(
-                                                                      "Assoc. Prof. Dr. Mahmud Rahim",
-                                                                      style: Theme.of(context)
-                                                                          .textTheme
-                                                                          .bodyText1
-                                                                          .copyWith(
-                                                                          color:  Colors.white,
-                                                                          fontSize: isTablet ? 18 : 16),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                              ExpandableIcon(
-                                                                theme: ExpandableThemeData(
-                                                                  expandIcon:
-                                                                  Icons.keyboard_arrow_down_outlined,
-                                                                  collapseIcon:
-                                                                  Icons.keyboard_arrow_up_outlined,
-                                                                  iconColor: Colors.white,
-                                                                  iconSize: isTablet ? 35 : 28.0,
-                                                                  iconRotationAngle: math.pi / 2,
-                                                                  iconPadding: EdgeInsets.only(right: 5),
-                                                                  hasIcon: false,
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          SizedBox(
-                                                            height: isTablet ? 8 : 5,
-                                                          ),
-                                                        ],
+                                              children: [
+                                                Container(
+                                                  height:40,
+                                                  decoration:  BoxDecoration(
+                                                    color: HexColor('#E9ECFE'),
+                                                    border: Border(
+                                                      bottom: BorderSide( //                    <--- top side
+                                                        color: Colors.grey,
+                                                        width: 1.0,
                                                       ),
                                                     ),
                                                   ),
-                                                  collapsed: Container(),
-                                                  expanded: Container(
-                                                    decoration: BoxDecoration(
-                                                        border: Border.all(color: AppTheme.buttonActiveColor, width: 2)),
-                                                    child: Column(
-                                                      children: [
-                                                        Padding(
-                                                          padding: const EdgeInsets.all(8.0),
-                                                          child: ListView.separated(
-                                                              itemCount: 8,
-                                                              shrinkWrap: true,
-                                                              itemBuilder:
-                                                                  (BuildContext context,
-                                                                  int index) {
-                                                                return Padding(
-                                                                  padding:
-                                                                  const EdgeInsets.only(
-                                                                      left: 10.0,
-                                                                      right: 10,bottom: 8),
-                                                                  child: Container(
-                                                                    child: Column(
-                                                                      children: [
-                                                                        Row(
+                                                    width:double.infinity,
+                                                    child: Center(child: Text('Today , 22 February 2021 (5)',style: TextStyle(fontSize: 15,color: Colors.grey),)),
+                                                  ),
+                                                SizedBox(
+                                                  height: 15,
+                                                ),
+                                                Text(
+                                                  'New Patient (3)',
+                                                  style: GoogleFonts.poppins(
+                                                    // color: HexColor(
+                                                    //   '#354291',
+                                                    // ),
+                                                      fontSize: isTablet
+                                                          ? 20
+                                                          : width <= 330
+                                                          ? 13
+                                                          : 16,
+                                                      fontWeight: FontWeight.w500,color: Color(0xff6374DF)),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                  TextOverflow
+                                                      .ellipsis,
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Container(
+                                                    width: double.infinity,
+                                                    height: 200,
+                                                    decoration:BoxDecoration(
+                                                        borderRadius:  BorderRadius.all(
+                                                         Radius.circular(10.0),
+                                                        ),
+                                                        border: Border.all(color: Colors.grey)
+                                                    ),
+                                                    child:  ListView.separated(
+                                                        itemCount: 8,
+                                                        shrinkWrap: true,
+                                                        itemBuilder:
+                                                            (BuildContext context,
+                                                            int index) {
+                                                          return Padding(
+                                                            padding:
+                                                            const EdgeInsets.only(
+                                                                left: 10.0,
+                                                                right: 10,bottom: 8),
+                                                            child: Container(
+                                                              child: Row(
+                                                                children: [
+                                                                  Column(
+                                                                    crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                    children: [
+                                                                      Container(
+                                                                        width: isTablet
+                                                                            ? MediaQuery.of(context)
+                                                                            .size
+                                                                            .width *
+                                                                            0.65
+                                                                            : width <=
+                                                                            330
+                                                                            ? MediaQuery.of(context).size.width *
+                                                                            0.50
+                                                                            : MediaQuery.of(context).size.width *
+                                                                            0.50,
+                                                                        child: Column(
+                                                                          crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
                                                                           children: [
-                                                                            Column(
-                                                                              crossAxisAlignment:
-                                                                              CrossAxisAlignment
-                                                                                  .start,
+                                                                            Row(
                                                                               children: [
-                                                                                Container(
-                                                                                  width: isTablet
-                                                                                      ? MediaQuery.of(context)
-                                                                                      .size
-                                                                                      .width *
-                                                                                      0.65
-                                                                                      : width <=
-                                                                                      330
-                                                                                      ? MediaQuery.of(context).size.width *
-                                                                                      0.50
-                                                                                      : MediaQuery.of(context).size.width *
-                                                                                      0.50,
-                                                                                  child: Column(
-                                                                                    crossAxisAlignment:
-                                                                                    CrossAxisAlignment
-                                                                                        .start,
-                                                                                    children: [
-                                                                                      Row(
-                                                                                        children: [
-                                                                                          Text(
-                                                                                            'Name: ',
-                                                                                            style: GoogleFonts.poppins(
-                                                                                              // color: HexColor(
-                                                                                              //   '#354291',
-                                                                                              // ),
-                                                                                                fontSize: isTablet
-                                                                                                    ? 20
-                                                                                                    : width <= 330
-                                                                                                    ? 13
-                                                                                                    : 16,
-                                                                                                fontWeight: FontWeight.w500),
-                                                                                            maxLines: 1,
-                                                                                            overflow:
-                                                                                            TextOverflow
-                                                                                                .ellipsis,
-                                                                                          ),
-                                                                                          Text(
-                                                                                            'Jahid Hasan kakon ',
-                                                                                            style: GoogleFonts.poppins(
-                                                                                              // color: HexColor(
-                                                                                              //   '#354291',
-                                                                                              // ),
-                                                                                                fontSize: isTablet
-                                                                                                    ? 20
-                                                                                                    : width <= 330
-                                                                                                    ? 13
-                                                                                                    : 16,
-                                                                                                fontWeight: FontWeight.w500,color: Color(0xffFFBC64)),
-                                                                                            maxLines: 1,
-                                                                                            overflow:
-                                                                                            TextOverflow
-                                                                                                .ellipsis,
-                                                                                          ),
-                                                                                        ],
-                                                                                      ),
-                                                                                      Row(
-                                                                                        children: [
-                                                                                          Text(
-                                                                                            'App ID: ',
-                                                                                            style: GoogleFonts.poppins(
-                                                                                              // color: HexColor(
-                                                                                              //   '#354291',
-                                                                                              // ),
-                                                                                                fontSize: isTablet
-                                                                                                    ? 20
-                                                                                                    : width <= 330
-                                                                                                    ? 13
-                                                                                                    : 16,
-                                                                                                fontWeight: FontWeight.w500),
-                                                                                            maxLines: 1,
-                                                                                            overflow:
-                                                                                            TextOverflow
-                                                                                                .ellipsis,
-                                                                                          ),
-                                                                                          Text(
-                                                                                            '22107018771 ',
-                                                                                            style: GoogleFonts.poppins(
-                                                                                              // color: HexColor(
-                                                                                              //   '#354291',
-                                                                                              // ),
-                                                                                                fontSize: isTablet
-                                                                                                    ? 20
-                                                                                                    : width <= 330
-                                                                                                    ? 13
-                                                                                                    : 16,
-                                                                                                fontWeight: FontWeight.w500,color: Color(0xff56CF8A)),
-                                                                                            maxLines: 1,
-                                                                                            overflow:
-                                                                                            TextOverflow
-                                                                                                .ellipsis,
-                                                                                          ),
-                                                                                        ],
-                                                                                      ),
-                                                                                      Row(
-                                                                                        children: [
-                                                                                          Text(
-                                                                                            'Start Time: ',
-                                                                                            style: GoogleFonts.poppins(
-                                                                                              // color: HexColor(
-                                                                                              //   '#354291',
-                                                                                              // ),
-                                                                                                fontSize: isTablet
-                                                                                                    ? 20
-                                                                                                    : width <= 330
-                                                                                                    ? 13
-                                                                                                    : 16,
-                                                                                                fontWeight: FontWeight.w500),
-                                                                                            maxLines: 1,
-                                                                                            overflow:
-                                                                                            TextOverflow
-                                                                                                .ellipsis,
-                                                                                          ),
-                                                                                          Text(
-                                                                                            '10:00 AM ',
-                                                                                            style: GoogleFonts.poppins(
-                                                                                              // color: HexColor(
-                                                                                              //   '#354291',
-                                                                                              // ),
-                                                                                                fontSize: isTablet
-                                                                                                    ? 20
-                                                                                                    : width <= 330
-                                                                                                    ? 13
-                                                                                                    : 16,
-                                                                                                fontWeight: FontWeight.w400),
-                                                                                            maxLines: 1,
-                                                                                            overflow:
-                                                                                            TextOverflow
-                                                                                                .ellipsis,
-                                                                                          ),
-                                                                                        ],
-                                                                                      ),
-                                                                                    ],
-                                                                                  ),
+                                                                                Text(
+                                                                                  'Name: ',
+                                                                                  style: GoogleFonts.poppins(
+                                                                                    // color: HexColor(
+                                                                                    //   '#354291',
+                                                                                    // ),
+                                                                                      fontSize: isTablet
+                                                                                          ? 20
+                                                                                          : width <= 330
+                                                                                          ? 13
+                                                                                          : 16,
+                                                                                      fontWeight: FontWeight.w500),
+                                                                                  maxLines: 1,
+                                                                                  overflow:
+                                                                                  TextOverflow
+                                                                                      .ellipsis,
                                                                                 ),
-                                                                                SizedBox(
-                                                                                  height: 10,
+                                                                                Text(
+                                                                                  'Jahid Hasan kakon ',
+                                                                                  style: GoogleFonts.poppins(
+                                                                                    // color: HexColor(
+                                                                                    //   '#354291',
+                                                                                    // ),
+                                                                                      fontSize: isTablet
+                                                                                          ? 20
+                                                                                          : width <= 330
+                                                                                          ? 13
+                                                                                          : 16,
+                                                                                      fontWeight: FontWeight.w500,color: Color(0xffFFBC64)),
+                                                                                  maxLines: 1,
+                                                                                  overflow:
+                                                                                  TextOverflow
+                                                                                      .ellipsis,
                                                                                 ),
                                                                               ],
                                                                             ),
-                                                                            Spacer(),
-                                                                            Column(
-                                                                              crossAxisAlignment:
-                                                                              CrossAxisAlignment
-                                                                                  .start,
+                                                                            Row(
                                                                               children: [
                                                                                 Text(
-                                                                                  'New Patient ',
+                                                                                  'App ID: ',
+                                                                                  style: GoogleFonts.poppins(
+                                                                                    // color: HexColor(
+                                                                                    //   '#354291',
+                                                                                    // ),
+                                                                                      fontSize: isTablet
+                                                                                          ? 20
+                                                                                          : width <= 330
+                                                                                          ? 13
+                                                                                          : 16,
+                                                                                      fontWeight: FontWeight.w500),
+                                                                                  maxLines: 1,
+                                                                                  overflow:
+                                                                                  TextOverflow
+                                                                                      .ellipsis,
+                                                                                ),
+                                                                                Text(
+                                                                                  '22107018771 ',
                                                                                   style: GoogleFonts.poppins(
                                                                                     // color: HexColor(
                                                                                     //   '#354291',
@@ -1668,136 +1005,795 @@ var doctorName=Padding(
                                                                                   TextOverflow
                                                                                       .ellipsis,
                                                                                 ),
-                                                                                Row(
-                                                                                  children: [
-                                                                                    Text(
-                                                                                      'Total Sale: ',
-                                                                                      style: GoogleFonts.poppins(
-                                                                                        // color: HexColor(
-                                                                                        //   '#354291',
-                                                                                        // ),
-                                                                                          fontSize: isTablet
-                                                                                              ? 20
-                                                                                              : width <= 330
-                                                                                              ? 13
-                                                                                              : 16,
-                                                                                          fontWeight: FontWeight.w500),
-                                                                                      maxLines: 1,
-                                                                                      overflow:
-                                                                                      TextOverflow
-                                                                                          .ellipsis,
-                                                                                    ),
-                                                                                    Text(
-                                                                                      '800 ',
-                                                                                      style: GoogleFonts.poppins(
-                                                                                        // color: HexColor(
-                                                                                        //   '#354291',
-                                                                                        // ),
-                                                                                          fontSize: isTablet
-                                                                                              ? 20
-                                                                                              : width <= 330
-                                                                                              ? 13
-                                                                                              : 16,
-                                                                                          fontWeight: FontWeight.w500,color: Color(0xff535EA1)),
-                                                                                      maxLines: 1,
-                                                                                      overflow:
-                                                                                      TextOverflow
-                                                                                          .ellipsis,
-                                                                                    ),
-                                                                                  ],
+                                                                              ],
+                                                                            ),
+                                                                            Row(
+                                                                              children: [
+                                                                                Text(
+                                                                                  'Start Time: ',
+                                                                                  style: GoogleFonts.poppins(
+                                                                                    // color: HexColor(
+                                                                                    //   '#354291',
+                                                                                    // ),
+                                                                                      fontSize: isTablet
+                                                                                          ? 20
+                                                                                          : width <= 330
+                                                                                          ? 13
+                                                                                          : 16,
+                                                                                      fontWeight: FontWeight.w500),
+                                                                                  maxLines: 1,
+                                                                                  overflow:
+                                                                                  TextOverflow
+                                                                                      .ellipsis,
                                                                                 ),
-                                                                                Row(
-                                                                                  children: [
-                                                                                    Text(
-                                                                                      'Net Collec: ',
-                                                                                      style: GoogleFonts.poppins(
-                                                                                        // color: HexColor(
-                                                                                        //   '#354291',
-                                                                                        // ),
-                                                                                          fontSize: isTablet
-                                                                                              ? 20
-                                                                                              : width <= 330
-                                                                                              ? 13
-                                                                                              : 16,
-                                                                                          fontWeight: FontWeight.w500),
-                                                                                      maxLines: 1,
-                                                                                      overflow:
-                                                                                      TextOverflow
-                                                                                          .ellipsis,
-                                                                                    ),
-                                                                                    Text(
-                                                                                      '800 ',
-                                                                                      style: GoogleFonts.poppins(
-                                                                                        // color: HexColor(
-                                                                                        //   '#354291',
-                                                                                        // ),
-                                                                                          fontSize: isTablet
-                                                                                              ? 20
-                                                                                              : width <= 330
-                                                                                              ? 13
-                                                                                              : 16,
-                                                                                          fontWeight: FontWeight.w400,color: Color(0xff535EA1)),
-                                                                                      maxLines: 1,
-                                                                                      overflow:
-                                                                                      TextOverflow
-                                                                                          .ellipsis,
-                                                                                    ),
-                                                                                  ],
+                                                                                Text(
+                                                                                  '10:00 AM ',
+                                                                                  style: GoogleFonts.poppins(
+                                                                                    // color: HexColor(
+                                                                                    //   '#354291',
+                                                                                    // ),
+                                                                                      fontSize: isTablet
+                                                                                          ? 20
+                                                                                          : width <= 330
+                                                                                          ? 13
+                                                                                          : 16,
+                                                                                      fontWeight: FontWeight.w400),
+                                                                                  maxLines: 1,
+                                                                                  overflow:
+                                                                                  TextOverflow
+                                                                                      .ellipsis,
                                                                                 ),
                                                                               ],
                                                                             ),
                                                                           ],
                                                                         ),
-                                                                        Align(
-                                                                          alignment: Alignment.centerRight,
-                                                                          child: Padding(
-                                                                            padding: const EdgeInsets.only(left:80.0,right:80 ),
-                                                                            child: FlatButton(
-                                                                                minWidth: isTablet? width*.4 : width * .45,
-                                                                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-                                                                                color: AppTheme.buttonInActiveColor,
-                                                                                onPressed: () async {
-                                                                                  // SVProgressHUD.show(status: 'Loading');
-                                                                                  // await appointmentReport.getData(fromDate:TimeUtil().formattedDate(DateTime.parse( pickedFromDate.toString()??DateTime.now())),toDate:TimeUtil().formattedDate(DateTime.parse( pickedToDate.toString()??DateTime.now())),doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo,shiftNo: selectedIndex==0?0:selectedIndex==1?2000001:2000002);
-                                                                                  // SVProgressHUD.dismiss();
-                                                                                },
-                                                                                child:Row(
-                                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                                  children: [
-                                                                                    Text(
-                                                                                      'View Details',
-                                                                                      style: GoogleFonts.roboto(
-                                                                                          color: Colors.white,
-                                                                                          fontSize: isTablet? 17 : width <= 330 ? 17 : 15,
-                                                                                          fontWeight: FontWeight.w600),
-                                                                                    ),
-                                                                                  ],
-                                                                                )),
-                                                                          ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        height: 10,
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  Spacer(),
+                                                              Align(
+                                                                alignment: Alignment.centerRight,
+                                                                child: FlatButton(
+                                                                    minWidth: isTablet? width*.4 : width * .45,
+                                                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                                                    color: AppTheme.buttonInActiveColor,
+                                                                    onPressed: () async {
+                                                                      // SVProgressHUD.show(status: 'Loading');
+                                                                      // await appointmentReport.getData(fromDate:TimeUtil().formattedDate(DateTime.parse( pickedFromDate.toString()??DateTime.now())),toDate:TimeUtil().formattedDate(DateTime.parse( pickedToDate.toString()??DateTime.now())),doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo,shiftNo: selectedIndex==0?0:selectedIndex==1?2000001:2000002);
+                                                                      // SVProgressHUD.dismiss();
+                                                                    },
+                                                                    child:Row(
+                                                                      children: [
+                                                                        Text(
+                                                                          'Details',
+                                                                          style: GoogleFonts.roboto(
+                                                                              color: Colors.white,
+                                                                              fontSize: isTablet? 17 : width <= 330 ? 17 : 15,
+                                                                              fontWeight: FontWeight.w600),
                                                                         ),
                                                                       ],
+                                                                    )),
+                                                              ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                        separatorBuilder:
+                                                            (context, index) {
+                                                          return Divider();
+                                                        }),
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 15,
+                                                ),
+                                                Text(
+                                                  '1st Follow Up (2)',
+                                                  style: GoogleFonts.poppins(
+                                                    // color: HexColor(
+                                                    //   '#354291',
+                                                    // ),
+                                                      fontSize: isTablet
+                                                          ? 20
+                                                          : width <= 330
+                                                          ? 13
+                                                          : 16,
+                                                      fontWeight: FontWeight.w500,color: Color(0xff6374DF)),
+                                                  maxLines: 1,
+                                                  overflow:
+                                                  TextOverflow
+                                                      .ellipsis,
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets.all(8.0),
+                                                  child: Container(
+                                                    width: double.infinity,
+                                                    height: 200,
+                                                    decoration:BoxDecoration(
+                                                        borderRadius:  BorderRadius.all(
+                                                          Radius.circular(10.0),
+                                                        ),
+                                                        border: Border.all(color: Colors.grey)
+                                                    ),
+                                                    child:  ListView.separated(
+                                                        itemCount: 8,
+                                                        shrinkWrap: true,
+                                                        itemBuilder:
+                                                            (BuildContext context,
+                                                            int index) {
+                                                          return Padding(
+                                                            padding:
+                                                            const EdgeInsets.only(
+                                                                left: 10.0,
+                                                                right: 10,bottom: 8),
+                                                            child: Container(
+                                                              child: Row(
+                                                                children: [
+                                                                  Column(
+                                                                    crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                    children: [
+                                                                      Container(
+                                                                        width: isTablet
+                                                                            ? MediaQuery.of(context)
+                                                                            .size
+                                                                            .width *
+                                                                            0.65
+                                                                            : width <=
+                                                                            330
+                                                                            ? MediaQuery.of(context).size.width *
+                                                                            0.50
+                                                                            : MediaQuery.of(context).size.width *
+                                                                            0.50,
+                                                                        child: Column(
+                                                                          crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                          children: [
+                                                                            Row(
+                                                                              children: [
+                                                                                Text(
+                                                                                  'Name: ',
+                                                                                  style: GoogleFonts.poppins(
+                                                                                    // color: HexColor(
+                                                                                    //   '#354291',
+                                                                                    // ),
+                                                                                      fontSize: isTablet
+                                                                                          ? 20
+                                                                                          : width <= 330
+                                                                                          ? 13
+                                                                                          : 16,
+                                                                                      fontWeight: FontWeight.w500),
+                                                                                  maxLines: 1,
+                                                                                  overflow:
+                                                                                  TextOverflow
+                                                                                      .ellipsis,
+                                                                                ),
+                                                                                Text(
+                                                                                  'Jahid Hasan kakon ',
+                                                                                  style: GoogleFonts.poppins(
+                                                                                    // color: HexColor(
+                                                                                    //   '#354291',
+                                                                                    // ),
+                                                                                      fontSize: isTablet
+                                                                                          ? 20
+                                                                                          : width <= 330
+                                                                                          ? 13
+                                                                                          : 16,
+                                                                                      fontWeight: FontWeight.w500,color: Color(0xffFFBC64)),
+                                                                                  maxLines: 1,
+                                                                                  overflow:
+                                                                                  TextOverflow
+                                                                                      .ellipsis,
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                            Row(
+                                                                              children: [
+                                                                                Text(
+                                                                                  'App ID: ',
+                                                                                  style: GoogleFonts.poppins(
+                                                                                    // color: HexColor(
+                                                                                    //   '#354291',
+                                                                                    // ),
+                                                                                      fontSize: isTablet
+                                                                                          ? 20
+                                                                                          : width <= 330
+                                                                                          ? 13
+                                                                                          : 16,
+                                                                                      fontWeight: FontWeight.w500),
+                                                                                  maxLines: 1,
+                                                                                  overflow:
+                                                                                  TextOverflow
+                                                                                      .ellipsis,
+                                                                                ),
+                                                                                Text(
+                                                                                  '22107018771 ',
+                                                                                  style: GoogleFonts.poppins(
+                                                                                    // color: HexColor(
+                                                                                    //   '#354291',
+                                                                                    // ),
+                                                                                      fontSize: isTablet
+                                                                                          ? 20
+                                                                                          : width <= 330
+                                                                                          ? 13
+                                                                                          : 16,
+                                                                                      fontWeight: FontWeight.w500,color: Color(0xff56CF8A)),
+                                                                                  maxLines: 1,
+                                                                                  overflow:
+                                                                                  TextOverflow
+                                                                                      .ellipsis,
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                            Row(
+                                                                              children: [
+                                                                                Text(
+                                                                                  'Start Time: ',
+                                                                                  style: GoogleFonts.poppins(
+                                                                                    // color: HexColor(
+                                                                                    //   '#354291',
+                                                                                    // ),
+                                                                                      fontSize: isTablet
+                                                                                          ? 20
+                                                                                          : width <= 330
+                                                                                          ? 13
+                                                                                          : 16,
+                                                                                      fontWeight: FontWeight.w500),
+                                                                                  maxLines: 1,
+                                                                                  overflow:
+                                                                                  TextOverflow
+                                                                                      .ellipsis,
+                                                                                ),
+                                                                                Text(
+                                                                                  '10:00 AM ',
+                                                                                  style: GoogleFonts.poppins(
+                                                                                    // color: HexColor(
+                                                                                    //   '#354291',
+                                                                                    // ),
+                                                                                      fontSize: isTablet
+                                                                                          ? 20
+                                                                                          : width <= 330
+                                                                                          ? 13
+                                                                                          : 16,
+                                                                                      fontWeight: FontWeight.w400),
+                                                                                  maxLines: 1,
+                                                                                  overflow:
+                                                                                  TextOverflow
+                                                                                      .ellipsis,
+                                                                                ),
+                                                                              ],
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                      SizedBox(
+                                                                        height: 10,
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  Spacer(),
+                                                                  Align(
+                                                                    alignment: Alignment.centerRight,
+                                                                    child: FlatButton(
+                                                                        minWidth: isTablet? width*.4 : width * .45,
+                                                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                                                        color: AppTheme.buttonInActiveColor,
+                                                                        onPressed: () async {
+                                                                          // SVProgressHUD.show(status: 'Loading');
+                                                                          // await appointmentReport.getData(fromDate:TimeUtil().formattedDate(DateTime.parse( pickedFromDate.toString()??DateTime.now())),toDate:TimeUtil().formattedDate(DateTime.parse( pickedToDate.toString()??DateTime.now())),doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo,shiftNo: selectedIndex==0?0:selectedIndex==1?2000001:2000002);
+                                                                          // SVProgressHUD.dismiss();
+                                                                        },
+                                                                        child:Row(
+                                                                          children: [
+                                                                            Text(
+                                                                              'Details',
+                                                                              style: GoogleFonts.roboto(
+                                                                                  color: Colors.white,
+                                                                                  fontSize: isTablet? 17 : width <= 330 ? 17 : 15,
+                                                                                  fontWeight: FontWeight.w600),
+                                                                            ),
+                                                                          ],
+                                                                        )),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                        separatorBuilder:
+                                                            (context, index) {
+                                                          return Divider();
+                                                        }),
+                                                  ),
+                                                )
+
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ))
+                              ],
+                            ),
+                          ))),
+
+                 //Doctor Schedule
+                  RefreshIndicator(
+                      onRefresh: () {},
+                      child: Scaffold(
+                          body: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  height: 220,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.5),
+                                        spreadRadius: 5,
+                                        blurRadius: 7,
+                                        offset: Offset(0, 3), // changes position of shadow
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      SizedBox(height: 15,),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left:18.0,right:18),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            docFromDate,
+                                            docToDate,
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(height: 15,),
+                                      doctorName,
+                                      SizedBox(height: 15,),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left:18.0,right: 18),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            downloadButton,
+                                            SizedBox(width: 15,),
+                                            previewButton
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 20,),
+                                ExpandableNotifier(
+                                    controller:controller2,
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                        left: isTablet ? 20 : 10,
+                                        right: isTablet ? 20 : 10,
+                                        top: isTablet ? 10 : 5,
+                                        bottom: isTablet ? 10 : 5,
+                                      ),
+                                      child: ScrollOnExpand(
+                                        child: Card(
+                                          clipBehavior: Clip.antiAlias,
+                                          child: Column(
+                                            children: <Widget>[
+                                              ExpandablePanel(
+                                                controller:controller2,
+                                                theme: ExpandableThemeData(
+                                                  headerAlignment: ExpandablePanelHeaderAlignment.center,
+                                                  tapBodyToExpand: true,
+                                                  tapBodyToCollapse: true,
+                                                  hasIcon: false,
+                                                ),
+                                                header: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: AppTheme.buttonActiveColor,
+                                                    border: Border(
+                                                      top: BorderSide(
+                                                        color: AppTheme.buttonActiveColor,
+                                                      ),
+                                                      right: BorderSide(
+                                                        color:AppTheme.buttonActiveColor,
+                                                      ),
+                                                      left: BorderSide(
+                                                        color:  AppTheme.buttonActiveColor,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(10.0),
+                                                    child: Column(
+                                                      children: [
+                                                        Row(
+                                                          children: [
+                                                            Expanded(
+                                                              child: Row(
+                                                                children: [
+                                                                  Container(
+                                                                    height: isTablet ? 140 : 30,
+                                                                    width: isTablet
+                                                                        ? 180
+                                                                        : width < 330
+                                                                        ? 20
+                                                                        : 80,
+                                                                    child: Image.asset(
+                                                                      "assets/icons/dct.png",
+                                                                      fit: BoxFit.contain,
                                                                     ),
                                                                   ),
-                                                                );
-                                                              },
-                                                              separatorBuilder:
-                                                                  (context, index) {
-                                                                return Divider();
-                                                              }),
+                                                                  SizedBox(width: 8,),
+                                                                  Text(
+                                                                    "Assoc. Prof. Dr. Mahmud Rahim",
+                                                                    style: Theme.of(context)
+                                                                        .textTheme
+                                                                        .bodyText1
+                                                                        .copyWith(
+                                                                        color:  Colors.white,
+                                                                        fontSize: isTablet ? 18 : 16),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            ExpandableIcon(
+                                                              theme: ExpandableThemeData(
+                                                                expandIcon:
+                                                                Icons.keyboard_arrow_down_outlined,
+                                                                collapseIcon:
+                                                                Icons.keyboard_arrow_up_outlined,
+                                                                iconColor: Colors.white,
+                                                                iconSize: isTablet ? 35 : 28.0,
+                                                                iconRotationAngle: math.pi / 2,
+                                                                iconPadding: EdgeInsets.only(right: 5),
+                                                                hasIcon: false,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          height: isTablet ? 8 : 5,
                                                         ),
                                                       ],
                                                     ),
                                                   ),
                                                 ),
-                                              ],
-                                            ),
+                                                collapsed: Container(),
+                                                expanded: Container(
+                                                  decoration: BoxDecoration(
+                                                      border: Border.all(color: AppTheme.buttonActiveColor, width: 2)),
+                                                  child: Column(
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.all(8.0),
+                                                        child: ListView.separated(
+                                                            itemCount: 8,
+                                                            shrinkWrap: true,
+                                                            itemBuilder:
+                                                                (BuildContext context,
+                                                                int index) {
+                                                              return Padding(
+                                                                padding:
+                                                                const EdgeInsets.only(
+                                                                    left: 10.0,
+                                                                    right: 10,bottom: 8),
+                                                                child: Container(
+                                                                  child: Column(
+                                                                    children: [
+                                                                      Row(
+                                                                        children: [
+                                                                          Column(
+                                                                            crossAxisAlignment:
+                                                                            CrossAxisAlignment
+                                                                                .start,
+                                                                            children: [
+                                                                              Container(
+                                                                                width: isTablet
+                                                                                    ? MediaQuery.of(context)
+                                                                                    .size
+                                                                                    .width *
+                                                                                    0.65
+                                                                                    : width <=
+                                                                                    330
+                                                                                    ? MediaQuery.of(context).size.width *
+                                                                                    0.50
+                                                                                    : MediaQuery.of(context).size.width *
+                                                                                    0.50,
+                                                                                child: Column(
+                                                                                  crossAxisAlignment:
+                                                                                  CrossAxisAlignment
+                                                                                      .start,
+                                                                                  children: [
+                                                                                    Row(
+                                                                                      children: [
+                                                                                        Text(
+                                                                                          'Name: ',
+                                                                                          style: GoogleFonts.poppins(
+                                                                                            // color: HexColor(
+                                                                                            //   '#354291',
+                                                                                            // ),
+                                                                                              fontSize: isTablet
+                                                                                                  ? 20
+                                                                                                  : width <= 330
+                                                                                                  ? 13
+                                                                                                  : 16,
+                                                                                              fontWeight: FontWeight.w500),
+                                                                                          maxLines: 1,
+                                                                                          overflow:
+                                                                                          TextOverflow
+                                                                                              .ellipsis,
+                                                                                        ),
+                                                                                        Text(
+                                                                                          'Jahid Hasan kakon ',
+                                                                                          style: GoogleFonts.poppins(
+                                                                                            // color: HexColor(
+                                                                                            //   '#354291',
+                                                                                            // ),
+                                                                                              fontSize: isTablet
+                                                                                                  ? 20
+                                                                                                  : width <= 330
+                                                                                                  ? 13
+                                                                                                  : 16,
+                                                                                              fontWeight: FontWeight.w500,color: Color(0xffFFBC64)),
+                                                                                          maxLines: 1,
+                                                                                          overflow:
+                                                                                          TextOverflow
+                                                                                              .ellipsis,
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                    Row(
+                                                                                      children: [
+                                                                                        Text(
+                                                                                          'App ID: ',
+                                                                                          style: GoogleFonts.poppins(
+                                                                                            // color: HexColor(
+                                                                                            //   '#354291',
+                                                                                            // ),
+                                                                                              fontSize: isTablet
+                                                                                                  ? 20
+                                                                                                  : width <= 330
+                                                                                                  ? 13
+                                                                                                  : 16,
+                                                                                              fontWeight: FontWeight.w500),
+                                                                                          maxLines: 1,
+                                                                                          overflow:
+                                                                                          TextOverflow
+                                                                                              .ellipsis,
+                                                                                        ),
+                                                                                        Text(
+                                                                                          '22107018771 ',
+                                                                                          style: GoogleFonts.poppins(
+                                                                                            // color: HexColor(
+                                                                                            //   '#354291',
+                                                                                            // ),
+                                                                                              fontSize: isTablet
+                                                                                                  ? 20
+                                                                                                  : width <= 330
+                                                                                                  ? 13
+                                                                                                  : 16,
+                                                                                              fontWeight: FontWeight.w500,color: Color(0xff56CF8A)),
+                                                                                          maxLines: 1,
+                                                                                          overflow:
+                                                                                          TextOverflow
+                                                                                              .ellipsis,
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                    Row(
+                                                                                      children: [
+                                                                                        Text(
+                                                                                          'Start Time: ',
+                                                                                          style: GoogleFonts.poppins(
+                                                                                            // color: HexColor(
+                                                                                            //   '#354291',
+                                                                                            // ),
+                                                                                              fontSize: isTablet
+                                                                                                  ? 20
+                                                                                                  : width <= 330
+                                                                                                  ? 13
+                                                                                                  : 16,
+                                                                                              fontWeight: FontWeight.w500),
+                                                                                          maxLines: 1,
+                                                                                          overflow:
+                                                                                          TextOverflow
+                                                                                              .ellipsis,
+                                                                                        ),
+                                                                                        Text(
+                                                                                          '10:00 AM ',
+                                                                                          style: GoogleFonts.poppins(
+                                                                                            // color: HexColor(
+                                                                                            //   '#354291',
+                                                                                            // ),
+                                                                                              fontSize: isTablet
+                                                                                                  ? 20
+                                                                                                  : width <= 330
+                                                                                                  ? 13
+                                                                                                  : 16,
+                                                                                              fontWeight: FontWeight.w400),
+                                                                                          maxLines: 1,
+                                                                                          overflow:
+                                                                                          TextOverflow
+                                                                                              .ellipsis,
+                                                                                        ),
+                                                                                      ],
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                              SizedBox(
+                                                                                height: 10,
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                          Spacer(),
+                                                                          Column(
+                                                                            crossAxisAlignment:
+                                                                            CrossAxisAlignment
+                                                                                .start,
+                                                                            children: [
+                                                                              Text(
+                                                                                'New Patient ',
+                                                                                style: GoogleFonts.poppins(
+                                                                                  // color: HexColor(
+                                                                                  //   '#354291',
+                                                                                  // ),
+                                                                                    fontSize: isTablet
+                                                                                        ? 20
+                                                                                        : width <= 330
+                                                                                        ? 13
+                                                                                        : 16,
+                                                                                    fontWeight: FontWeight.w500,color: Color(0xff56CF8A)),
+                                                                                maxLines: 1,
+                                                                                overflow:
+                                                                                TextOverflow
+                                                                                    .ellipsis,
+                                                                              ),
+                                                                              Row(
+                                                                                children: [
+                                                                                  Text(
+                                                                                    'Total Sale: ',
+                                                                                    style: GoogleFonts.poppins(
+                                                                                      // color: HexColor(
+                                                                                      //   '#354291',
+                                                                                      // ),
+                                                                                        fontSize: isTablet
+                                                                                            ? 20
+                                                                                            : width <= 330
+                                                                                            ? 13
+                                                                                            : 16,
+                                                                                        fontWeight: FontWeight.w500),
+                                                                                    maxLines: 1,
+                                                                                    overflow:
+                                                                                    TextOverflow
+                                                                                        .ellipsis,
+                                                                                  ),
+                                                                                  Text(
+                                                                                    '800 ',
+                                                                                    style: GoogleFonts.poppins(
+                                                                                      // color: HexColor(
+                                                                                      //   '#354291',
+                                                                                      // ),
+                                                                                        fontSize: isTablet
+                                                                                            ? 20
+                                                                                            : width <= 330
+                                                                                            ? 13
+                                                                                            : 16,
+                                                                                        fontWeight: FontWeight.w500,color: Color(0xff535EA1)),
+                                                                                    maxLines: 1,
+                                                                                    overflow:
+                                                                                    TextOverflow
+                                                                                        .ellipsis,
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                              Row(
+                                                                                children: [
+                                                                                  Text(
+                                                                                    'Net Collec: ',
+                                                                                    style: GoogleFonts.poppins(
+                                                                                      // color: HexColor(
+                                                                                      //   '#354291',
+                                                                                      // ),
+                                                                                        fontSize: isTablet
+                                                                                            ? 20
+                                                                                            : width <= 330
+                                                                                            ? 13
+                                                                                            : 16,
+                                                                                        fontWeight: FontWeight.w500),
+                                                                                    maxLines: 1,
+                                                                                    overflow:
+                                                                                    TextOverflow
+                                                                                        .ellipsis,
+                                                                                  ),
+                                                                                  Text(
+                                                                                    '800 ',
+                                                                                    style: GoogleFonts.poppins(
+                                                                                      // color: HexColor(
+                                                                                      //   '#354291',
+                                                                                      // ),
+                                                                                        fontSize: isTablet
+                                                                                            ? 20
+                                                                                            : width <= 330
+                                                                                            ? 13
+                                                                                            : 16,
+                                                                                        fontWeight: FontWeight.w400,color: Color(0xff535EA1)),
+                                                                                    maxLines: 1,
+                                                                                    overflow:
+                                                                                    TextOverflow
+                                                                                        .ellipsis,
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                      Align(
+                                                                        alignment: Alignment.centerRight,
+                                                                        child: Padding(
+                                                                          padding: const EdgeInsets.only(left:80.0,right:80 ),
+                                                                          child: FlatButton(
+                                                                              minWidth: isTablet? width*.4 : width * .45,
+                                                                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+                                                                              color: AppTheme.buttonInActiveColor,
+                                                                              onPressed: () async {
+                                                                                // SVProgressHUD.show(status: 'Loading');
+                                                                                // await appointmentReport.getData(fromDate:TimeUtil().formattedDate(DateTime.parse( pickedFromDate.toString()??DateTime.now())),toDate:TimeUtil().formattedDate(DateTime.parse( pickedToDate.toString()??DateTime.now())),doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo,shiftNo: selectedIndex==0?0:selectedIndex==1?2000001:2000002);
+                                                                                // SVProgressHUD.dismiss();
+                                                                              },
+                                                                              child:Row(
+                                                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                                                children: [
+                                                                                  Text(
+                                                                                    'View Details',
+                                                                                    style: GoogleFonts.roboto(
+                                                                                        color: Colors.white,
+                                                                                        fontSize: isTablet? 17 : width <= 330 ? 17 : 15,
+                                                                                        fontWeight: FontWeight.w600),
+                                                                                  ),
+                                                                                ],
+                                                                              )),
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            },
+                                                            separatorBuilder:
+                                                                (context, index) {
+                                                              return Divider();
+                                                            }),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                      ))
-                                ],
-                              ),
-                            )),
-                      )),
+                                      ),
+                                    ))
+                              ],
+                            ),
+                          ))),
                 ],
               ),
             ),

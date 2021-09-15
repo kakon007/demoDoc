@@ -16,12 +16,12 @@ import 'package:dropdown_plus/dropdown_plus.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
 
-class AppointmentReport extends StatefulWidget {
+class DoctorAppointmentReport extends StatefulWidget {
   @override
-  _AppointmentReportState createState() => _AppointmentReportState();
+  _DoctorAppointmentReportState createState() => _DoctorAppointmentReportState();
 }
 
-class _AppointmentReportState extends State<AppointmentReport> {
+class _DoctorAppointmentReportState extends State<DoctorAppointmentReport> {
   DropdownEditingController<String> tx=DropdownEditingController();
   DateTime pickBirthDate;
   DateTime pickBirthDate2;

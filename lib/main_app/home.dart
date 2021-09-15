@@ -138,7 +138,7 @@ class _HomeScreenState extends State<HomeScreen>
         },
         locationData: _currentPosition,
       ),
-      AppointmentReport(),
+      BookTestScreen(),
       if (!isLoggedIn) ...[
         SignInDashboardForAppoinmentPrompt("To access your Appointments,"),
         SignInDashboardForPatientPrompt("To access your Patient Portal,"),

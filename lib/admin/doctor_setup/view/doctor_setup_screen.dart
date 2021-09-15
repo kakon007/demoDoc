@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myhealthbd_app/admin/doctor_setup/view/add_new_doctor_screen.dart';
+import 'package:myhealthbd_app/admin/doctor_setup/view/video_config_screen.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
@@ -694,7 +695,12 @@ class _DoctorSetupScreenState extends State<DoctorSetupScreen> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(5)),
                                   ),
-                                  onPressed: () async {},
+                                  onPressed: () async {
+                                    Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                VideoConfigScreen()));
+                                  },
                                   child: Row(
                                     children: [
                                       Icon(

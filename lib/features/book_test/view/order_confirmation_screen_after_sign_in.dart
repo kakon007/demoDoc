@@ -12,6 +12,7 @@ import 'package:myhealthbd_app/features/auth/view_model/auth_view_model.dart';
 import 'package:myhealthbd_app/features/book_test/view/widgets/add_more_information.dart';
 import 'package:myhealthbd_app/features/book_test/view/widgets/add_patient_book_test.dart';
 import 'package:myhealthbd_app/features/book_test/view_model/order_confirm_view_model.dart';
+import 'package:myhealthbd_app/features/book_test/view_model/test_item_view_model.dart';
 import 'package:myhealthbd_app/features/user_profile/view_model/userDetails_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/resource/strings_resource.dart';
@@ -112,6 +113,7 @@ class _OrderConfirmationAfterSignInState
   Widget build(BuildContext context) {
     var cartVM = Provider.of<OrderConfirmViewModel>(context, listen: true);
     var authVm = Provider.of<AuthViewModel>(context, listen: false);
+    var testItemVm = Provider.of<TestItemViewModel>(context);
     bool isTablet = Responsive.isTablet(context);
     bool isMobile = Responsive.isMobile(context);
     var username = SignUpFormField(
@@ -359,6 +361,7 @@ class _OrderConfirmationAfterSignInState
           onPressed: () async {
             print('priice  ${cartVM.subTotal}');
             await cartVM.saveOrderConfirmDataData();
+            testItemVm.cartList.clear();
           },
           child: Text(
             'Save',

@@ -45,7 +45,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
     var appointmentReport =
     InkWell(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>DoctorAppointmentReport()));
+          Navigator.push(context, MaterialPageRoute(builder: (_)=>DoctorAppointmentReport()));
       },
       child: Container(
         decoration: BoxDecoration(

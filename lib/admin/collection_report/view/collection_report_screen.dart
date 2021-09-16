@@ -7,6 +7,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/admin/appointment_report/view/widgets/details_pop_up.dart';
 import 'package:myhealthbd_app/features/book_test/model/company_list_model.dart';
 import 'package:myhealthbd_app/features/book_test/view_model/test_item_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -31,8 +32,8 @@ class _CollectionReportScreenState extends State<CollectionReportScreen> {
 
   @override
   void initState() {
-    var testItemVm = Provider.of<TestItemViewModel>(context,listen: false);
-    testItemVm.getData(companyNo: 2);
+    // var testItemVm = Provider.of<TestItemViewModel>(context,listen: false);
+    // testItemVm.getData(companyNo: 2);
     pickBirthDate=DateTime.now();
     pickBirthDate2=DateTime.now();
     docpickBirthDate=DateTime.now();
@@ -161,6 +162,7 @@ class _CollectionReportScreenState extends State<CollectionReportScreen> {
         });
       }
     }
+
 
 
     var organizationName= Padding(
@@ -446,7 +448,7 @@ class _CollectionReportScreenState extends State<CollectionReportScreen> {
         ],
       ),
       onTap: () {
-        selectDate2(context);
+        docselectDate2(context);
         FocusManager.instance.primaryFocus.unfocus();
       },
     );
@@ -515,9 +517,9 @@ class _CollectionReportScreenState extends State<CollectionReportScreen> {
       ),
     );
 
-    var downloadButton = Align(
+    var alertDownload= Container(
       child: FlatButton(
-          minWidth: isTablet? width*.4 : width * .45,
+          minWidth: isTablet? width*.4 : width * .25,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           color: AppTheme.buttonInActiveColor,
           onPressed: () async {
@@ -525,6 +527,85 @@ class _CollectionReportScreenState extends State<CollectionReportScreen> {
             // await appointmentReport.getData(fromDate:TimeUtil().formattedDate(DateTime.parse( pickedFromDate.toString()??DateTime.now())),toDate:TimeUtil().formattedDate(DateTime.parse( pickedToDate.toString()??DateTime.now())),doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo,shiftNo: selectedIndex==0?0:selectedIndex==1?2000001:2000002);
             // SVProgressHUD.dismiss();
           },
+          child: Row(
+            children: [
+              Text(
+                'Download',
+                style: GoogleFonts.roboto(
+                    color: Colors.white,
+                    fontSize: isTablet? 17 : width <= 330 ? 14 : 15,
+                    fontWeight: FontWeight.w600),
+              ),
+            ],
+          )),
+    );
+    var downloadButton = Align(
+      child: FlatButton(
+          minWidth: isTablet? width*.4 : width * .45,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          color: AppTheme.buttonInActiveColor,
+          onPressed: () async {
+            print("ting");
+
+            // show the dialog
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  actions: [
+                    Row(
+                      children: [
+                        Column(
+                          children: [
+
+                            SvgPicture.asset(
+                              "assets/icons/excel.svg",
+                              width: 30,
+                              height: width<=330? 65 :35,
+                              fit: BoxFit.fitWidth,
+                              allowDrawingOutsideViewBox: true,
+                              matchTextDirection: true,
+                            ),
+                            alertDownload,
+                          ],
+                        ),
+                        SizedBox(width: 5,),
+
+                        Column(
+                          children: [
+                            SvgPicture.asset(
+                              "assets/icons/docx.svg",
+                              width: 20,
+                              height: width<=330? 65 :30,
+                              fit: BoxFit.fitWidth,
+                              allowDrawingOutsideViewBox: true,
+                              matchTextDirection: true,
+                            ),
+                            alertDownload,
+                          ],
+                        ),
+                        SizedBox(width: 5,),
+                        Column(
+                          children: [
+                            SvgPicture.asset(
+                              "assets/icons/pdf.svg",
+                              width: 20,
+                              height: width<=330? 65 :30,
+                              fit: BoxFit.fitWidth,
+                              allowDrawingOutsideViewBox: true,
+                              matchTextDirection: true,
+                            ),
+                            alertDownload,
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+
           child: Row(
             children: [
               Icon(Icons.download_rounded,color: Colors.white,),
@@ -1123,9 +1204,7 @@ class _CollectionReportScreenState extends State<CollectionReportScreen> {
                                                                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                                                               color: AppTheme.buttonInActiveColor,
                                                                               onPressed: () async {
-                                                                                // SVProgressHUD.show(status: 'Loading');
-                                                                                // await appointmentReport.getData(fromDate:TimeUtil().formattedDate(DateTime.parse( pickedFromDate.toString()??DateTime.now())),toDate:TimeUtil().formattedDate(DateTime.parse( pickedToDate.toString()??DateTime.now())),doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo,shiftNo: selectedIndex==0?0:selectedIndex==1?2000001:2000002);
-                                                                                // SVProgressHUD.dismiss();
+                                                                                showAlert(context);
                                                                               },
                                                                               child:Row(
                                                                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1554,9 +1633,7 @@ class _CollectionReportScreenState extends State<CollectionReportScreen> {
                                                                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                                                               color: AppTheme.buttonInActiveColor,
                                                                               onPressed: () async {
-                                                                                // SVProgressHUD.show(status: 'Loading');
-                                                                                // await appointmentReport.getData(fromDate:TimeUtil().formattedDate(DateTime.parse( pickedFromDate.toString()??DateTime.now())),toDate:TimeUtil().formattedDate(DateTime.parse( pickedToDate.toString()??DateTime.now())),doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo,shiftNo: selectedIndex==0?0:selectedIndex==1?2000001:2000002);
-                                                                                // SVProgressHUD.dismiss();
+                                                                                showAlert(context);
                                                                               },
                                                                               child:Row(
                                                                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -2026,9 +2103,7 @@ class _CollectionReportScreenState extends State<CollectionReportScreen> {
                                                                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
                                                                               color: AppTheme.buttonInActiveColor,
                                                                               onPressed: () async {
-                                                                                // SVProgressHUD.show(status: 'Loading');
-                                                                                // await appointmentReport.getData(fromDate:TimeUtil().formattedDate(DateTime.parse( pickedFromDate.toString()??DateTime.now())),toDate:TimeUtil().formattedDate(DateTime.parse( pickedToDate.toString()??DateTime.now())),doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo,shiftNo: selectedIndex==0?0:selectedIndex==1?2000001:2000002);
-                                                                                // SVProgressHUD.dismiss();
+                                                                                showAlert(context);
                                                                               },
                                                                               child:Row(
                                                                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -2073,5 +2148,12 @@ class _CollectionReportScreenState extends State<CollectionReportScreen> {
         ),
       ),
     );
+  }
+  void showAlert(BuildContext context) {
+    // var vm = Provider.of<UserDetailsViewModel>(context, listen: false);
+    showDialog(
+        context: context,
+        builder: (context) => Material(
+            color: Colors.transparent, child: AdminPopup()));
   }
 }

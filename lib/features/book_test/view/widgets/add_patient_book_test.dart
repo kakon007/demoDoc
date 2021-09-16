@@ -177,7 +177,8 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
                                 _selectedMemberType = newValue;
                                 if (_selectedMemberType !=
                                     cartVM.selectedMemberType) {
-                                  if (_selectedMemberType == "Family Member") {
+                                  if (_selectedMemberType == "Family Member" &&
+                                      familyVm.isSelected) {
                                     cartVM.memberList = true;
                                     var vm3 = Provider.of<UserDetailsViewModel>(
                                         context,
@@ -225,8 +226,6 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
                                     cartVM.dayController.text = "";
                                     cartVM.monthController.text = "";
                                     cartVM.yearController.text = "";
-                                    // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
-                                    // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
                                     cartVM.selectedDob = DateTime.now();
                                   }
                                   cartVM.selectedMemberType = newValue;
@@ -397,6 +396,22 @@ class _ForMeBookTestState extends State<ForMeBookTest> {
                       setState(() {
                         familyVm.memberDetail(
                             -1, false, "", "", "", "", "", "", "", "", "");
+                        cartVM.selectedMemberType = null;
+                        cartVM.fathersName.text = "";
+                        cartVM.mothersName.text = "";
+                        cartVM.lastNameController.text = "";
+                        cartVM.firstNameController.text = "";
+                        cartVM.mobileNumberController.text = "";
+                        cartVM.emailController.text = "";
+                        cartVM.nidController.text = "";
+                        cartVM.passportController.text = "";
+                        cartVM.addressController.text = "";
+                        cartVM.dayController.text = "";
+                        cartVM.monthController.text = "";
+                        cartVM.yearController.text = "";
+                        cartVM.regNo = '';
+                        cartVM.spouseController.text = '';
+                        cartVM.selectedDob = DateTime.now();
                       });
                     },
                     child: Icon(

@@ -194,6 +194,7 @@ class OrderConfirmViewModel extends ChangeNotifier {
     OrderConfirmationRepository().fetchBookConfirmationType(order);
   }
 
+
   bool get forMe => _forMe;
 
   bool get addPatient => _addPatient;

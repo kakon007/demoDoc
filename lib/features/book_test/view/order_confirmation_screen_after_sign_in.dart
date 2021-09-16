@@ -37,19 +37,7 @@ class _OrderConfirmationAfterSignInState
       Provider.of<OrderConfirmViewModel>(appNavigator.context, listen: false);
 
   //String _formatDate = DateFormat("dd/MM/yyyy").format(Provider.of<OrderConfirmViewModel>(appNavigator.context, listen: false).selectedDob);
-  Future<Null> _selectBirthDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
-      context: context,
-      initialDate: cartVM.selectedDob,
-      firstDate: DateTime(1800, 1),
-      lastDate: DateTime.now(),
-    );
-    if (picked != null && picked != cartVM.selectedDob)
-      setState(() {
-        cartVM.selectedDob = picked;
-        //cartVM.saveOrderConfirmDataData(selectedDate: selectedDate);
-      });
-  }
+
 
   Future<Null> _preferredDate(BuildContext context) async {
     var cartVM =
@@ -99,6 +87,19 @@ class _OrderConfirmationAfterSignInState
       setState(() {
         cartVM.selectTentativeDate = picked;
         //cartVM.saveOrderConfirmDataData(preferredDate: selectedDob);
+      });
+  }
+  Future<Null> _selectBirthDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: cartVM.selectedDob,
+      firstDate: DateTime(1800, 1),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null && picked != cartVM.selectedDob)
+      setState(() {
+        cartVM.selectedDob = picked;
+        //cartVM.saveOrderConfirmDataData(selectedDate: selectedDate);
       });
   }
 
@@ -185,11 +186,12 @@ class _OrderConfirmationAfterSignInState
                         vm3.userDetailsList.ageMm.toString() ?? "";
                     cartVM.yearController.text =
                         vm3.userDetailsList.ageYy.toString() ?? "";
-                    // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
-                    // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
                     cartVM.selectedDob =
                         DateTime.parse(vm3.userDetailsList.dob) ??
                             DateTime.now();
+                    cartVM.regNo = vm3.userDetailsList.id.toString();
+                    cartVM.spouseController.text = vm3.userDetailsList.spouseName;
+                   // cartVM.salutation = vm3.userDetailsList.salutation;
                     print('qqqqq ${DateTime.parse(vm3.userDetailsList.dob)}');
                     //familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
                     print('ppppp ${cartVM.fathersName.text}');
@@ -239,12 +241,16 @@ class _OrderConfirmationAfterSignInState
                           vm3.patDetails.passportNo ?? "";
                       cartVM.addressController.text =
                           vm3.patDetails.address ?? "";
+                      cartVM.selectedDob = DateTime.parse(vm3.patDetails.dob) ?? DateTime.now();
                       cartVM.dayController.text =
-                          vm3.userDetailsList.ageDd.toString() ?? "";
+                          vm3.patDetails.ageDd.toString() ?? "";
                       cartVM.monthController.text =
-                          vm3.userDetailsList.ageMm.toString() ?? "";
+                          vm3.patDetails.ageMm.toString() ?? "";
                       cartVM.yearController.text =
-                          vm3.userDetailsList.ageYy.toString() ?? "";
+                          vm3.patDetails.ageYy.toString() ?? "";
+                      cartVM.regNo = vm3.patDetails.id.toString();
+                      cartVM.spouseController.text = vm3.patDetails.spouseName;
+                     // cartVM.salutation = vm3.patDetails.salutation;
                       // // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
                       // // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
                       // cartVM.selectedDob =
@@ -268,6 +274,9 @@ class _OrderConfirmationAfterSignInState
                       // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
                       // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
                       cartVM.selectedDob = DateTime.now();
+                      cartVM.regNo = '';
+                      cartVM.spouseController.text = '';
+                    //  cartVM.salutation = '';
 
                       //familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
                       print('ppppp ${cartVM.fathersName.text}');
@@ -627,6 +636,7 @@ class _OrderConfirmationAfterSignInState
         //print(_selectBirthDate(context));
       },
     );
+    print('selected dob ${cartVM.selectedDob}');
     var tentativeDate = GestureDetector(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

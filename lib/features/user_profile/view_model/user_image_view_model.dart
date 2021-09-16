@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -89,6 +90,46 @@ class UserImageViewModel extends ChangeNotifier {
         print(response.reasonPhrase);
       }
     } catch (e) {
+    }
+  }
+  Future<void> updateAdminProfile(
+      {String hospitalNo, String id, String email, String mobile}) async {
+    _isImageLoading = true;
+    BotToast.showLoading();
+    var headers = {
+      'Authorization':
+      'Bearer ${Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken}'
+    };
+    var request = http.MultipartRequest(
+        'PUT', Uri.parse('${Urls.baseUrl}auth-api/api/coreUser/update-user-info'));
+    request.fields.addAll({
+      'reqobj': {"name": hospitalNo.toUpperCase(), "id": id, "userMobile": mobile, "userEmail": email}
+          .toString()
+    });
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+    _resStatusCode = response.statusCode.toString();
+    //print(response.statusCode);
+    try {
+      if (response.statusCode == 200) {
+        userImage();
+        BotToast.closeAllLoading();
+        Fluttertoast.showToast(
+            msg: "Profile updated successfully!",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.green,
+            textColor: Colors.white,
+            fontSize: 12.0);
+
+        notifyListeners();
+      } else {
+        BotToast.closeAllLoading();
+        print(response.reasonPhrase);
+      }
+    } catch (e) {
+      BotToast.closeAllLoading();
     }
   }
 

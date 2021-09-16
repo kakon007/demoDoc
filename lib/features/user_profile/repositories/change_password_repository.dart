@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 
 class ChangePasswordRepository {
   Future<Either<AppError, ChangePasswordModel>> fetchPassword(String newPassword, String confirmPassword, String currentPassword) async {
+     BotToast.showLoading();
     var accessToken = Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).accessToken;
     var headers = {'Authorization': 'Bearer $accessToken', 'Content-Type': 'application/json'};
 
@@ -29,17 +30,21 @@ class ChangePasswordRepository {
       );
       if (response.statusCode == 200) {
         ChangePasswordModel data2 = changePasswordModelFromJson(response.body);
+        BotToast.closeAllLoading();
         return Right(ChangePasswordModel(
           message: data2.message,
         ));
       } else {
+        BotToast.closeAllLoading();
         return Left(AppError.serverError);
       }
     } on SocketException catch (e) {
       //logger.e(e);
+      BotToast.closeAllLoading();
       BotToast.showText(text: StringResources.unableToReachServerMessage);
       return Left(AppError.networkError);
     } catch (e) {
+      BotToast.closeAllLoading();
       return Left(AppError.unknownError);
     }
   }

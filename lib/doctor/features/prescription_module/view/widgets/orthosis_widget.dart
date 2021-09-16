@@ -127,10 +127,12 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
                               color: AppTheme.buttonActiveColor)),
                     )),
                 itemBuilder: (_, v) {
-                  return Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text("$v"),
-                  );
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Text("$v"),
+                        );
                 },
                 onSuggestionSelected: (v) {
                   if (templateVm.orthosisSelectedItems.contains(v)) {
@@ -144,10 +146,12 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 suggestionsCallback: (v) {
-                  return PreDiagnosisSearchRepository().fetchSearchList(
-                      q: v,
-                      favoriteType:
-                          PrescriptionFavouriteType.orthosis.toString());
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : PreDiagnosisSearchRepository().fetchSearchList(
+                          q: v,
+                          favoriteType:
+                              PrescriptionFavouriteType.orthosis.toString());
                 },
               ),
               SizedBox(
@@ -189,19 +193,23 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
                                       favoriteItems.map((e) {
                                         favItem.add(e.favouriteVal);
                                       }).toList();
-                                      if(favItem.contains(templateVm.orthosisSelectedItems[index])){
-                                        BotToast.showText(text: 'Already in the favorite list');
-                                      }else{
+                                      if (favItem.contains(templateVm
+                                          .orthosisSelectedItems[index])) {
+                                        BotToast.showText(
+                                            text:
+                                                'Already in the favorite list');
+                                      } else {
                                         await CommonAddToFavoriteListRepository()
                                             .addToFavouriteList(
-                                            favoriteType:
-                                            PrescriptionFavouriteType
-                                                .orthosis
-                                                .toString(),
-                                            favoriteVal: templateVm
-                                                .orthosisSelectedItems[index])
+                                                favoriteType:
+                                                    PrescriptionFavouriteType
+                                                        .orthosis
+                                                        .toString(),
+                                                favoriteVal: templateVm
+                                                        .orthosisSelectedItems[
+                                                    index])
                                             .then((value) async =>
-                                        await vm.getData());
+                                                await vm.getData());
                                         _favoriteController.clear();
                                         favoriteItems.clear();
                                         favoriteItems.addAll(vm.favouriteList);

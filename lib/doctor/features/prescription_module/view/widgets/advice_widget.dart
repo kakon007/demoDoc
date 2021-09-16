@@ -127,10 +127,12 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                               color: AppTheme.buttonActiveColor)),
                     )),
                 itemBuilder: (_, v) {
-                  return Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text("$v"),
-                  );
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Text("$v"),
+                        );
                 },
                 onSuggestionSelected: (v) {
                   templateVm.adviceSelectedItems.add(v);
@@ -140,10 +142,12 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 suggestionsCallback: (v) {
-                  return PreDiagnosisSearchRepository().fetchSearchList(
-                      q: v,
-                      favoriteType:
-                          PrescriptionFavouriteType.advice.toString());
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : PreDiagnosisSearchRepository().fetchSearchList(
+                          q: v,
+                          favoriteType:
+                              PrescriptionFavouriteType.advice.toString());
                 },
                 // noItemsFoundBuilder: noItemsFoundBuilder ??
                 //     (context) {
@@ -200,18 +204,22 @@ class _AdviceWidgetState extends State<AdviceWidget> {
                                       favoriteItems.map((e) {
                                         favItem.add(e.favouriteVal);
                                       }).toList();
-                                      if(favItem.contains(templateVm.adviceSelectedItems[index])){
-                                        BotToast.showText(text: 'Already in the favorite list');
-                                      }else{
+                                      if (favItem.contains(templateVm
+                                          .adviceSelectedItems[index])) {
+                                        BotToast.showText(
+                                            text:
+                                                'Already in the favorite list');
+                                      } else {
                                         await CommonAddToFavoriteListRepository()
                                             .addToFavouriteList(
-                                            favoriteType:
-                                            PrescriptionFavouriteType
-                                                .advice
-                                                .toString(),
-                                            favoriteVal: templateVm
-                                                .adviceSelectedItems[index])
-                                            .then((value) async=> await vm.getData());
+                                                favoriteType:
+                                                    PrescriptionFavouriteType
+                                                        .advice
+                                                        .toString(),
+                                                favoriteVal: templateVm
+                                                    .adviceSelectedItems[index])
+                                            .then((value) async =>
+                                                await vm.getData());
                                         _favoriteController.clear();
                                         favoriteItems.clear();
                                         favoriteItems.addAll(vm.favouriteList);

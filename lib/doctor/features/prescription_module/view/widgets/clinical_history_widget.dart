@@ -124,10 +124,12 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                               color: AppTheme.buttonActiveColor)),
                     )),
                 itemBuilder: (_, v) {
-                  return Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text("$v"),
-                  );
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Text("$v"),
+                        );
                 },
                 onSuggestionSelected: (v) {
                   if (templateVm.clinicalHistorySelectedItems.contains(v)) {
@@ -141,10 +143,13 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 suggestionsCallback: (v) {
-                  return PreDiagnosisSearchRepository().fetchSearchList(
-                      q: v,
-                      favoriteType:
-                          PrescriptionFavouriteType.clinicalHistory.toString());
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : PreDiagnosisSearchRepository().fetchSearchList(
+                          q: v,
+                          favoriteType: PrescriptionFavouriteType
+                              .clinicalHistory
+                              .toString());
                 },
                 // noItemsFoundBuilder: noItemsFoundBuilder ??
                 //     (context) {
@@ -197,26 +202,31 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                                 children: [
                                   InkWell(
                                     onTap: () async {
-                                      List<String> clinicalList =[];
+                                      List<String> clinicalList = [];
                                       favoriteItems.map((e) {
                                         clinicalList.add(e.favouriteVal);
                                       }).toList();
-                                      if(clinicalList.contains(templateVm.clinicalHistorySelectedItems[index])){
-                                        BotToast.showText(text: 'Already in the favorite list');
-                                      }else{
+                                      if (clinicalList.contains(templateVm
+                                              .clinicalHistorySelectedItems[
+                                          index])) {
+                                        BotToast.showText(
+                                            text:
+                                                'Already in the favorite list');
+                                      } else {
                                         await CommonAddToFavoriteListRepository()
                                             .addToFavouriteList(
-                                            favoriteType:
-                                            PrescriptionFavouriteType
-                                                .clinicalHistory
-                                                .toString(),
-                                            favoriteVal: templateVm
-                                                .clinicalHistorySelectedItems[
-                                            index])
+                                                favoriteType:
+                                                    PrescriptionFavouriteType
+                                                        .clinicalHistory
+                                                        .toString(),
+                                                favoriteVal: templateVm
+                                                        .clinicalHistorySelectedItems[
+                                                    index])
                                             .then((value) async =>
-                                        await vm.getData());
+                                                await vm.getData());
                                         favoriteItems.clear();
-                                        if (_favoriteController.text.isNotEmpty) {
+                                        if (_favoriteController
+                                            .text.isNotEmpty) {
                                           searchFavoriteItem(_favoriteController
                                               .text
                                               .toLowerCase());

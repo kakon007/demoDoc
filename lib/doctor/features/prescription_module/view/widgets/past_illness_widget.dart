@@ -124,10 +124,12 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                               color: AppTheme.buttonActiveColor)),
                     )),
                 itemBuilder: (_, v) {
-                  return Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text("$v"),
-                  );
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Text("$v"),
+                        );
                 },
                 onSuggestionSelected: (v) {
                   if (templateVM.pastIllnessSelectedItems.contains(v)) {
@@ -141,10 +143,12 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 suggestionsCallback: (v) {
-                  return PreDiagnosisSearchRepository().fetchSearchList(
-                      q: v,
-                      favoriteType:
-                          PrescriptionFavouriteType.pastIllness.toString());
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : PreDiagnosisSearchRepository().fetchSearchList(
+                          q: v,
+                          favoriteType:
+                              PrescriptionFavouriteType.pastIllness.toString());
                 },
                 // noItemsFoundBuilder: noItemsFoundBuilder ??
                 //     (context) {
@@ -201,23 +205,27 @@ class _PastIllnessWidgetState extends State<PastIllnessWidget> {
                                       favoriteItems.map((e) {
                                         favItem.add(e.favouriteVal);
                                       }).toList();
-                                      if(favItem.contains(templateVM.pastIllnessSelectedItems[index])){
-                                        BotToast.showText(text: 'Already in the favorite list');
-                                      }
-                                      else{
+                                      if (favItem.contains(templateVM
+                                          .pastIllnessSelectedItems[index])) {
+                                        BotToast.showText(
+                                            text:
+                                                'Already in the favorite list');
+                                      } else {
                                         CommonAddToFavoriteListRepository()
                                             .addToFavouriteList(
-                                            favoriteType:
-                                            PrescriptionFavouriteType
-                                                .pastIllness
-                                                .toString(),
-                                            favoriteVal: templateVM
-                                                .pastIllnessSelectedItems[
-                                            index])
-                                            .then((value) async => await vm.getData());
+                                                favoriteType:
+                                                    PrescriptionFavouriteType
+                                                        .pastIllness
+                                                        .toString(),
+                                                favoriteVal: templateVM
+                                                        .pastIllnessSelectedItems[
+                                                    index])
+                                            .then((value) async =>
+                                                await vm.getData());
 
                                         favoriteItems.clear();
-                                        if (_favoriteController.text.isNotEmpty) {
+                                        if (_favoriteController
+                                            .text.isNotEmpty) {
                                           searchFavoriteItem(_favoriteController
                                               .text
                                               .toLowerCase());

@@ -88,7 +88,7 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
         templateVm.investigationShowReport = val;
         setState(() {});
       },
-      showReport:         templateVm.investigationShowReport,
+      showReport: templateVm.investigationShowReport,
       title: "Investigation",
       expandedWidget: Container(
         decoration: BoxDecoration(
@@ -217,13 +217,15 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                               color: AppTheme.buttonActiveColor)),
                     )),
                 itemBuilder: (_, v) {
-                  return Padding(
-                    padding: EdgeInsets.all(isTablet ? 12 : 10),
-                    child: Text(
-                      "${v.itemName}",
-                      style: TextStyle(fontSize: isTablet ? 18 : 16),
-                    ),
-                  );
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : Padding(
+                          padding: EdgeInsets.all(isTablet ? 12 : 10),
+                          child: Text(
+                            "${v.itemName}",
+                            style: TextStyle(fontSize: isTablet ? 18 : 16),
+                          ),
+                        );
                 },
                 onSuggestionSelected: (v) {
                   if (templateVm.investigationSelectedItems.contains(v)) {
@@ -237,8 +239,10 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 suggestionsCallback: (v) {
-                  return CommonPrescriptionSearchItemsRepository()
-                      .fetchSearchList(q: v, parItemTypeNo: 36);
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : CommonPrescriptionSearchItemsRepository()
+                          .fetchSearchList(q: v, parItemTypeNo: 36);
                 },
               ),
               SizedBox(
@@ -322,23 +326,29 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                       favoriteItems.map((e) {
                                         favItem.add(e.favouriteVal);
                                       }).toList();
-                                      if(favItem.contains(templateVm.investigationSelectedItems[index].itemName)){
-                                        BotToast.showText(text: 'Already in the favorite list');
-                                      }else{
+                                      if (favItem.contains(templateVm
+                                          .investigationSelectedItems[index]
+                                          .itemName)) {
+                                        BotToast.showText(
+                                            text:
+                                                'Already in the favorite list');
+                                      } else {
                                         await CommonAddToFavoriteListRepository()
                                             .addToFavouriteList(
-                                            favoriteType: templateVm
-                                                .investigationSelectedItems[
-                                            index]
-                                                .itemTypeNo.toString(),
-                                            favoriteVal: templateVm
-                                                .investigationSelectedItems[
-                                            index]
-                                                .itemName)
+                                                favoriteType: templateVm
+                                                    .investigationSelectedItems[
+                                                        index]
+                                                    .itemTypeNo
+                                                    .toString(),
+                                                favoriteVal: templateVm
+                                                    .investigationSelectedItems[
+                                                        index]
+                                                    .itemName)
                                             .then((value) async =>
-                                        await vm.getData());
+                                                await vm.getData());
                                         favoriteItems.clear();
-                                        if (_favoriteController.text.isNotEmpty) {
+                                        if (_favoriteController
+                                            .text.isNotEmpty) {
                                           searchFavoriteItem(_favoriteController
                                               .text
                                               .toLowerCase());
@@ -467,7 +477,9 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                  if (templateVm.investigationSelectedItems[index].itemName
+                                  if (templateVm
+                                      .investigationSelectedItems[index]
+                                      .itemName
                                       .contains(item.favouriteVal)) {
                                     BotToast.showText(text: "All ready added");
                                   } else {

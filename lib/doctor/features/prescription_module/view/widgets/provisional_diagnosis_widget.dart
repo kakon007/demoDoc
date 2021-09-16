@@ -141,13 +141,15 @@ class _ProvisionalDiagnosisWidgetState
                               color: AppTheme.buttonActiveColor)),
                     )),
                 itemBuilder: (_, v) {
-                  return Padding(
-                    padding: EdgeInsets.all(isTablet ? 12 : 10),
-                    child: Text(
-                      "$v",
-                      style: TextStyle(fontSize: isTablet ? 18 : 16),
-                    ),
-                  );
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : Padding(
+                          padding: EdgeInsets.all(isTablet ? 12 : 10),
+                          child: Text(
+                            "$v",
+                            style: TextStyle(fontSize: isTablet ? 18 : 16),
+                          ),
+                        );
                 },
                 onSuggestionSelected: (v) {
                   if (templateVm.provisionalDiagnosisSelectedItems
@@ -162,11 +164,13 @@ class _ProvisionalDiagnosisWidgetState
                   borderRadius: BorderRadius.circular(5),
                 ),
                 suggestionsCallback: (v) {
-                  return PreDiagnosisSearchRepository().fetchSearchList(
-                      q: v,
-                      favoriteType: PrescriptionFavouriteType
-                          .provisionalDiagnosis
-                          .toString());
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : PreDiagnosisSearchRepository().fetchSearchList(
+                          q: v,
+                          favoriteType: PrescriptionFavouriteType
+                              .provisionalDiagnosis
+                              .toString());
                 },
                 // noItemsFoundBuilder: noItemsFoundBuilder ??
                 //     (context) {
@@ -227,21 +231,27 @@ class _ProvisionalDiagnosisWidgetState
                                       favoriteItems.map((e) {
                                         favItem.add(e.favouriteVal);
                                       }).toList();
-                                      if(favItem.contains(templateVm.provisionalDiagnosisSelectedItems[index])){
-                                        BotToast.showText(text: 'Already in the favorite list');
-                                      }else{
+                                      if (favItem.contains(templateVm
+                                              .provisionalDiagnosisSelectedItems[
+                                          index])) {
+                                        BotToast.showText(
+                                            text:
+                                                'Already in the favorite list');
+                                      } else {
                                         await CommonAddToFavoriteListRepository()
                                             .addToFavouriteList(
-                                            favoriteType:
-                                            PrescriptionFavouriteType
-                                                .provisionalDiagnosis
-                                                .toString(),
-                                            favoriteVal: templateVm
-                                                .provisionalDiagnosisSelectedItems[
-                                            index])
-                                            .then((value) async => await vm.getData());
+                                                favoriteType:
+                                                    PrescriptionFavouriteType
+                                                        .provisionalDiagnosis
+                                                        .toString(),
+                                                favoriteVal: templateVm
+                                                        .provisionalDiagnosisSelectedItems[
+                                                    index])
+                                            .then((value) async =>
+                                                await vm.getData());
                                         favoriteItems.clear();
-                                        if (_favoriteController.text.isNotEmpty) {
+                                        if (_favoriteController
+                                            .text.isNotEmpty) {
                                           searchFavoriteItem(_favoriteController
                                               .text
                                               .toLowerCase());

@@ -322,10 +322,12 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                                         .buttonActiveColor)),
                                           )),
                                   itemBuilder: (_, v) {
-                                    return Padding(
-                                      padding: EdgeInsets.all(10.0),
-                                      child: Text("${v.genericName}"),
-                                    );
+                                    return _genericController.text.isEmpty
+                                        ? SizedBox()
+                                        : Padding(
+                                            padding: EdgeInsets.all(10.0),
+                                            child: Text("${v.genericName}"),
+                                          );
                                   },
                                   onSuggestionSelected: (v) {
                                     _genericController.text = v.genericName;
@@ -336,9 +338,11 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                     borderRadius: BorderRadius.circular(5),
                                   ),
                                   suggestionsCallback: (v) {
-                                    return GenericSearchItemsRepository()
-                                        .fetchSearchList(
-                                            parItemTypeNo: 4, q: v);
+                                    return _genericController.text.isEmpty
+                                        ? SizedBox()
+                                        : GenericSearchItemsRepository()
+                                            .fetchSearchList(
+                                                parItemTypeNo: 4, q: v);
                                   },
                                 ),
                                 SizedBox(
@@ -485,10 +489,12 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                                         .buttonActiveColor)),
                                           )),
                                   itemBuilder: (_, v) {
-                                    return Padding(
-                                      padding: EdgeInsets.all(10.0),
-                                      child: Text("${v.itemName}"),
-                                    );
+                                    return _brandController.text.isEmpty
+                                        ? SizedBox()
+                                        : Padding(
+                                            padding: EdgeInsets.all(10.0),
+                                            child: Text("${v.itemName}"),
+                                          );
                                   },
                                   onSuggestionSelected: (v) {
                                     _brandController.text = v.itemName;
@@ -499,9 +505,11 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                     borderRadius: BorderRadius.circular(5),
                                   ),
                                   suggestionsCallback: (v) {
-                                    return CommonPrescriptionSearchItemsRepository()
-                                        .fetchSearchList(
-                                            q: v, parItemTypeNo: 4);
+                                    return _brandController.text.isEmpty
+                                        ? SizedBox()
+                                        : CommonPrescriptionSearchItemsRepository()
+                                            .fetchSearchList(
+                                                q: v, parItemTypeNo: 4);
                                   },
                                 ),
                                 SizedBox(
@@ -1577,46 +1585,57 @@ class _MedicationWidgetState extends State<MedicationWidget> {
                                         favItem.add(e.genericName);
                                         favItem.add(e.brandName);
                                       }).toList();
-                                      if(favItem.contains(templateVm.medicineList[index].brandName) && favItem.contains(templateVm.medicineList[index].genericName)){
-                                        BotToast.showText(text: 'Already in the favorite list');
-                                      }else{
+                                      if (favItem.contains(templateVm
+                                              .medicineList[index].brandName) &&
+                                          favItem.contains(templateVm
+                                              .medicineList[index]
+                                              .genericName)) {
+                                        BotToast.showText(
+                                            text:
+                                                'Already in the favorite list');
+                                      } else {
                                         await CommonAddToFavoriteListRepository()
                                             .addToMedicineFavouriteList(
-                                          genericName: templateVm
-                                              .medicineList[index]
-                                              .genericName,
-                                          brandName: templateVm
-                                              .medicineList[index].brandName,
-                                          route: templateVm
-                                              .medicineList[index].route,
-                                          duration: templateVm
-                                              .medicineList[index]
-                                              .multiDoseList
-                                              .first
-                                              .multiDoseDuration,
-                                          durationType: templateVm
-                                              .medicineList[index]
-                                              .multiDoseList
-                                              .first
-                                              .multiDoseDurationType,
-                                          instructions: templateVm
-                                              .medicineList[index]
-                                              .multiDoseList
-                                              .first
-                                              .multiDoseInstruction,
-                                          dose: templateVm.medicineList[index]
-                                              .multiDoseList.first.multiDose,
-                                          favoriteType:
-                                          PrescriptionFavouriteType
-                                              .medication
-                                              .toString(),
-                                          // quantity:
-                                          //continueMedi:
-                                        )
+                                              genericName: templateVm
+                                                  .medicineList[index]
+                                                  .genericName,
+                                              brandName: templateVm
+                                                  .medicineList[index]
+                                                  .brandName,
+                                              route: templateVm
+                                                  .medicineList[index].route,
+                                              duration: templateVm
+                                                  .medicineList[index]
+                                                  .multiDoseList
+                                                  .first
+                                                  .multiDoseDuration,
+                                              durationType: templateVm
+                                                  .medicineList[index]
+                                                  .multiDoseList
+                                                  .first
+                                                  .multiDoseDurationType,
+                                              instructions: templateVm
+                                                  .medicineList[index]
+                                                  .multiDoseList
+                                                  .first
+                                                  .multiDoseInstruction,
+                                              dose: templateVm
+                                                  .medicineList[index]
+                                                  .multiDoseList
+                                                  .first
+                                                  .multiDose,
+                                              favoriteType:
+                                                  PrescriptionFavouriteType
+                                                      .medication
+                                                      .toString(),
+                                              // quantity:
+                                              //continueMedi:
+                                            )
                                             .then((value) async =>
-                                        await vm.getData());
+                                                await vm.getData());
                                         favoriteItems.clear();
-                                        if (_favoriteController.text.isNotEmpty) {
+                                        if (_favoriteController
+                                            .text.isNotEmpty) {
                                           searchFavoriteItem(_favoriteController
                                               .text
                                               .toLowerCase());

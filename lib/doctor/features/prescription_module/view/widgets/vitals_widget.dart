@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/prescription_common_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/vitals_field.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/vitals_text_form_field.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/chief_complaint_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/get_template_data_view_model.dart';
@@ -31,7 +32,7 @@ class _VitalsWidgetState extends State<VitalsWidget> {
       height: 10,
     );
     var bodyTemperature = VitalsTextField(
-      hintText: 'Body Temperature',
+      levelText: 'Body Temperature',
       unitName: 'Fahrenheit',
       topContentPadding: isTablet ? 30 : 25,
       hintSize: isTablet ? 17 : 12,
@@ -40,32 +41,32 @@ class _VitalsWidgetState extends State<VitalsWidget> {
       unitWidth: isTablet ? 100 : 80,
       controller: templateVm.tempTextEditingController,
     );
-    var pulse = DoctorFormField(
+    var pulse = VitalsField(
       enabledBorderColor: "#D2D2D2",
       topContentPadding: isTablet ? 30 : 25,
       hintSize: isTablet ? 17 : 12,
-      hintText: 'Pulse',
+      labelText: 'Pulse',
       minimizeBottomPadding: true,
       controller: templateVm.pulseTextEditingController,
     );
-    var heartRate = DoctorFormField(
+    var heartRate = VitalsField(
       enabledBorderColor: "#D2D2D2",
-      hintText: 'Heart Rate',
+      labelText: 'Heart Rate',
       minimizeBottomPadding: true,
       topContentPadding: isTablet ? 30 : 25,
       hintSize: isTablet ? 17 : 12,
       controller: templateVm.heartRateTextEditingController,
     );
-    var sp02 = DoctorFormField(
+    var sp02 = VitalsField(
       enabledBorderColor: "#D2D2D2",
-      hintText: 'SP02',
+      labelText: 'SP02',
       minimizeBottomPadding: true,
       topContentPadding: isTablet ? 30 : 25,
       hintSize: isTablet ? 17 : 12,
       controller: templateVm.spo2TextEditingController,
     );
     var resRate = VitalsTextField(
-      hintText: 'Res.Rate',
+      levelText: 'Res.Rate',
       unitName: 'Min.',
       topContentPadding: isTablet ? 30 : 25,
       hintSize: isTablet ? 17 : 12,
@@ -75,7 +76,7 @@ class _VitalsWidgetState extends State<VitalsWidget> {
       controller: templateVm.resRateTextEditingController,
     );
     var bpSys = VitalsTextField(
-      hintText: 'BP Sys',
+      levelText: 'BP Sys',
       unitName: 'mmHg',
       topContentPadding: isTablet ? 30 : 25,
       hintSize: isTablet ? 17 : 12,
@@ -85,7 +86,7 @@ class _VitalsWidgetState extends State<VitalsWidget> {
       controller: templateVm.bpSysTextEditingController,
     );
     var bpDia = VitalsTextField(
-      hintText: 'BP Dia',
+      levelText: 'BP Dia',
       unitName: 'mmHg',
       topContentPadding: isTablet ? 30 : 25,
       hintSize: isTablet ? 17 : 12,
@@ -95,7 +96,7 @@ class _VitalsWidgetState extends State<VitalsWidget> {
       controller: templateVm.bpDiaTextEditingController,
     );
     var minBp = VitalsTextField(
-      hintText: 'Min BP',
+      levelText: 'Min BP',
       unitName: 'mmHg',
       topContentPadding: isTablet ? 30 : 25,
       hintSize: isTablet ? 17 : 12,
@@ -105,7 +106,7 @@ class _VitalsWidgetState extends State<VitalsWidget> {
       controller: templateVm.minBpTextEditingController,
     );
     var weight = VitalsTextField(
-      hintText: 'Weight',
+      levelText: 'Weight',
       unitName: 'Kg',
       topContentPadding: isTablet ? 30 : 25,
       hintSize: isTablet ? 17 : 12,
@@ -115,7 +116,7 @@ class _VitalsWidgetState extends State<VitalsWidget> {
       controller: templateVm.weightTextEditingController,
     );
     var height = VitalsTextField(
-      hintText: 'Height',
+      levelText: 'Height',
       unitName: 'cm',
       topContentPadding: isTablet ? 30 : 25,
       hintSize: isTablet ? 17 : 12,

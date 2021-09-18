@@ -28,10 +28,13 @@ class BookTestScreen extends StatefulWidget {
 class _BookTestScreenState extends State<BookTestScreen> {
   final double itemHeight = (442 - kToolbarHeight - 24) / 3;
   final double itemWidth = 200 / 2;
-  TextEditingController bookTestController = TextEditingController();
+  // TextEditingController bookTestController = TextEditingController();
   ScrollController _scrollController;
   TextEditingController deptController = TextEditingController();
   ScrollController _scrollController2 = ScrollController();
+  String _selectedGender;
+  int companyNo;
+  var genderBorderColor = "#EAEBED";
 
   List<TestItem> deptList;
   var deptItems = <TestItem>[];
@@ -48,9 +51,7 @@ class _BookTestScreenState extends State<BookTestScreen> {
       await vm2.getData();
       var vm = Provider.of<TestItemViewModel>(context, listen: false);
        await  vm.getData(companyNo: 2);
-      bookTestController.text = vm2.companyList.items.first.companyName;
       _scrollController = ScrollController();
-
       _scrollController2.addListener(() {
         if (_scrollController2.position.pixels >= _scrollController2.position.maxScrollExtent - 100) {
           vm.getMoreData(companyNo: vm2.companyNo,buList: deptSelectedItem);
@@ -79,6 +80,68 @@ class _BookTestScreenState extends State<BookTestScreen> {
     bool isDesktop = Responsive.isDesktop(appNavigator.context);
     bool isTablet = Responsive.isTablet(appNavigator.context);
     bool isMobile = Responsive.isMobile(appNavigator.context);
+
+
+    print('company $_selectedGender');
+    var shift= Container(
+      height: isTablet ? 50 : 50.0,
+      width: width,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Colors.grey),
+          borderRadius: BorderRadius.circular(15)),
+      child:vm.companyList==null?Center(child: Text('No hospital available!'),): Padding(
+        padding: const EdgeInsets.only(left:10.0,right: 10),
+        child: Container(
+          width: width ,
+          child: DropdownButtonHideUnderline(
+            child: DropdownButtonFormField(
+              onTap: () {
+                FocusManager.instance.primaryFocus.unfocus();
+              },
+              key: Key('signUpGenderKey'),
+              icon: Icon(
+                Icons.keyboard_arrow_down_sharp,
+                color: _selectedGender != null
+                    ? Colors.black54
+                    : HexColor("#D2D2D2"),
+              ),
+              iconSize: 25,
+              decoration: InputDecoration(
+                  contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  enabledBorder: InputBorder.none),
+              isExpanded: true,
+              hint: Text(
+                vm.companyList.items.first.companyName,
+                style: GoogleFonts.roboto(
+                    fontSize: isTablet ? 17 : 15,
+                    color: Colors.black),
+              ),
+              value: companyNo,
+              onChanged: (newValue) async{
+                companyNo = newValue;
+                await vm.companyInfo(companyNo: companyNo);
+                testItemVm.getData(companyNo: vm.companyNo);
+                testItemVm.getMoreData(companyNo: vm.companyNo);
+                setState(()   {
+
+                });
+              },
+              items: vm.companyList.items.map((gender) {
+                return DropdownMenuItem(
+                  child:  Text(
+                    gender.companyName,
+                    style: GoogleFonts.roboto(fontSize: 14),
+                  ),
+                  value: gender.companyNo,
+                );
+              }).toList(),
+            ),
+          ),
+        ),
+      ),
+    );
+
 
     void departmentSearch(String query) {
       List<TestItem> initialDeptSearch = List<TestItem>();
@@ -248,57 +311,60 @@ class _BookTestScreenState extends State<BookTestScreen> {
                     flex: 1,
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: TypeAheadFormField<CompanyItem>(
-                        textFieldConfiguration: TextFieldConfiguration(
-                            textInputAction: TextInputAction.search,
-                            controller: bookTestController,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.only(bottom: 20,left: 20,right: 20,top: 10),
-                              // labelText: "Route",
-                              //labelStyle: TextStyle(color: Color(0xff3E58FF)),
-                              //hintText: "Route",
-                              //hintStyle: TextStyle(color: Colors.grey),
-                              // prefixIcon: Icon(
-                              //   Icons.search,
-                              //   color: Colors.grey,
-                              // ),
-                              suffix: Icon(
-                                Icons.keyboard_arrow_down_outlined,
-                                color: Colors.grey,
-                              ),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    const BorderSide(color: Color(0xff3E58FF)),
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                            )),
-                        itemBuilder: (_, v) {
-                          return Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: Text("${v.companyName}"),
-                          );
-                        },
-                        onSuggestionSelected: (v) async {
-                          bookTestController.text = v.companyName;
-                          await vm.companyInfo(companyNo: v.companyNo);
-                          testItemVm.getData(companyNo: vm.companyNo);
-                          testItemVm.getMoreData(companyNo: vm.companyNo);
-                          setState(() {});
-                        },
-                        suggestionsBoxDecoration: SuggestionsBoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        suggestionsCallback: (v) {
-                          return vm.companyList.items.where((element) => element
-                              .companyName
-                              .toString()
-                              .toLowerCase()
-                              .contains(v.toLowerCase()));
-                        },
-                      ),
+                      child:
+                      // TypeAheadFormField<CompanyItem>(
+                      //   textFieldConfiguration: TextFieldConfiguration(
+                      //       textInputAction: TextInputAction.search,
+                      //       controller: bookTestController,
+                      //       decoration: InputDecoration(
+                      //         contentPadding: EdgeInsets.only(bottom: 20,left: 20,right: 20,top: 10),
+                      //         // labelText: "Route",
+                      //         //labelStyle: TextStyle(color: Color(0xff3E58FF)),
+                      //         //hintText: "Route",
+                      //         //hintStyle: TextStyle(color: Colors.grey),
+                      //         // prefixIcon: Icon(
+                      //         //   Icons.search,
+                      //         //   color: Colors.grey,
+                      //         // ),
+                      //         suffix: Icon(
+                      //           Icons.keyboard_arrow_down_outlined,
+                      //           color: Colors.grey,
+                      //         ),
+                      //         border: OutlineInputBorder(
+                      //           borderRadius: BorderRadius.circular(20.0),
+                      //         ),
+                      //         focusedBorder: OutlineInputBorder(
+                      //           borderSide:
+                      //               const BorderSide(color: Color(0xff3E58FF)),
+                      //           borderRadius: BorderRadius.circular(15.0),
+                      //         ),
+                      //       )),
+                      //   itemBuilder: (_, v) {
+                      //     return Padding(
+                      //       padding: EdgeInsets.all(10.0),
+                      //       child: Text("${v.companyName}"),
+                      //     );
+                      //   },
+                      //   onSuggestionSelected: (v) async {
+                      //     bookTestController.text = v.companyName;
+                      //     await vm.companyInfo(companyNo: v.companyNo);
+                      //     testItemVm.getData(companyNo: vm.companyNo);
+                      //     testItemVm.getMoreData(companyNo: vm.companyNo);
+                      //     setState(() {});
+                      //   },
+                      //   suggestionsBoxDecoration: SuggestionsBoxDecoration(
+                      //     borderRadius: BorderRadius.circular(5),
+                      //   ),
+                      //   suggestionsCallback: (v) {
+                      //     return vm.companyList.items.where((element) => element
+                      //         .companyName
+                      //         .toString()
+                      //         .toLowerCase()
+                      //         .contains(v.toLowerCase()));
+                      //   },
+                      // ),
+
+                      shift,
                     ),
                   ),
                   Padding(

@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/common_prescription_search_items_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/get_template_data_model.dart';
@@ -10,7 +9,9 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/disposal_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/investigations_findings_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/medication_widget.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/vitals_list_setup_view_model.dart';
 import 'package:myhealthbd_app/doctor/main_app/prescription_favourite_type.dart';
+import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +20,7 @@ class GetTamplateDataViewModel extends ChangeNotifier {
       context.read<GetTamplateDataViewModel>();
   static GetTamplateDataViewModel watch(BuildContext context) =>
       context.watch<GetTamplateDataViewModel>();
+
   Obj _prescriptionTamplateList;
   AppError _appError;
   bool _isFetchingData = false;
@@ -52,6 +54,7 @@ class GetTamplateDataViewModel extends ChangeNotifier {
   List<String> doctorSelectedItems = [];
   List<String> orthosisSelectedItems = [];
   List<Findings> investigationFindingItems = [];
+  // List<VitalsController> vitalControllerList = [];
   TextEditingController noteTextEditingController = TextEditingController();
   //vitals
   TextEditingController tempTextEditingController = TextEditingController();
@@ -65,27 +68,27 @@ class GetTamplateDataViewModel extends ChangeNotifier {
   TextEditingController minBpTextEditingController = TextEditingController();
   TextEditingController weightTextEditingController = TextEditingController();
   TextEditingController heightTextEditingController = TextEditingController();
-  bool get isActive =>
-      (pulseTextEditingController.text == null ||
-          pulseTextEditingController.text == "") &&
-      (heartRateTextEditingController.text == null ||
-          heartRateTextEditingController.text == "") &&
-      (tempTextEditingController.text == null ||
-          tempTextEditingController.text == "") &&
-      (spo2TextEditingController.text == null ||
-          spo2TextEditingController.text == "") &&
-      (resRateTextEditingController.text == null ||
-          resRateTextEditingController.text == "") &&
-      (bpSysTextEditingController.text == null ||
-          bpSysTextEditingController.text == "") &&
-      (bpDiaTextEditingController.text == null ||
-          bpDiaTextEditingController.text == "") &&
-      (minBpTextEditingController.text == null ||
-          minBpTextEditingController.text == "") &&
-      (weightTextEditingController.text == null ||
-          weightTextEditingController.text == "") &&
-      (heightTextEditingController.text == null ||
-          heightTextEditingController.text == "");
+
+  // (pulseTextEditingController.text == null ||
+  //     pulseTextEditingController.text == "") &&
+  // (heartRateTextEditingController.text == null ||
+  //     heartRateTextEditingController.text == "") &&
+  // (tempTextEditingController.text == null ||
+  //     tempTextEditingController.text == "") &&
+  // (spo2TextEditingController.text == null ||
+  //     spo2TextEditingController.text == "") &&
+  // (resRateTextEditingController.text == null ||
+  //     resRateTextEditingController.text == "") &&
+  // (bpSysTextEditingController.text == null ||
+  //     bpSysTextEditingController.text == "") &&
+  // (bpDiaTextEditingController.text == null ||
+  //     bpDiaTextEditingController.text == "") &&
+  // (minBpTextEditingController.text == null ||
+  //     minBpTextEditingController.text == "") &&
+  // (weightTextEditingController.text == null ||
+  //     weightTextEditingController.text == "") &&
+  // (heightTextEditingController.text == null ||
+  //     heightTextEditingController.text == "");
   bool vitalsShowReport = true;
   bool chiefComplentShowReport = true;
   bool clinicalHistoryShowReport = true;
@@ -295,90 +298,98 @@ class GetTamplateDataViewModel extends ChangeNotifier {
       var isPatientOut,
       var ipdFlag,
       var companyNumber}) {
-    vitals = [];
-    if (tempTextEditingController.text != null ||
-        tempTextEditingController.text != '') {
-      vitals.add(SaveVitalList(
-        findings: tempTextEditingController.text,
-        preDiagnosisValType: 53,
-        preDiagnosisVal: "Body Temp",
-      ));
-    }
-    if (pulseTextEditingController.text != null ||
-        pulseTextEditingController.text != '') {
-      vitals.add(SaveVitalList(
-        findings: pulseTextEditingController.text,
-        preDiagnosisValType: 53,
-        preDiagnosisVal: "Pulse",
-      ));
-    }
-    if (heartRateTextEditingController.text != null ||
-        heartRateTextEditingController.text != '') {
-      vitals.add(SaveVitalList(
-        findings: heartRateTextEditingController.text,
-        preDiagnosisValType: 53,
-        preDiagnosisVal: "Heart Rate",
-      ));
-    }
-    if (spo2TextEditingController.text != null ||
-        spo2TextEditingController.text != '') {
-      vitals.add(SaveVitalList(
-        findings: spo2TextEditingController.text,
-        preDiagnosisValType: 53,
-        preDiagnosisVal: "SPO2",
-      ));
-    }
-    if (resRateTextEditingController.text != null ||
-        resRateTextEditingController.text != '') {
-      vitals.add(SaveVitalList(
-        findings: resRateTextEditingController.text,
-        preDiagnosisValType: 53,
-        preDiagnosisVal: "Res.Rate",
-      ));
-    }
-    if (bpDiaTextEditingController.text != null ||
-        bpDiaTextEditingController.text != '') {
-      vitals.add(SaveVitalList(
-        findings: bpDiaTextEditingController.text,
-        preDiagnosisValType: 53,
-        preDiagnosisVal: "BP_Dia",
-      ));
-    }
-    if (bpSysTextEditingController.text != null ||
-        bpSysTextEditingController.text != '') {
-      vitals.add(SaveVitalList(
-        findings: bpSysTextEditingController.text,
-        preDiagnosisValType: 53,
-        preDiagnosisVal: "BP_SYS",
-      ));
-    }
-
-    if (minBpTextEditingController.text != null ||
-        minBpTextEditingController.text != '') {
-      vitals.add(SaveVitalList(
-        findings: minBpTextEditingController.text,
-        preDiagnosisValType: 53,
-        preDiagnosisVal: "Min_BP",
-      ));
-    }
-
-    if (weightTextEditingController.text != null ||
-        weightTextEditingController.text != '') {
-      vitals.add(SaveVitalList(
-        findings: weightTextEditingController.text,
-        preDiagnosisValType: 53,
-        preDiagnosisVal: "Weight",
-      ));
-    }
-
-    if (heightTextEditingController.text != null ||
-        heightTextEditingController.text != '') {
-      vitals.add(SaveVitalList(
-        findings: heightTextEditingController.text,
-        preDiagnosisValType: 53,
-        preDiagnosisVal: "Height",
-      ));
-    }
+    var vVm = appNavigator.context.read<VitalsListSetupViewModel>();
+    var vitals2 = vVm.vitalsSetupList
+        .map((e) => (SaveVitalList(
+              findings: e.vitalsController.text,
+              preDiagnosisValType: 53,
+              preDiagnosisVal: e.preDiagnosisVal,
+            )))
+        .toList();
+    print("vitals2.length ${vitals2.length}");
+    // if (tempTextEditingController.text != null ||
+    //     tempTextEditingController.text != '') {
+    //   vitals.add(SaveVitalList(
+    //     findings: tempTextEditingController.text,
+    //     preDiagnosisValType: 53,
+    //     preDiagnosisVal: "Body Temp",
+    //   ));
+    // }
+    // if (pulseTextEditingController.text != null ||
+    //     pulseTextEditingController.text != '') {
+    //   vitals.add(SaveVitalList(
+    //     findings: pulseTextEditingController.text,
+    //     preDiagnosisValType: 53,
+    //     preDiagnosisVal: "Pulse",
+    //   ));
+    // }
+    // if (heartRateTextEditingController.text != null ||
+    //     heartRateTextEditingController.text != '') {
+    //   vitals.add(SaveVitalList(
+    //     findings: heartRateTextEditingController.text,
+    //     preDiagnosisValType: 53,
+    //     preDiagnosisVal: "Heart Rate",
+    //   ));
+    // }
+    // if (spo2TextEditingController.text != null ||
+    //     spo2TextEditingController.text != '') {
+    //   vitals.add(SaveVitalList(
+    //     findings: spo2TextEditingController.text,
+    //     preDiagnosisValType: 53,
+    //     preDiagnosisVal: "SPO2",
+    //   ));
+    // }
+    // if (resRateTextEditingController.text != null ||
+    //     resRateTextEditingController.text != '') {
+    //   vitals.add(SaveVitalList(
+    //     findings: resRateTextEditingController.text,
+    //     preDiagnosisValType: 53,
+    //     preDiagnosisVal: "Res.Rate",
+    //   ));
+    // }
+    // if (bpDiaTextEditingController.text != null ||
+    //     bpDiaTextEditingController.text != '') {
+    //   vitals.add(SaveVitalList(
+    //     findings: bpDiaTextEditingController.text,
+    //     preDiagnosisValType: 53,
+    //     preDiagnosisVal: "BP_Dia",
+    //   ));
+    // }
+    // if (bpSysTextEditingController.text != null ||
+    //     bpSysTextEditingController.text != '') {
+    //   vitals.add(SaveVitalList(
+    //     findings: bpSysTextEditingController.text,
+    //     preDiagnosisValType: 53,
+    //     preDiagnosisVal: "BP_SYS",
+    //   ));
+    // }
+    //
+    // if (minBpTextEditingController.text != null ||
+    //     minBpTextEditingController.text != '') {
+    //   vitals.add(SaveVitalList(
+    //     findings: minBpTextEditingController.text,
+    //     preDiagnosisValType: 53,
+    //     preDiagnosisVal: "Min_BP",
+    //   ));
+    // }
+    //
+    // if (weightTextEditingController.text != null ||
+    //     weightTextEditingController.text != '') {
+    //   vitals.add(SaveVitalList(
+    //     findings: weightTextEditingController.text,
+    //     preDiagnosisValType: 53,
+    //     preDiagnosisVal: "Weight",
+    //   ));
+    // }
+    //
+    // if (heightTextEditingController.text != null ||
+    //     heightTextEditingController.text != '') {
+    //   vitals.add(SaveVitalList(
+    //     findings: heightTextEditingController.text,
+    //     preDiagnosisValType: 53,
+    //     preDiagnosisVal: "Height",
+    //   ));
+    // }
 
     print("vitals l ${vitals.length}");
     disposeSelectedItems = [];
@@ -409,12 +420,7 @@ class GetTamplateDataViewModel extends ChangeNotifier {
           isPatientOut: isPatientOut,
           ipdFlag: 0,
           companyNo: companyNumber),
-      vitalList: vitals
-          .map((e) => SaveVitalList(
-              preDiagnosisVal: e.preDiagnosisVal,
-              preDiagnosisValType: e.preDiagnosisValType,
-              findings: e.findings))
-          .toList(),
+      vitalList: vitals2,
       chiefComplainList: chiefComplaintSelectedItems
           .map(
             (e) => SaveChiefComplainList(

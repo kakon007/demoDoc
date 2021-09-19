@@ -32,6 +32,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/p
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/prescription_template_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/procedure_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/provisional_diagnosis_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/vitals_list_setup_view_model.dart';
 import 'package:myhealthbd_app/features/constant.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
@@ -156,6 +157,7 @@ class _ModuleState extends State<Module> {
     var deviceWidth = MediaQuery.of(context).size.width;
     var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     var vm = Provider.of<PrescriptionTamplateViewModel>(context, listen: true);
+    var vVm = context.watch<VitalsListSetupViewModel>();
     return WillPopScope(
       onWillPop: onWillPop,
       child: Scaffold(
@@ -359,7 +361,11 @@ class _ModuleState extends State<Module> {
                             }),
                           );
                         },
-                      ).then((value) async => await Provider.of<PrescriptionTamplateViewModel>(context, listen: false).getData());
+                      ).then((value) async =>
+                          await Provider.of<PrescriptionTamplateViewModel>(
+                                  context,
+                                  listen: false)
+                              .getData());
                     },
                     child: Container(
                       height: 40,
@@ -381,9 +387,8 @@ class _ModuleState extends State<Module> {
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: InkWell(
-                    onTap: templateVm.isActive
-                        ? null
-                        : () {
+                    onTap: vVm.isActive
+                        ? () {
                             var vm = GetTamplateDataViewModel.read(context);
                             vm.savePrescriptionData(
                               patTypeNumber: widget.patTypeNumber,
@@ -408,15 +413,16 @@ class _ModuleState extends State<Module> {
                               regNo: widget.regNo,
                               doctorNo: widget.doctorNo,
                             );
-                          },
+                          }
+                        : null,
                     child: Container(
                       height: 40,
                       width: MediaQuery.of(context).size.width * .4,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color: templateVm.isActive
-                            ? Color(0xffAFBBFF)
-                            : AppTheme.buttonActiveColor,
+                        color: vVm.isActive
+                            ? AppTheme.buttonActiveColor
+                            : Color(0xffAFBBFF),
                       ),
                       child: Center(
                           child: Text(

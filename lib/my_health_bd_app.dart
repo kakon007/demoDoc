@@ -11,6 +11,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/g
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/past_illness_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/prescription_template_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/provisional_diagnosis_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/vitals_list_setup_view_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/previous_vew_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/upcoming_view_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/zoom_view_model.dart';
@@ -191,7 +192,8 @@ class MyHealthBdApp extends StatelessWidget {
           create: (context) => ShiftListDocViewModel()),
       ChangeNotifierProvider<OrderConfirmViewModel>(
           create: (context) => OrderConfirmViewModel()),
-
+      ChangeNotifierProvider<VitalsListSetupViewModel>(
+          create: (context) => VitalsListSetupViewModel()),
     ];
     return AuthViewWrapper(
       child: MultiProvider(

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/prescription_template_save_data_model.dart';
@@ -14,7 +16,7 @@ class OrderConfirmationRepository {
   Future fetchBookConfirmationType(
       OrderConfirmationModel orderConfirmationModel) async {
     // try {
-    //print("Save template json ${jsonEncode(prescriptionTemplateSaveModel)}");
+    print("Save template json ${jsonEncode(orderConfirmationModel)}");
     BotToast.showLoading();
     var response = await ApiClient().postRequest(
         'online-appointment-api/fapi/diagnostic-item-booking/create-booking',

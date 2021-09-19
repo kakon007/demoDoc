@@ -212,7 +212,7 @@ class _WorkListFilterState extends State<WorkListFilter> {
                              filterItems.remove('Follow Up');
                              filterItems.remove('Report Check');
                            }
-                           if(filterValue.toString().toLowerCase()!='fresh visit'){
+                           if(filterValue.toString().toLowerCase()!='new patient'){
                              filterItems.add('Fresh Visit');
                            }
                            print('filter $filterValue');
@@ -306,7 +306,7 @@ class _WorkListFilterState extends State<WorkListFilter> {
                               filterItems.remove('Fresh Visit');
                               filterItems.remove('Report Check');
                             }
-                            if(filterValue.toString().toLowerCase()!='follow up'){
+                            if(filterValue.toString().toLowerCase()!='1st follow up'){
                               filterItems.add('Follow Up');
                             }
 

@@ -520,6 +520,7 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                             .accessToken !=
                         null) {
                       if (cartVM.forMe) {
+                        print('shakil true1');
                         cartVM.memberList = false;
                         cartVM.selectedMemberType = null;
                         var familyVm = Provider.of<FamilyMembersListViewModel>(
@@ -552,14 +553,16 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                             vm3.userDetailsList.ageMm.toString() ?? "";
                         cartVM.yearController.text =
                             vm3.userDetailsList.ageYy.toString() ?? "";
-                        // // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
-                        // // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
                         cartVM.selectedDob =
                             DateTime.parse(vm3.userDetailsList.dob) ??
                                 DateTime.now();
+                        cartVM.regNo = vm3.userDetailsList.id.toString();
+                        cartVM.spouseController.text = vm3.userDetailsList.spouseName;
+
                         print(
                             'qqqqq ${DateTime.parse(vm3.userDetailsList.dob)}');
                       } else {
+                        print('shakil true2');
                         cartVM.memberList = false;
                         var familyVm = Provider.of<FamilyMembersListViewModel>(
                             context,
@@ -567,26 +570,60 @@ class _BookingSummeryScreenState extends State<BookingSummeryScreen> {
                         familyVm.memberDetail(
                             -1, false, "", "", "", "", "", "", "", "", "");
                         cartVM.selectedMemberType = null;
-                        cartVM.fathersName.text = "";
-                        cartVM.mothersName.text = "";
-                        cartVM.lastNameController.text = "";
-                        cartVM.firstNameController.text = "";
-                        cartVM.mobileNumberController.text = "";
-                        cartVM.emailController.text = "";
-                        cartVM.nidController.text = "";
-                        cartVM.passportController.text = "";
-                        cartVM.addressController.text = "";
-                        cartVM.dayController.text = "";
-                        cartVM.monthController.text = "";
-                        cartVM.yearController.text = "";
-                        // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
-                        // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
-                        cartVM.selectedDob = DateTime.now();
-                        //familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
-                        print('ppppp ${cartVM.fathersName.text}');
+                        cartVM.fathersName.text =
+                            vm3.userDetailsList.fatherName ?? "";
+                        cartVM.mothersName.text =
+                            vm3.userDetailsList.motherName ?? "";
+                        cartVM.lastNameController.text =
+                            vm3.userDetailsList.lname ?? "";
+                        cartVM.firstNameController.text =
+                            vm3.userDetailsList.fname ?? "";
+                        print('ssss ${vm3.userDetailsList.fname}');
+                        cartVM.mobileNumberController.text =
+                            vm3.userDetailsList.phoneMobile ?? "";
+                        cartVM.emailController.text =
+                            vm3.userDetailsList.email ?? "";
+                        cartVM.nidController.text =
+                            vm3.userDetailsList.nationalId ?? "";
+                        cartVM.passportController.text =
+                            vm3.userDetailsList.passportNo ?? "";
+                        cartVM.addressController.text =
+                            vm3.userDetailsList.address ?? "";
+                        cartVM.dayController.text =
+                            vm3.userDetailsList.ageDd.toString() ?? "";
+                        cartVM.monthController.text =
+                            vm3.userDetailsList.ageMm.toString() ?? "";
+                        cartVM.yearController.text =
+                            vm3.userDetailsList.ageYy.toString() ?? "";
+                        cartVM.selectedDob =
+                            DateTime.parse(vm3.userDetailsList.dob) ??
+                                DateTime.now();
+                        cartVM.regNo = vm3.userDetailsList.id.toString();
+                        cartVM.spouseController.text = vm3.userDetailsList.spouseName;
                       }
+                    }else{
+                      print('shakil true3');
+                      cartVM.fathersName.text = "";
+                      cartVM.mothersName.text = "";
+                      cartVM.lastNameController.text = "";
+                      cartVM.firstNameController.text = "";
+                      cartVM.mobileNumberController.text = "";
+                      cartVM.emailController.text = "";
+                      cartVM.nidController.text = "";
+                      cartVM.passportController.text = "";
+                      cartVM.addressController.text = "";
+                      cartVM.dayController.text = "";
+                      cartVM.monthController.text = "";
+                      cartVM.yearController.text = "";
+                      // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
+                      // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
+                      cartVM.selectedDob = DateTime.now();
+                      cartVM.regNo = '';
+                      cartVM.spouseController.text = '';
+                      cartVM.selectedDob = DateTime.now();
+                      cartVM.username.text = '';
+                      cartVM.password.text = '';
                     }
-
                     // familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
                     Navigator.push(
                         context,

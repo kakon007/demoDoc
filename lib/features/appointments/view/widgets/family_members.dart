@@ -172,15 +172,14 @@ class _FamilyMembersState extends State<FamilyMembers> {
                                 cartVM.nidController.text = vm3.patDetails.nationalId?? "";
                                 cartVM.passportController.text = vm3.patDetails.passportNo?? "";
                                 cartVM.addressController.text = vm3.patDetails.address?? "";
-                                cartVM.dayController.text = vm3.userDetailsList.ageDd.toString()?? "";
-                                cartVM.monthController.text = vm3.userDetailsList.ageMm.toString()?? "";
-                                cartVM.yearController.text = vm3.userDetailsList.ageYy.toString() ?? "";
-                                // cartVM.choseBlood = vm3.patDetails.bloodGroup?? "";
-                                // cartVM.choseMaritalStatus =  vm3.patDetails.maritalStatus ?? "" ;
-                                cartVM.selectedDob = DateTime.parse(vm3.patDetails.dob) ?? DateTime.now();
-                                print('qqqqq ${DateTime.parse(vm3.patDetails.dob) }');
+                                cartVM.dayController.text = vm3.patDetails.ageDd.toString()?? "";
+                                cartVM.monthController.text = vm3.patDetails.ageMm.toString()?? "";
+                                cartVM.yearController.text = vm3.patDetails.ageYy.toString() ?? "";
+                                cartVM.selectedDob = DateTime.parse(familyVm
+                                    .familyMembersList[index]?.fmDob) ?? DateTime.now();
+                                cartVM.regNo = vm3.patDetails.id.toString();
+                                cartVM.spouseController.text = vm3.patDetails.spouseName;
                                 familyVm.memberDetail(selectedCard, isSelected, familyMemName, familyMemEmail, familyMemMobile, familyMemAddress, familyMemGender, familyMemDob, familyMemRegNo, image, relation);
-                                print('ppppp ${ cartVM.fathersName.text}');
                                 Navigator.pop(context);
                               });
                             }

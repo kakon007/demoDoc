@@ -98,6 +98,8 @@ class UserDetailsViewModel extends ChangeNotifier {
             appNavigator.context,
             listen: false)
         .getToken();
+    var cartVM =
+    Provider.of<OrderConfirmViewModel>(appNavigator.context, listen: false);
     var res =
         await UserDetailsRepository().fetchPatInfo(accessToken, hospitalNumber);
     notifyListeners();
@@ -174,7 +176,10 @@ class UserDetailsViewModel extends ChangeNotifier {
       cartVM.dayController.text = r.dataList.ageDd.toString() ?? "";
       cartVM.monthController.text = r.dataList.ageMm.toString() ?? "";
       cartVM.yearController.text = r.dataList.ageYy.toString() ?? "";
-      cartVM.selectedDob = DateTime.parse(r.dataList.dob) ?? "";
+      cartVM.selectedDob = DateTime.parse(r.dataList.dob) ?? DateTime.now();
+      cartVM.regNo = r.dataList.id.toString();
+      cartVM.spouseController.text = r.dataList.spouseName;
+      // cartVM.salutation = r.dataList.salutation;
       notifyListeners();
     });
   }

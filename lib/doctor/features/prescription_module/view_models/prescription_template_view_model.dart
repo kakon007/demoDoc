@@ -1,11 +1,10 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/repositories/prescription_template_repository.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/models/prescription_template_model.dart';
 
-class PrescriptionTamplateViewModel extends ChangeNotifier{
-  List<Item> _prescriptionTamplateList =[];
+class PrescriptionTamplateViewModel extends ChangeNotifier {
+  List<Item> _prescriptionTamplateList = [];
   AppError _appError;
   DateTime _lastFetchTime;
   bool _isFetchingMoreData = false;
@@ -16,10 +15,9 @@ class PrescriptionTamplateViewModel extends ChangeNotifier{
   bool _isInSearchMode = false;
   var count = 0;
   get logger => null;
-  int limit=10;
-  int startIndex=0;
+  int limit = 10;
+  int startIndex = 0;
   var _id;
-
 
   void resetPageCounter() {
     _pageCount = 1;
@@ -41,13 +39,14 @@ class PrescriptionTamplateViewModel extends ChangeNotifier{
 
   Future<bool> getData() async {
     print('Enterer');
-    startIndex=0;
+    startIndex = 0;
     _pageCount++;
     _isFetchingData = true;
     _lastFetchTime = DateTime.now();
     // var accessToken=await Provider.of<AccessTokenProvider>(appNavigator.context, listen: false).getToken();
     // var vm = Provider.of<UserDetailsViewModel>(appNavigator.context,listen: false);
-    var res = await PrescriptionTemplateRepository().fetchPrescriptionTemplateList();
+    var res =
+        await PrescriptionTemplateRepository().fetchPrescriptionTemplateList();
     notifyListeners();
     _prescriptionTamplateList.clear();
     res.fold((l) {
@@ -67,10 +66,11 @@ class PrescriptionTamplateViewModel extends ChangeNotifier{
     });
   }
 
-  getIdForTemplate({var id}){
-    _id=id;
+  getIdForTemplate({var id}) {
+    _id = id;
     print('id new $_id');
   }
+
   AppError get appError => _appError;
   bool get isFetchingData => _isFetchingData;
   bool get isInSearchMode => _isInSearchMode;
@@ -86,12 +86,12 @@ class PrescriptionTamplateViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  bool get shouldShowNoPrescriptionFound => _prescriptionTamplateList.length == 0 && !isFetchingData;
+  bool get shouldShowNoPrescriptionFound =>
+      _prescriptionTamplateList.length == 0 && !isFetchingData;
 
   bool get shouldShowPageLoader =>
       _isFetchingData && _prescriptionTamplateList.length == 0;
 
-
   List<Item> get prescriptionTamplateList => _prescriptionTamplateList;
-  int get id=>_id;
+  int get id => _id;
 }

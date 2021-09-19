@@ -1131,6 +1131,7 @@ class _OrderConfirmationAfterSignInState
     var spaceBetween = SizedBox(
       height: 10,
     );
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: HexColor('#354291'),

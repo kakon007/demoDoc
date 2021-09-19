@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myhealthbd_app/admin/add_patient/view/patient_portal_user_list.dart';
+import 'package:myhealthbd_app/admin/company/view/company_setup_screen.dart';
 import 'package:myhealthbd_app/admin/appointment_report/view/appointment_report.dart';
 import 'package:myhealthbd_app/admin/collection_report/view/collection_report_screen.dart';
 import 'package:myhealthbd_app/admin/dashboard/widgets/admin_drawer.dart';
 import 'package:myhealthbd_app/admin/dashboard/widgets/manage_admin_profile_prompt.dart';
+import 'package:myhealthbd_app/admin/doctor_setup/view/doctor_setup_screen.dart';
 import 'package:myhealthbd_app/admin/organization_setup/view/organization_setup_screen.dart';
 import 'package:myhealthbd_app/admin/user_setup/view/user_setup.dart';
 import 'package:myhealthbd_app/doctor/main_app/resource/doctor_const.dart';
@@ -235,7 +237,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
             style: GoogleFonts.poppins(fontSize: width<=330? 11 : 14),
           )
         ],
-      ),
+      )
     );
     var spaceBetween = SizedBox(
       height: 15,
@@ -245,35 +247,33 @@ class _AdminDashboardState extends State<AdminDashboard> {
             color: photo != '' ? Colors.white : AppTheme.appbarPrimary,
             shape: BoxShape.circle,
             border: Border.all(
-                color: photo != ''
-                    ? AppTheme.buttonActiveColor
-                    : Colors.white,
+                color: photo != '' ? AppTheme.buttonActiveColor : Colors.white,
                 width: 1)),
         height: isTablet
             ? 32
             : width <= 330
-            ? 25
-            : 30,
+                ? 25
+                : 30,
         width: isTablet
             ? 32
             : width <= 330
-            ? 25
-            : 30,
+                ? 25
+                : 30,
         child: Center(
           child: photo != ''
               ? companyInfoVm.loadDoctorProfileImage(
-              photo,
-              isTablet
-                  ? 25
-                  : width <= 330
-                  ? 20
-                  : 22,
-              isTablet
-                  ? 25
-                  : width <= 330
-                  ? 20
-                  : 22,
-              50)
+                  photo,
+                  isTablet
+                      ? 25
+                      : width <= 330
+                          ? 20
+                          : 22,
+                  isTablet
+                      ? 25
+                      : width <= 330
+                          ? 20
+                          : 22,
+                  50)
               : Image.asset(
             'assets/images/dPro.png',
             height: isTablet
@@ -296,11 +296,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
         ),
         actions: [
           GestureDetector(
-            onTap: () {
-              showAlert(context);
-            },
-            child: imageDashboard
-          ),
+              onTap: () {
+                showAlert(context);
+              },
+              child: imageDashboard),
           IconButton(
             icon: Icon(
               Icons.notifications,

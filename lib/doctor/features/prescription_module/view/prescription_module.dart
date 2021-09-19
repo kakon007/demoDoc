@@ -2,6 +2,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/models/prascription_component_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/advice_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/chief_complaint_widget.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/clinical_history_widget.dart';
@@ -29,6 +30,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/i
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/medication_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/orthosis_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/past_illness_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/prascription_component_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/prescription_template_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/procedure_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/provisional_diagnosis_view_model.dart';
@@ -88,6 +90,7 @@ class Module extends StatefulWidget {
 }
 
 class _ModuleState extends State<Module> {
+  List<String> componentList = [];
   TextEditingController templateNameController = TextEditingController();
   @override
   void initState() {
@@ -148,6 +151,8 @@ class _ModuleState extends State<Module> {
     await ProcedureViewModel.read(context).getData();
     await Provider.of<PrescriptionTamplateViewModel>(context, listen: false)
         .getData();
+    await Provider.of<PrescriptionComponentViewModel>(context, listen: false)
+        .getData();
   }
 
   @override
@@ -157,6 +162,8 @@ class _ModuleState extends State<Module> {
     var deviceWidth = MediaQuery.of(context).size.width;
     var templateVm = Provider.of<GetTamplateDataViewModel>(context);
     var vm = Provider.of<PrescriptionTamplateViewModel>(context, listen: true);
+    var avm =
+        Provider.of<PrescriptionComponentViewModel>(context, listen: true);
     var vVm = context.watch<VitalsListSetupViewModel>();
     return WillPopScope(
       onWillPop: onWillPop,
@@ -182,22 +189,76 @@ class _ModuleState extends State<Module> {
               regNo: widget.regNo,
               doctorNo: widget.doctorNo,
             ),
-            VitalsWidget(),
-            ChiefComplaintWidget(),
-            ClinicalHistoryWidget(),
-            PastIllnessWidget(),
-            ProvisionalDiagnosisWidget(),
-            DiseaseWidget(),
-            InvestigationWidget(),
-            InvestigationFindingsWidget(),
-            OrthosisWidget(),
-            AdviceWidget(),
-            ProcedureWidget(),
-            ReferredDoctorWidget(),
-            ReferredOPDWidget(),
-            MedicationWidget(),
-            DisposalWidget(),
-            NoteWidget(),
+            avm.componentList.items.any((element) => element.title == "Vital")
+                ? VitalsWidget()
+                : SizedBox(),
+            avm.componentList.items
+                    .any((element) => element.title == "Chief Complain")
+                ? ChiefComplaintWidget()
+                : SizedBox(),
+            avm.componentList.items
+                    .any((element) => element.title == "Clinical History")
+                ? ClinicalHistoryWidget()
+                : SizedBox(),
+            avm.componentList.items
+                    .any((element) => element.title == "Past Illness")
+                ? PastIllnessWidget()
+                : SizedBox(),
+            avm.componentList.items
+                    .any((element) => element.title == "Provisonal Diagnosis")
+                ? ProvisionalDiagnosisWidget()
+                : SizedBox(),
+            avm.componentList.items.any((element) => element.title == "Disease")
+                ? DiseaseWidget()
+                : SizedBox(),
+            avm.componentList.items
+                    .any((element) => element.title == "Investigation")
+                ? InvestigationWidget()
+                : SizedBox(),
+            // InvestigationWidget(),
+            avm.componentList.items
+                    .any((element) => element.title == "Investigation Findings")
+                ? InvestigationFindingsWidget()
+                : SizedBox(),
+            // InvestigationFindingsWidget(),
+            avm.componentList.items
+                    .any((element) => element.title == "Orthosis")
+                ? OrthosisWidget()
+                : SizedBox(),
+            // OrthosisWidget(),
+            avm.componentList.items.any((element) => element.title == "Advice")
+                ? AdviceWidget()
+                : SizedBox(),
+            // AdviceWidget(),
+            avm.componentList.items
+                    .any((element) => element.title == "Procedure")
+                ? ProcedureWidget()
+                : SizedBox(),
+            // ProcedureWidget(),
+            avm.componentList.items
+                    .any((element) => element.title == "Referred Doctor")
+                ? ReferredDoctorWidget()
+                : SizedBox(),
+            // ReferredDoctorWidget(),
+            avm.componentList.items
+                    .any((element) => element.title == "Referred OPD")
+                ? ReferredOPDWidget()
+                : SizedBox(),
+            // ReferredOPDWidget(),
+            avm.componentList.items
+                    .any((element) => element.title == "Medication")
+                ? MedicationWidget()
+                : SizedBox(),
+            // MedicationWidget(),
+            avm.componentList.items
+                    .any((element) => element.title == "Disposal")
+                ? DisposalWidget()
+                : SizedBox(),
+            avm.componentList.items.any((element) => element.title == "Note")
+                ? NoteWidget()
+                : SizedBox(),
+            // DisposalWidget(),
+            // NoteWidget(),
           ],
         ),
         bottomNavigationBar: BottomAppBar(

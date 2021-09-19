@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/doctor/features/emr_screen/view/emr_screen.dart';
 import 'package:myhealthbd_app/doctor/features/patient_details/view_models/consultation_history_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view/prescription_module.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/prascription_component_view_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/zoom_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/accessToken_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/app_navigator.dart';
@@ -192,6 +193,8 @@ class _PatientDetailsState extends State<PatientDetails> {
   @override
   Widget build(BuildContext context) {
     var vm = Provider.of<ConsultationHistoryListDocViewModel>(context);
+    var CVM =
+        Provider.of<PrescriptionComponentViewModel>(context, listen: true);
     bool isTablet = Responsive.isTablet(context);
     var width = MediaQuery.of(context).size.width * 0.44;
     var deviceWidth = MediaQuery.of(context).size.width;
@@ -1189,7 +1192,8 @@ class _PatientDetailsState extends State<PatientDetails> {
             // padding: EdgeInsets.only(top: 650.0),
             alignment: Alignment.bottomCenter,
             child: InkWell(
-              onTap: () {
+              onTap: () async {
+                await CVM.getData();
                 Navigator.push(
                     context,
                     MaterialPageRoute(

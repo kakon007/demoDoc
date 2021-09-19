@@ -64,6 +64,7 @@ import 'admin/appointment_report/view_models/initial_list_view_model.dart';
 import 'doctor/features/patient_details/view_models/consultation_history_view_model.dart';
 import 'doctor/features/prescription_module/view_models/advice_view_model.dart';
 import 'doctor/features/prescription_module/view_models/orthosis_view_model.dart';
+import 'doctor/features/prescription_module/view_models/prascription_component_view_model.dart';
 import 'doctor/features/prescription_module/view_models/procedure_view_model.dart';
 import 'doctor/features/prescription_module/view_models/disease_view_model.dart';
 import 'doctor/features/prescription_module/view_models/investigation_findings_view_model.dart';
@@ -212,6 +213,10 @@ class MyHealthBdApp extends StatelessWidget {
       ChangeNotifierProvider<VitalsListSetupViewModel>(
           create: (context) => VitalsListSetupViewModel()),
 
+      ChangeNotifierProvider<UserImageViewModel>(
+          create: (context) => UserImageViewModel()),
+      ChangeNotifierProvider<PrescriptionComponentViewModel>(
+          create: (context) => PrescriptionComponentViewModel()),
     ];
     return AuthViewWrapper(
       child: MultiProvider(

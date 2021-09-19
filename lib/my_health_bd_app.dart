@@ -56,6 +56,8 @@ import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart
 import 'package:myhealthbd_app/root.dart';
 import 'package:provider/provider.dart';
 
+import 'admin/appointment_report/view_models/appointment_company_list_view_model.dart';
+import 'admin/appointment_report/view_models/initial_list_view_model.dart';
 import 'doctor/features/dashboard/view_model/consultation_view_model.dart';
 import 'doctor/features/patient_details/view_models/consultation_history_view_model.dart';
 import 'doctor/features/prescription_module/view_models/advice_view_model.dart';
@@ -201,6 +203,11 @@ class MyHealthBdApp extends StatelessWidget {
           create: (context) => TestItemViewModel()),
       ChangeNotifierProvider<CompanyListViewModel>(
           create: (context) => CompanyListViewModel()),
+      ChangeNotifierProvider<InitialCompanyListViewModel>(
+          create: (context) => InitialCompanyListViewModel()),
+      ChangeNotifierProvider<AppointmentCompanyListViewModel>(
+          create: (context) => AppointmentCompanyListViewModel()),
+
     ];
     return AuthViewWrapper(
       child: MultiProvider(

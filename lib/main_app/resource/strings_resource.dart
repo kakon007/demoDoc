@@ -79,6 +79,7 @@ class StringResources {
   static String terms = "Terms of Service";
   static String policy = "Privacy Policy";
   static List<String> genderList = ["Male", "Female", "Other"];
+  static List<String> shiftList = ["All", "Morning", "Evening"];
   static List<String> bloodGroupList = [
     'A+',
     'A-',

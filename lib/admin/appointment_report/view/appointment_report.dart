@@ -8,6 +8,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
 import 'package:myhealthbd_app/admin/appointment_report/view/widgets/details_pop_up.dart';
+import 'package:myhealthbd_app/admin/appointment_report/view_models/appointment_company_list_view_model.dart';
+import 'package:myhealthbd_app/admin/appointment_report/view_models/initial_list_view_model.dart';
 import 'package:myhealthbd_app/features/book_test/model/company_list_model.dart';
 import 'package:myhealthbd_app/features/book_test/view_model/test_item_view_model.dart';
 import 'package:myhealthbd_app/main_app/resource/colors.dart';
@@ -30,11 +32,17 @@ class _DoctorAppointmentReportState extends State<DoctorAppointmentReport> {
   DateTime docpickBirthDate2;
   String _selectedGender;
   var genderBorderColor = "#EAEBED";
+  TextEditingController ogController=TextEditingController();
+  int companyNo;
 
   @override
   void initState() {
-    // var testItemVm = Provider.of<TestItemViewModel>(context,listen: false);
-    // testItemVm.getData(companyNo: 2);
+    Future.delayed(Duration.zero).then((value) async {
+      var initialCompany = Provider.of<InitialCompanyListViewModel>(context,listen: false);
+      await initialCompany.getData();
+      var appointmentCompanyList = Provider.of<AppointmentCompanyListViewModel>(context,listen: false);
+      appointmentCompanyList.getData(ogNo: initialCompany.companyList.items.first.id);
+    });
     pickBirthDate=DateTime.now();
     pickBirthDate2=DateTime.now();
     docpickBirthDate=DateTime.now();
@@ -45,10 +53,11 @@ class _DoctorAppointmentReportState extends State<DoctorAppointmentReport> {
   @override
   Widget build(BuildContext context) {
 
-    var testItemVm = Provider.of<TestItemViewModel>(context);
-    List<String> list=testItemVm.testItemList.map((e) => e.buName).toList();
-    print('bf $list');
-    print('bf ${tx.toString()}');
+    var initialCompany = Provider.of<InitialCompanyListViewModel>(context);
+    var appointmentCompanyList = Provider.of<AppointmentCompanyListViewModel>(context);
+    // List<String> companyList=appointmentCompanyList.companyList.items.map((e) => e.companyName).toList();
+    // print('bf $companyList');
+    print('bf $companyNo');
     bool isMobile = Responsive.isMobile(context);
     bool isTablet = Responsive.isTablet(context);
     var width = MediaQuery.of(context).size.width * 0.34;
@@ -171,42 +180,122 @@ class _DoctorAppointmentReportState extends State<DoctorAppointmentReport> {
 
     var organizationName= Padding(
       padding: const EdgeInsets.only(left:18.0,right: 18),
-      child: TextField(
-        decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
+      child: Stack(
+        children: [
+          Container(
+            width: double.infinity,
+            height: 55,
+            decoration: BoxDecoration(
+                border: Border.all(color:  HexColor('#3E58FF')),borderRadius: BorderRadius.circular(15),
             ),
-            suffixIcon: Icon(Icons.keyboard_arrow_down_sharp,color: HexColor('#3E58FF'),),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: HexColor('#3E58FF'), width: 1.0),
-              borderRadius: BorderRadius.circular(15),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10.0,bottom: 10,top: 18),
+              child: Text(initialCompany.companyList?.items?.first?.ogName??'',style: TextStyle(fontSize: 15),),
             ),
-            labelText: "Organization Name",
-            labelStyle: TextStyle(color: HexColor('#3E58FF'))
-        ),
-      ),
+          ),
+
+          Positioned(
+            left: 5,
+            bottom: 42,
+            child: Container(width: 80,color: Colors.white, child: Center(child: Text('Organization',style: TextStyle(fontSize: 12,color: HexColor('#3E58FF')),))),
+          )
+        ],
+      )
     );
 
-    var companyName= Padding(
-      padding: const EdgeInsets.only(left:18.0,right: 18),
-      child: TextDropdownFormField(
-        controller: tx,
-        options: list,
-        decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15),
+    // var companyName= Padding(
+    //   padding: const EdgeInsets.only(left:18.0,right: 18),
+    //   child: TextDropdownFormField(
+    //     controller: tx,
+    //     options: companyList,
+    //     decoration: InputDecoration(
+    //         border: OutlineInputBorder(
+    //           borderRadius: BorderRadius.circular(15),
+    //         ),
+    //         suffixIcon: Icon(Icons.keyboard_arrow_down_sharp,color: HexColor('#3E58FF'),),
+    //         focusedBorder: OutlineInputBorder(
+    //           borderSide: BorderSide(color: HexColor('#3E58FF'), width: 1.0),
+    //           borderRadius: BorderRadius.circular(15),
+    //         ),
+    //         labelText: "Company Name",
+    //         labelStyle: TextStyle(color: HexColor('#3E58FF'))
+    //     ),
+    //     dropdownHeight: 120,
+    //   ),
+    // );
+
+    var companyName=
+    Padding(padding:const EdgeInsets.only(left:18.0,right: 18) ,
+      child:
+      Stack(
+        children: [
+          Container(
+          width: double.infinity,
+          height: 55,
+          decoration: BoxDecoration(
+            border: Border.all(color:  HexColor('#3E58FF')),borderRadius: BorderRadius.circular(15),
+          ),
+          child:appointmentCompanyList.companyList==null?Center(child: Text('No hospital available!'),): Padding(
+            padding: const EdgeInsets.only(left:10.0,right: 10),
+            child: Padding(
+              padding: const EdgeInsets.only(top:5.0),
+              child: Container(
+                width: width ,
+                child: DropdownButtonHideUnderline(
+                  child: DropdownButtonFormField(
+                    onTap: () {
+                      FocusManager.instance.primaryFocus.unfocus();
+                    },
+                    key: Key('signUpGenderKey'),
+                    icon: Icon(
+                      Icons.keyboard_arrow_down_sharp,
+                      color: _selectedGender != null
+                          ? Colors.black54
+                          : HexColor("#D2D2D2"),
+                    ),
+                    iconSize: 25,
+                    decoration: InputDecoration(
+                        contentPadding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        enabledBorder: InputBorder.none),
+                    isExpanded: true,
+                    hint: Text(
+                      "Select Company",
+                      style: GoogleFonts.roboto(
+                          fontSize: isTablet ? 17 : 15,
+                          color: Colors.black),
+                    ),
+                    value: companyNo,
+                    onChanged: (newValue) async{
+                      companyNo = newValue;
+                      //await appointmentCompanyList.companyInfo(companyNo: companyNo);
+                      // testItemVm.getData(companyNo: vm.companyNo);
+                      // testItemVm.getMoreData(companyNo: vm.companyNo);
+                      setState(()   {
+
+                      });
+                    },
+                    items: appointmentCompanyList.companyList.items.map((gender) {
+                      return DropdownMenuItem(
+                        child:  Text(
+                          gender.companyName,
+                          style: GoogleFonts.roboto(fontSize: 14),
+                        ),
+                        value: gender.id,
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
             ),
-            suffixIcon: Icon(Icons.keyboard_arrow_down_sharp,color: HexColor('#3E58FF'),),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: HexColor('#3E58FF'), width: 1.0),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            labelText: "Company Name",
-            labelStyle: TextStyle(color: HexColor('#3E58FF'))
-        ),
-        dropdownHeight: 120,
-      ),
-    );
+          ),
+    ),
+          Positioned(
+            left: 5,
+            bottom: 42,
+            child: Container(width: 80,color: Colors.white, child: Center(child: Text('Company',style: TextStyle(fontSize: 12,color: HexColor('#3E58FF')),))),
+          )
+        ],
+      ) ,);
 
     var fromDate = GestureDetector(
       child: Column(
@@ -504,7 +593,7 @@ var shift= Container(
                   _selectedGender = newValue;
                 });
               },
-              items: StringResources.genderList.map((gender) {
+              items: StringResources.shiftList.map((gender) {
                 return DropdownMenuItem(
                   child: new Text(
                     gender,

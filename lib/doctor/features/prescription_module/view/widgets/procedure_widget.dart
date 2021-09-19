@@ -127,10 +127,12 @@ class _ProcedureWidgetState extends State<ProcedureWidget> {
                               color: AppTheme.buttonActiveColor)),
                     )),
                 itemBuilder: (_, v) {
-                  return Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text("$v"),
-                  );
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Text("$v"),
+                        );
                 },
                 onSuggestionSelected: (v) {
                   if (templateVm.procedureSelectedItems.contains(v)) {
@@ -144,10 +146,12 @@ class _ProcedureWidgetState extends State<ProcedureWidget> {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 suggestionsCallback: (v) {
-                  return PreDiagnosisSearchRepository().fetchSearchList(
-                      q: v,
-                      favoriteType:
-                          PrescriptionFavouriteType.procedure.toString());
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : PreDiagnosisSearchRepository().fetchSearchList(
+                          q: v,
+                          favoriteType:
+                              PrescriptionFavouriteType.procedure.toString());
                 },
               ),
               SizedBox(
@@ -187,12 +191,10 @@ class _ProcedureWidgetState extends State<ProcedureWidget> {
                                     onTap: () async {
                                       List<String> favItem = [];
                                       favoriteItems.map((e) {
-                                        favItem
-                                            .add(e.favouriteVal.toLowerCase());
+                                        favItem.add(e.favouriteVal);
                                       }).toList();
                                       if (favItem.contains(templateVm
-                                          .procedureSelectedItems[index]
-                                          .toLowerCase())) {
+                                          .procedureSelectedItems[index])) {
                                         BotToast.showText(
                                             text:
                                                 'Already in the favorite list');

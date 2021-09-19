@@ -1,18 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view/widgets/vitals_form_field.dart';
 import 'package:myhealthbd_app/doctor/main_app/views/doctor_form_field.dart';
 
 class VitalsTextField extends StatelessWidget {
   final FormFieldValidator<String> validator;
   final TextEditingController controller;
   final String hintText;
+  final String levelText;
   final String unitName;
   final double topContentPadding;
   final double hintSize;
   final double unitSize;
   final double unitHeight;
   final double unitWidth;
-  const VitalsTextField({this.controller,this.unitHeight=46, this.unitWidth=80, this.hintSize = 12,this.unitSize = 12,  this.validator, this.hintText, this.unitName, this.topContentPadding=25});
+  const VitalsTextField(
+      {this.controller,
+      this.unitHeight = 46,
+      this.unitWidth = 80,
+      this.hintSize = 12,
+      this.unitSize = 12,
+      this.validator,
+      this.hintText,
+      this.unitName,
+      this.topContentPadding = 25,
+      this.levelText});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +35,8 @@ class VitalsTextField extends StatelessWidget {
           child: Container(
             child: Stack(
               children: [
-                DoctorFormField(
+                VitalsFormField(
+                  labelText: levelText,
                   enabledBorderColor: "#D2D2D2",
                   rightContentPadding: 100,
                   // readOnly: isReadOnly,
@@ -46,9 +59,8 @@ class VitalsTextField extends StatelessWidget {
                         alignment: Alignment.center,
                         child: Text(
                           unitName,
-                          style: GoogleFonts.poppins(color: Color(0xffD2D2D2),
-                          fontSize: unitSize
-                          ),
+                          style: GoogleFonts.poppins(
+                              color: Color(0xffD2D2D2), fontSize: unitSize),
                         )),
                     decoration: BoxDecoration(
                         //  color: Color(0xffE8E8E8),

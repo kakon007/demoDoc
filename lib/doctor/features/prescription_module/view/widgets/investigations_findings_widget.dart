@@ -127,10 +127,12 @@ class _InvestigationFindingsWidgetState
                           : SizedBox(),
                     )),
                 itemBuilder: (_, v) {
-                  return Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text("$v"),
-                  );
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Text("$v"),
+                        );
                 },
                 onSuggestionSelected: (v) {
                   if (templateVm.investigationFindingItems.contains(v)) {
@@ -149,11 +151,13 @@ class _InvestigationFindingsWidgetState
                   borderRadius: BorderRadius.circular(5),
                 ),
                 suggestionsCallback: (v) {
-                  return InvestigationFindingRepository().fetchSearchList(
-                      q: v,
-                      favoriteType: PrescriptionFavouriteType
-                          .investigationFindingsSearch
-                          .toString());
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : InvestigationFindingRepository().fetchSearchList(
+                          q: v,
+                          favoriteType: PrescriptionFavouriteType
+                              .investigationFindingsSearch
+                              .toString());
                 },
               ),
               SizedBox(
@@ -256,12 +260,11 @@ class _InvestigationFindingsWidgetState
                                     onTap: () async {
                                       List<String> favItem = [];
                                       favoriteItems.map((e) {
-                                        favItem
-                                            .add(e.favouriteVal.toLowerCase());
+                                        favItem.add(e.favouriteVal);
                                       }).toList();
                                       if (favItem.contains(templateVm
-                                          .investigationFindingItems[index].name
-                                          .toLowerCase())) {
+                                          .investigationFindingItems[index]
+                                          .name)) {
                                         BotToast.showText(
                                             text:
                                                 'Already in the favorite list');

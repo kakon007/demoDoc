@@ -217,13 +217,15 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                               color: AppTheme.buttonActiveColor)),
                     )),
                 itemBuilder: (_, v) {
-                  return Padding(
-                    padding: EdgeInsets.all(isTablet ? 12 : 10),
-                    child: Text(
-                      "${v.itemName}",
-                      style: TextStyle(fontSize: isTablet ? 18 : 16),
-                    ),
-                  );
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : Padding(
+                          padding: EdgeInsets.all(isTablet ? 12 : 10),
+                          child: Text(
+                            "${v.itemName}",
+                            style: TextStyle(fontSize: isTablet ? 18 : 16),
+                          ),
+                        );
                 },
                 onSuggestionSelected: (v) {
                   if (templateVm.investigationSelectedItems.contains(v)) {
@@ -237,8 +239,10 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 suggestionsCallback: (v) {
-                  return CommonPrescriptionSearchItemsRepository()
-                      .fetchSearchList(q: v, parItemTypeNo: 36);
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : CommonPrescriptionSearchItemsRepository()
+                          .fetchSearchList(q: v, parItemTypeNo: 36);
                 },
               ),
               SizedBox(
@@ -320,13 +324,11 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                                     onTap: () async {
                                       List<String> favItem = [];
                                       favoriteItems.map((e) {
-                                        favItem
-                                            .add(e.favouriteVal.toLowerCase());
+                                        favItem.add(e.favouriteVal);
                                       }).toList();
                                       if (favItem.contains(templateVm
                                           .investigationSelectedItems[index]
-                                          .itemName
-                                          .toLowerCase())) {
+                                          .itemName)) {
                                         BotToast.showText(
                                             text:
                                                 'Already in the favorite list');
@@ -475,10 +477,10 @@ class _InvestigationWidgetState extends State<InvestigationWidget> {
                               onChanged: (val) {
                                 item.isCheck = val;
                                 if (val == true) {
-                                  if (templateVm.investigationSelectedItems.any(
-                                      (element) =>
-                                          element.itemName ==
-                                          item.favouriteVal)) {
+                                  if (templateVm
+                                      .investigationSelectedItems[index]
+                                      .itemName
+                                      .contains(item.favouriteVal)) {
                                     BotToast.showText(text: "All ready added");
                                   } else {
                                     templateVm.investigationSelectedItems.add(

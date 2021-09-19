@@ -11,6 +11,7 @@ import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/g
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/past_illness_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/prescription_template_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/provisional_diagnosis_view_model.dart';
+import 'package:myhealthbd_app/doctor/features/prescription_module/view_models/vitals_list_setup_view_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/previous_vew_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/upcoming_view_model.dart';
 import 'package:myhealthbd_app/features/appointment_history/view_model/zoom_view_model.dart';
@@ -24,8 +25,6 @@ import 'package:myhealthbd_app/features/auth/view_model/reset_password_view_mode
 import 'package:myhealthbd_app/features/auth/view_model/sign_out_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/sign_up_view_model.dart';
 import 'package:myhealthbd_app/features/auth/view_model/term_view_model.dart';
-import 'package:myhealthbd_app/features/book_test/view_model/company_list_view_model.dart';
-import 'package:myhealthbd_app/features/book_test/view_model/test_item_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_logo_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/blog_view_model.dart';
 import 'package:myhealthbd_app/features/dashboard/view_model/hospital_list_view_model.dart';
@@ -56,9 +55,6 @@ import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart
 import 'package:myhealthbd_app/root.dart';
 import 'package:provider/provider.dart';
 
-import 'admin/appointment_report/view_models/appointment_company_list_view_model.dart';
-import 'admin/appointment_report/view_models/initial_list_view_model.dart';
-import 'doctor/features/dashboard/view_model/consultation_view_model.dart';
 import 'doctor/features/patient_details/view_models/consultation_history_view_model.dart';
 import 'doctor/features/prescription_module/view_models/advice_view_model.dart';
 import 'doctor/features/prescription_module/view_models/orthosis_view_model.dart';
@@ -70,7 +66,7 @@ import 'doctor/features/prescription_module/view_models/medication_view_model.da
 import 'doctor/features/profile/view_model/digital_signature_view_model.dart';
 import 'doctor/features/profile/view_model/personal_info_view_model.dart';
 import 'doctor/features/worklist/view_model/worklist_view_model.dart';
-import 'features/book_test/view_model/order_confirm_view_model.dart';
+import 'features/book_test/order_confirm_view_model.dart';
 
 class MyHealthBdApp extends StatelessWidget {
   @override
@@ -196,18 +192,8 @@ class MyHealthBdApp extends StatelessWidget {
           create: (context) => ShiftListDocViewModel()),
       ChangeNotifierProvider<OrderConfirmViewModel>(
           create: (context) => OrderConfirmViewModel()),
-      ChangeNotifierProvider<ConsultationViewModel>(
-          create: (context) => ConsultationViewModel()),
-
-      ChangeNotifierProvider<TestItemViewModel>(
-          create: (context) => TestItemViewModel()),
-      ChangeNotifierProvider<CompanyListViewModel>(
-          create: (context) => CompanyListViewModel()),
-      ChangeNotifierProvider<InitialCompanyListViewModel>(
-          create: (context) => InitialCompanyListViewModel()),
-      ChangeNotifierProvider<AppointmentCompanyListViewModel>(
-          create: (context) => AppointmentCompanyListViewModel()),
-
+      ChangeNotifierProvider<VitalsListSetupViewModel>(
+          create: (context) => VitalsListSetupViewModel()),
     ];
     return AuthViewWrapper(
       child: MultiProvider(

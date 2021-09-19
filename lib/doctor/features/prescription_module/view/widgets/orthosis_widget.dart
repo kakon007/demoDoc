@@ -127,10 +127,12 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
                               color: AppTheme.buttonActiveColor)),
                     )),
                 itemBuilder: (_, v) {
-                  return Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text("$v"),
-                  );
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Text("$v"),
+                        );
                 },
                 onSuggestionSelected: (v) {
                   if (templateVm.orthosisSelectedItems.contains(v)) {
@@ -144,10 +146,12 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 suggestionsCallback: (v) {
-                  return PreDiagnosisSearchRepository().fetchSearchList(
-                      q: v,
-                      favoriteType:
-                          PrescriptionFavouriteType.orthosis.toString());
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : PreDiagnosisSearchRepository().fetchSearchList(
+                          q: v,
+                          favoriteType:
+                              PrescriptionFavouriteType.orthosis.toString());
                 },
               ),
               SizedBox(
@@ -187,12 +191,10 @@ class _OrthosisWidgetState extends State<OrthosisWidget> {
                                     onTap: () async {
                                       List<String> favItem = [];
                                       favoriteItems.map((e) {
-                                        favItem
-                                            .add(e.favouriteVal.toLowerCase());
+                                        favItem.add(e.favouriteVal);
                                       }).toList();
                                       if (favItem.contains(templateVm
-                                          .orthosisSelectedItems[index]
-                                          .toLowerCase())) {
+                                          .orthosisSelectedItems[index])) {
                                         BotToast.showText(
                                             text:
                                                 'Already in the favorite list');

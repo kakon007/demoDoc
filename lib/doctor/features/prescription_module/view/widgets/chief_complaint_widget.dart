@@ -32,12 +32,11 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
   var vm = appNavigator.context.read<ChiefComplaintViewModel>();
 
   void searchFavoriteItem(String query) {
-    List<FavouriteItemModel> initialFavoriteSearch = List<FavouriteItemModel>();
+    List<FavouriteItemModel> initialFavoriteSearch = [];
     initialFavoriteSearch = vm.favouriteList;
     print("init ${initialFavoriteSearch.length}");
     if (query.isNotEmpty) {
-      List<FavouriteItemModel> initialFavoriteSearchItems =
-          List<FavouriteItemModel>();
+      List<FavouriteItemModel> initialFavoriteSearchItems = [];
       initialFavoriteSearch.forEach((item) {
         if (item.favouriteVal.toLowerCase().contains(query.toLowerCase())) {
           initialFavoriteSearchItems.add(item);
@@ -101,6 +100,8 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TypeAheadFormField<String>(
+                hideSuggestionsOnKeyboardHide: true,
+                hideOnEmpty: true,
                 textFieldConfiguration: TextFieldConfiguration(
                     style: TextStyle(fontSize: isTablet ? 18 : 16),
                     textInputAction: TextInputAction.search,
@@ -141,13 +142,15 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                               color: AppTheme.buttonActiveColor)),
                     )),
                 itemBuilder: (_, v) {
-                  return Padding(
-                    padding: EdgeInsets.all(isTablet ? 12 : 10),
-                    child: Text(
-                      "$v",
-                      style: TextStyle(fontSize: isTablet ? 18 : 16),
-                    ),
-                  );
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : Padding(
+                          padding: EdgeInsets.all(isTablet ? 12 : 10),
+                          child: Text(
+                            "$v",
+                            style: TextStyle(fontSize: isTablet ? 18 : 16),
+                          ),
+                        );
                 },
                 onSuggestionSelected: (v) {
                   if (templateVm.chiefComplaintSelectedItems.contains(v)) {
@@ -161,10 +164,12 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 suggestionsCallback: (v) {
-                  return PreDiagnosisSearchRepository().fetchSearchList(
-                      q: v,
-                      favoriteType:
-                          PrescriptionFavouriteType.chiefComplaint.toString());
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : PreDiagnosisSearchRepository().fetchSearchList(
+                          q: v,
+                          favoriteType: PrescriptionFavouriteType.chiefComplaint
+                              .toString());
                 },
               ),
               SizedBox(
@@ -208,12 +213,11 @@ class _ChiefComplaintWidgetState extends State<ChiefComplaintWidget> {
                                     onTap: () async {
                                       List<String> favItem = [];
                                       favoriteItems.map((e) {
-                                        favItem
-                                            .add(e.favouriteVal.toLowerCase());
+                                        favItem.add(e.favouriteVal);
                                       }).toList();
                                       if (favItem.contains(templateVm
-                                          .chiefComplaintSelectedItems[index]
-                                          .toLowerCase())) {
+                                              .chiefComplaintSelectedItems[
+                                          index])) {
                                         BotToast.showText(
                                             text:
                                                 'Already in the favorite list');

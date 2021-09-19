@@ -127,10 +127,12 @@ class _DiseaseWidgetState extends State<DiseaseWidget> {
                               color: AppTheme.buttonActiveColor)),
                     )),
                 itemBuilder: (_, v) {
-                  return Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text("$v"),
-                  );
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Text("$v"),
+                        );
                 },
                 onSuggestionSelected: (v) {
                   if (templateVm.diseaseSelectedItems.contains(v)) {
@@ -144,10 +146,12 @@ class _DiseaseWidgetState extends State<DiseaseWidget> {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 suggestionsCallback: (v) {
-                  return PreDiagnosisSearchRepository().fetchSearchList(
-                      q: v,
-                      favoriteType:
-                          PrescriptionFavouriteType.disease.toString());
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : PreDiagnosisSearchRepository().fetchSearchList(
+                          q: v,
+                          favoriteType:
+                              PrescriptionFavouriteType.disease.toString());
                 },
               ),
               SizedBox(
@@ -187,12 +191,10 @@ class _DiseaseWidgetState extends State<DiseaseWidget> {
                                     onTap: () async {
                                       List<String> favItem = [];
                                       favoriteItems.map((e) {
-                                        favItem
-                                            .add(e.favouriteVal.toLowerCase());
+                                        favItem.add(e.favouriteVal);
                                       }).toList();
                                       if (favItem.contains(templateVm
-                                          .diseaseSelectedItems[index]
-                                          .toLowerCase())) {
+                                          .diseaseSelectedItems[index])) {
                                         BotToast.showText(
                                             text:
                                                 'Already in the favorite list');

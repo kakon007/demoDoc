@@ -1024,4 +1024,9 @@ class SaveVitalList {
     data.removeWhere((key, value) => value == null || value == '');
     return data;
   }
+
+  @override
+  String toString() {
+    return 'SaveVitalList{ssCreator: $ssCreator, ssCreatedOn: $ssCreatedOn, ssCreateSession: $ssCreateSession, ssModifier: $ssModifier, ssModifiedOn: $ssModifiedOn, ssModifiedSession: $ssModifiedSession, companyNo: $companyNo, organizationNo: $organizationNo, id: $id, preDiagnosisVal: $preDiagnosisVal, preDiagnosisValType: $preDiagnosisValType, preDiagnosisValLocal: $preDiagnosisValLocal, preDiagnosisValShort: $preDiagnosisValShort, preDiagnosisValUnit: $preDiagnosisValUnit, preDiagnosisValDefaultVal: $preDiagnosisValDefaultVal, orderSl: $orderSl, preDiagnosisValInputType: $preDiagnosisValInputType, calculationMethod: $calculationMethod, departmentNo: $departmentNo, doctorNo: $doctorNo, activeStatus: $activeStatus, idNotEqual: $idNotEqual, preDiagnosisValTypes: $preDiagnosisValTypes, deptNoNull: $deptNoNull, inReportSerial: $inReportSerial, referenceId: $referenceId, findings: $findings, unit: $unit}';
+  }
 }

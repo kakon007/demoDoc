@@ -124,10 +124,12 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                               color: AppTheme.buttonActiveColor)),
                     )),
                 itemBuilder: (_, v) {
-                  return Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: Text("$v"),
-                  );
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : Padding(
+                          padding: EdgeInsets.all(10.0),
+                          child: Text("$v"),
+                        );
                 },
                 onSuggestionSelected: (v) {
                   if (templateVm.clinicalHistorySelectedItems.contains(v)) {
@@ -141,10 +143,13 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 suggestionsCallback: (v) {
-                  return PreDiagnosisSearchRepository().fetchSearchList(
-                      q: v,
-                      favoriteType:
-                          PrescriptionFavouriteType.clinicalHistory.toString());
+                  return controller.text.isEmpty
+                      ? SizedBox()
+                      : PreDiagnosisSearchRepository().fetchSearchList(
+                          q: v,
+                          favoriteType: PrescriptionFavouriteType
+                              .clinicalHistory
+                              .toString());
                 },
                 // noItemsFoundBuilder: noItemsFoundBuilder ??
                 //     (context) {
@@ -199,12 +204,11 @@ class _ClinicalHistoryWidgetState extends State<ClinicalHistoryWidget> {
                                     onTap: () async {
                                       List<String> clinicalList = [];
                                       favoriteItems.map((e) {
-                                        clinicalList
-                                            .add(e.favouriteVal.toLowerCase());
+                                        clinicalList.add(e.favouriteVal);
                                       }).toList();
                                       if (clinicalList.contains(templateVm
-                                          .clinicalHistorySelectedItems[index]
-                                          .toLowerCase())) {
+                                              .clinicalHistorySelectedItems[
+                                          index])) {
                                         BotToast.showText(
                                             text:
                                                 'Already in the favorite list');

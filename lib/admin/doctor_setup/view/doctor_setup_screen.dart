@@ -98,7 +98,7 @@ class _DoctorSetupScreenState extends State<DoctorSetupScreen> {
             children: [
               Container(
                 height: isTablet ? 50 : 45.0,
-                width: width * 0.7,
+                width: width * 0.92,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     border: Border.all(color: Color(0xffD2D2D2)),
@@ -109,7 +109,7 @@ class _DoctorSetupScreenState extends State<DoctorSetupScreen> {
                     Padding(
                       padding: EdgeInsets.only(left: 15.0, right: 15),
                       child: Container(
-                        width: width * 0.6,
+                        width: width * 0.8,
                         child: DropdownButtonHideUnderline(
                           child: DropdownButtonFormField(
                             onTap: () {

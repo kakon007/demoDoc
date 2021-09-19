@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myhealthbd_app/admin/doctor_setup/view/widgets/adress_widget.dart';
+import 'package:myhealthbd_app/admin/doctor_setup/view/widgets/other_information.dart';
 import 'package:myhealthbd_app/admin/doctor_setup/view/widgets/personal_information_widget.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 
@@ -61,8 +63,8 @@ class _AddDoctorSetupScreenState extends State<AddDoctorSetupScreen> {
               child: TabBarView(
                 children: [
                   PersonalInformation(),
-                  Container(),
-                  Container(),
+                  OtherInformation(),
+                  AdressWidget(),
                 ],
               ),
             ),

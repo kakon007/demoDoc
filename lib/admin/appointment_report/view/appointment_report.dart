@@ -12,6 +12,7 @@ import 'package:myhealthbd_app/admin/appointment_report/repositories/apointment_
 import 'package:myhealthbd_app/admin/appointment_report/view/widgets/details_pop_up.dart';
 import 'package:myhealthbd_app/admin/appointment_report/view_models/appointment_company_list_view_model.dart';
 import 'package:myhealthbd_app/admin/appointment_report/view_models/appointment_doctor_search_view_model.dart';
+import 'package:myhealthbd_app/admin/appointment_report/view_models/appointment_preview_view_model.dart';
 import 'package:myhealthbd_app/admin/appointment_report/view_models/appointment_shift_view_model.dart';
 import 'package:myhealthbd_app/admin/appointment_report/view_models/initial_list_view_model.dart';
 import 'package:myhealthbd_app/features/book_test/model/company_list_model.dart';
@@ -69,9 +70,10 @@ class _DoctorAppointmentReportState extends State<DoctorAppointmentReport> {
     var appointmentCompanyList = Provider.of<AppointmentCompanyListViewModel>(context);
     var appointmentShiftList = Provider.of<AppointmentShiftViewModel>(context);
     var appointmentdoctorList = Provider.of<AppointmentDoctorListViewModel>(context);
+    var userList = Provider.of<AppointmentPreviewViewModel>(context);
     // List<String> companyList=appointmentCompanyList.companyList.items.map((e) => e.companyName).toList();
     // print('bf $companyList');
-    print('bf $doctorNo');
+    //print('bf ${userList.patientList.length}');
     bool isMobile = Responsive.isMobile(context);
     bool isTablet = Responsive.isTablet(context);
     var width = MediaQuery.of(context).size.width * 0.34;
@@ -746,6 +748,7 @@ var downloadButton = Align(
             // SVProgressHUD.show(status: 'Loading');
             // await appointmentReport.getData(fromDate:TimeUtil().formattedDate(DateTime.parse( pickedFromDate.toString()??DateTime.now())),toDate:TimeUtil().formattedDate(DateTime.parse( pickedToDate.toString()??DateTime.now())),doctorNo: companyInfoVm.details.doctorNo,ogNo: companyInfoVm.details.organizationNo,shiftNo: selectedIndex==0?0:selectedIndex==1?2000001:2000002);
             // SVProgressHUD.dismiss();
+            userList.getData(fromDate:TimeUtil().formattedDate(DateTime.parse( pickBirthDate.toString()??DateTime.now())),toDate: TimeUtil().formattedDate(DateTime.parse( pickBirthDate2.toString()??DateTime.now())),doctorNo: doctorNo,shiftNo: shiftNo,ogNo:initialCompany.companyList.items.first.id ,companyNo: companyNo);
           },
           child:Row(
             children: [
@@ -950,7 +953,7 @@ var doctorName=Padding(
                                   ),
                                 ),
                         SizedBox(height: 20,),
-                        ExpandableNotifier(
+                                userList.patientList==null? SizedBox():ExpandableNotifier(
                               controller:controller,
                               child: Padding(
                                 padding: EdgeInsets.only(
@@ -1010,7 +1013,7 @@ var doctorName=Padding(
                                                             ),
                                                             SizedBox(width: 8,),
                                                             Text(
-                                                              "Assoc. Prof. Dr. Mahmud Rahim",
+                                                              ogController.text,
                                                               style: Theme.of(context)
                                                                   .textTheme
                                                                   .bodyText1
@@ -1097,7 +1100,7 @@ var doctorName=Padding(
                                                         ),
                                                         border: Border.all(color: Colors.grey)
                                                     ),
-                                                    child:  ListView.separated(
+                                                    child:ListView.separated(
                                                         itemCount: 8,
                                                         shrinkWrap: true,
                                                         itemBuilder:
@@ -2004,5 +2007,14 @@ var doctorName=Padding(
         context: context,
         builder: (context) => Material(
             color: Colors.transparent, child: AdminPopup()));
+  }
+}
+
+class TimeUtil {
+  static const DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'";
+
+  String formattedDate(DateTime dateTime) {
+    print('dateTime ($dateTime)');
+    return DateFormat(DATE_FORMAT).format(dateTime);
   }
 }

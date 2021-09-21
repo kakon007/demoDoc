@@ -1,7 +1,9 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:myhealthbd_app/admin/appointment_report/models/appointment_doctor_search_model.dart';
 import 'package:myhealthbd_app/admin/appointment_report/view_models/appointment_company_list_view_model.dart';
+import 'package:myhealthbd_app/admin/appointment_report/view_models/appointment_doctor_search_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/appointment_report/view_model/appointment_report_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/appointment_report/view_model/shift_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/dashboard/view_model/consultation_view_model.dart';
@@ -60,6 +62,7 @@ import 'package:myhealthbd_app/features/videos/view_models/video_view_model.dart
 import 'package:myhealthbd_app/root.dart';
 import 'package:provider/provider.dart';
 
+import 'admin/appointment_report/view_models/appointment_shift_view_model.dart';
 import 'admin/appointment_report/view_models/initial_list_view_model.dart';
 import 'admin/profile/view_model/personal_info_view_model.dart';
 import 'doctor/features/dashboard/view_model/consultation_view_model.dart';
@@ -221,6 +224,10 @@ class MyHealthBdApp extends StatelessWidget {
           create: (context) => PrescriptionComponentViewModel()),
       ChangeNotifierProvider<AdminPersonalInfoViewModel>(
           create: (context) => AdminPersonalInfoViewModel()),
+      ChangeNotifierProvider<AppointmentShiftViewModel>(
+          create: (context) => AppointmentShiftViewModel()),
+      ChangeNotifierProvider<AppointmentDoctorListViewModel>(
+          create: (context) => AppointmentDoctorListViewModel()),
     ];
     return AuthViewWrapper(
       child: MultiProvider(

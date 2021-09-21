@@ -7,8 +7,12 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
+import 'package:myhealthbd_app/admin/appointment_report/models/appointment_doctor_search_model.dart';
+import 'package:myhealthbd_app/admin/appointment_report/repositories/apointment_doctor_search_repository.dart';
 import 'package:myhealthbd_app/admin/appointment_report/view/widgets/details_pop_up.dart';
 import 'package:myhealthbd_app/admin/appointment_report/view_models/appointment_company_list_view_model.dart';
+import 'package:myhealthbd_app/admin/appointment_report/view_models/appointment_doctor_search_view_model.dart';
+import 'package:myhealthbd_app/admin/appointment_report/view_models/appointment_shift_view_model.dart';
 import 'package:myhealthbd_app/admin/appointment_report/view_models/initial_list_view_model.dart';
 import 'package:myhealthbd_app/features/book_test/model/company_list_model.dart';
 import 'package:myhealthbd_app/features/book_test/view_model/test_item_view_model.dart';
@@ -34,14 +38,22 @@ class _DoctorAppointmentReportState extends State<DoctorAppointmentReport> {
   var genderBorderColor = "#EAEBED";
   TextEditingController ogController=TextEditingController();
   int companyNo;
+  int shiftNo;
+  int doctorNo;
 
   @override
   void initState() {
     Future.delayed(Duration.zero).then((value) async {
       var initialCompany = Provider.of<InitialCompanyListViewModel>(context,listen: false);
       await initialCompany.getData();
+
       var appointmentCompanyList = Provider.of<AppointmentCompanyListViewModel>(context,listen: false);
-      appointmentCompanyList.getData(ogNo: initialCompany.companyList.items.first.id);
+      await appointmentCompanyList.getData(ogNo: initialCompany.companyList.items.first.id);
+
+      var appointmentShiftList = Provider.of<AppointmentShiftViewModel>(context,listen: false);
+       appointmentShiftList.getData(ogNo: initialCompany.companyList.items.first.id,companyno: companyNo);
+       var appointmentdoctorList = Provider.of<AppointmentDoctorListViewModel>(context,listen: false);
+      appointmentdoctorList.getData(ogNo: initialCompany.companyList.items.first.id,companyNo: companyNo);
     });
     pickBirthDate=DateTime.now();
     pickBirthDate2=DateTime.now();
@@ -55,9 +67,11 @@ class _DoctorAppointmentReportState extends State<DoctorAppointmentReport> {
 
     var initialCompany = Provider.of<InitialCompanyListViewModel>(context);
     var appointmentCompanyList = Provider.of<AppointmentCompanyListViewModel>(context);
+    var appointmentShiftList = Provider.of<AppointmentShiftViewModel>(context);
+    var appointmentdoctorList = Provider.of<AppointmentDoctorListViewModel>(context);
     // List<String> companyList=appointmentCompanyList.companyList.items.map((e) => e.companyName).toList();
     // print('bf $companyList');
-    print('bf $companyNo');
+    print('bf $doctorNo');
     bool isMobile = Responsive.isMobile(context);
     bool isTablet = Responsive.isTablet(context);
     var width = MediaQuery.of(context).size.width * 0.34;
@@ -266,10 +280,13 @@ class _DoctorAppointmentReportState extends State<DoctorAppointmentReport> {
                     ),
                     value: companyNo,
                     onChanged: (newValue) async{
+                      companyNo=null;
                       companyNo = newValue;
                       //await appointmentCompanyList.companyInfo(companyNo: companyNo);
                       // testItemVm.getData(companyNo: vm.companyNo);
                       // testItemVm.getMoreData(companyNo: vm.companyNo);
+                     await appointmentShiftList.getData(ogNo: initialCompany.companyList.items.first.id,companyno: companyNo);
+                     await appointmentdoctorList.getData(ogNo: initialCompany.companyList.items.first.id,companyNo: companyNo);
                       setState(()   {
 
                       });
@@ -546,7 +563,7 @@ class _DoctorAppointmentReportState extends State<DoctorAppointmentReport> {
       },
     );
 
-var shift= Container(
+var shift=Container(
   height: isTablet ? 50 : 50.0,
   width: width,
   decoration: BoxDecoration(
@@ -556,7 +573,10 @@ var shift= Container(
   child: Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
-      Padding(
+      appointmentShiftList.companyList==null?Padding(
+        padding: EdgeInsets.only(left: 15.0),
+        child: Center(child:Text("No shift found!")),
+      ):  Padding(
         padding: EdgeInsets.only(left: 15.0),
         child: Container(
           width: width * .87,
@@ -586,20 +606,20 @@ var shift= Container(
                     fontSize: isTablet ? 17 : 15,
                     color: HexColor("#D2D2D2")),
               ),
-              value: _selectedGender,
+              value: shiftNo,
               onChanged: (newValue) {
                 setState(() {
                   genderBorderColor = "#EAEBED";
-                  _selectedGender = newValue;
+                  shiftNo = newValue;
                 });
               },
-              items: StringResources.shiftList.map((gender) {
+              items: appointmentShiftList.shiftList.map((gender) {
                 return DropdownMenuItem(
                   child: new Text(
-                    gender,
+                    gender.shiftName,
                     style: GoogleFonts.roboto(fontSize: 14),
                   ),
-                  value: gender,
+                  value: gender.shiftNo,
                 );
               }).toList(),
             ),
@@ -744,10 +764,10 @@ var downloadButton = Align(
 
 var doctorName=Padding(
   padding: const EdgeInsets.only(left:18.0,right:18),
-  child: TypeAheadFormField<CompanyItem>(
+  child: TypeAheadFormField<DocItem>(
     textFieldConfiguration: TextFieldConfiguration(
         textInputAction: TextInputAction.search,
-        //controller: bookTestController,
+        controller: ogController,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.only(bottom: 20,left: 20,right: 20,top: 10),
           labelText: "Doctor Name",
@@ -779,11 +799,12 @@ var doctorName=Padding(
     itemBuilder: (_, v) {
       return Padding(
         padding: EdgeInsets.all(10.0),
-        child: Text("${v.companyName}"),
+        child: Text("${v.firstName}"),
       );
     },
     onSuggestionSelected: (v) async {
-      // bookTestController.text = v.companyName;
+      doctorNo=v.doctorNo;
+      ogController.text = v.firstName;
       // await vm.companyInfo(companyNo: v.companyNo);
       // testItemVm.getData(companyNo: vm.companyNo);
       // testItemVm.getMoreData(companyNo: vm.companyNo);
@@ -793,11 +814,16 @@ var doctorName=Padding(
       borderRadius: BorderRadius.circular(5),
     ),
     suggestionsCallback: (v) {
-      // return vm.companyList.items.where((element) => element
-      //     .companyName
-      //     .toString()
-      //     .toLowerCase()
-      //     .contains(v.toLowerCase()));
+      return appointmentdoctorList.docList.where((element) => element
+          .firstName
+          .toString()
+          .toLowerCase()
+          .contains(v.toLowerCase()));
+      // return AppointmentDoctorSearchRepository().fetchDoctorSearchData(
+      //     q: v,
+      //   companyNo: companyNo,
+      //    ogNo: initialCompany.companyList.items.first.id
+      //   );
     },
   ),
 );

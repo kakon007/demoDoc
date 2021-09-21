@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
-import 'package:myhealthbd_app/admin/appointment_report/models/appointment_company_list.dart';
-import 'package:myhealthbd_app/admin/appointment_report/repositories/appointment_company_list_repository.dart';
+import 'package:myhealthbd_app/admin/appointment_report/models/appointment_doctor_search_model.dart';
+import 'package:myhealthbd_app/admin/appointment_report/repositories/apointment_doctor_search_repository.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 
 
-class AppointmentCompanyListViewModel extends ChangeNotifier{
-  AppointmentListModel _companyList;
+class AppointmentDoctorListViewModel extends ChangeNotifier{
+  AppointmentDoctorSearchtModel _companyList;
+  List<DocItem> _docList=[];
   AppError _appError;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
@@ -40,20 +41,21 @@ class AppointmentCompanyListViewModel extends ChangeNotifier{
 
 
 
-  Future<bool> getData({int ogNo}) async {
+  Future<bool> getData({String q,int companyNo,int ogNo,}) async {
     startIndex=0;
     _pageCount++;
     _isFetchingData = true;
-    var res = await ApppointmentCompanyListRepository().fetchApppointmentCompanyListData(ogNo: ogNo);
+    var res = await AppointmentDoctorSearchRepository().fetchDoctorSearchData(ogNo: ogNo,companyNo: companyNo);
     _companyList=res;
+    _docList=res.items;
     notifyListeners();
   }
 
-  companyInfo({int companyNo}){
-    _companyNo=companyNo;
-    notifyListeners();
-    //print("modelllc $_ogNO");
-  }
+  // companyInfo({int companyNo}){
+  //   _companyNo=companyNo;
+  //   return _companyNo;
+  //   //print("modelllc $_ogNO");
+  // }
 
   Future<bool> refresh(String accessToken) async {
     _pageCount = 1;
@@ -71,7 +73,8 @@ class AppointmentCompanyListViewModel extends ChangeNotifier{
   }
 
 
-  AppointmentListModel get companyList => _companyList;
+  AppointmentDoctorSearchtModel get doctorList => _companyList;
+  List<DocItem> get docList=> _docList;
   int get  companyNo=>_companyNo;
 
 }

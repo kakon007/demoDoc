@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
-import 'package:myhealthbd_app/admin/appointment_report/models/appointment_company_list.dart';
-import 'package:myhealthbd_app/admin/appointment_report/repositories/appointment_company_list_repository.dart';
+import 'package:myhealthbd_app/admin/appointment_report/models/appointment_shift_model.dart';
+import 'package:myhealthbd_app/admin/appointment_report/repositories/appointment_shift_repository.dart';
 import 'package:myhealthbd_app/main_app/failure/app_error.dart';
 
 
-class AppointmentCompanyListViewModel extends ChangeNotifier{
-  AppointmentListModel _companyList;
+class AppointmentShiftViewModel extends ChangeNotifier{
+  AppointmentShiftListModel _companyList;
+  List<Item> _shiftList=[];
   AppError _appError;
   bool _isFetchingMoreData = false;
   bool _isFetchingData = false;
@@ -40,20 +41,22 @@ class AppointmentCompanyListViewModel extends ChangeNotifier{
 
 
 
-  Future<bool> getData({int ogNo}) async {
+  Future<bool> getData({int ogNo,int companyno}) async {
     startIndex=0;
     _pageCount++;
     _isFetchingData = true;
-    var res = await ApppointmentCompanyListRepository().fetchApppointmentCompanyListData(ogNo: ogNo);
+    var res = await ShiftListRepository().fetchShiftListData(ogNo: ogNo,companyno: companyno);
     _companyList=res;
+    _shiftList = res.items;
+    _shiftList.insert(0,Item(shiftNo: 0,shiftInsec: "0",shiftOutsec: "0",shiftName: 'All',shiftTime: 'All'));
     notifyListeners();
   }
 
-  companyInfo({int companyNo}){
-    _companyNo=companyNo;
-    notifyListeners();
-    //print("modelllc $_ogNO");
-  }
+  // companyInfo({int companyNo}){
+  //   _companyNo=companyNo;
+  //   return _companyNo;
+  //   //print("modelllc $_ogNO");
+  // }
 
   Future<bool> refresh(String accessToken) async {
     _pageCount = 1;
@@ -71,7 +74,8 @@ class AppointmentCompanyListViewModel extends ChangeNotifier{
   }
 
 
-  AppointmentListModel get companyList => _companyList;
+  AppointmentShiftListModel get companyList => _companyList;
+  List<Item> get shiftList=>_shiftList;
   int get  companyNo=>_companyNo;
 
 }

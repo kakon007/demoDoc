@@ -712,7 +712,8 @@ class _GetAppointmentState extends State<GetAppointment> {
                                           ),
                                         ),
                                       )
-                                    : ListView.builder(
+                                    :
+                            ListView.builder(
                                         controller: _scrollController,
                                         shrinkWrap: true,
                                         itemCount: vm.upComingAppointmentList.length + 1,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myhealthbd_app/demo_doctor/view/appointment_history.dart';
 import 'package:myhealthbd_app/demo_doctor/view/dashBoard_screen.dart';
 import 'package:myhealthbd_app/features/appointment_history/view/get_appointment_screen.dart';
 
@@ -15,7 +16,7 @@ class _HomeState extends State<Home> {
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static  List<Widget> _widgetOptions = <Widget>[
     DashboardDemoScreen(),
-    GetAppointment()
+    Appointment()
   ];
 
   void _onItemTapped(int index) {

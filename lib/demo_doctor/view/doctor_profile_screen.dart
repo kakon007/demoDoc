@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:myhealthbd_app/demo_doctor/view/appointment_confirmation.dart';
+import 'package:page_transition/page_transition.dart';
 
 class DoctorProfile extends StatefulWidget {
   @override
@@ -254,38 +256,49 @@ class _DoctorProfileState extends State<DoctorProfile> {
                     SizedBox(
                       height: 35,
                     ),
-                    Container(
-                      // margin: EdgeInsets.only(left: 30, top: 100, right: 30, bottom: 50),
-                      height: 50,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Color(0xff7266D8),
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10),
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10)
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 5,
-                            blurRadius: 7,
-                            offset: Offset(0, 3), // changes position of shadow
+                    InkWell(
+                      onTap: (){
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                              type: PageTransitionType.rightToLeft,
+                              child: AppointmentConfirmation()
                           ),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child:  Center(
-                          child: Text(
-                            'Book Appointment',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                        );
+                      },
+                      child: Container(
+                        // margin: EdgeInsets.only(left: 30, top: 100, right: 30, bottom: 50),
+                        height: 50,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Color(0xff7266D8),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10)
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset: Offset(0, 3), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child:  Center(
+                            child: Text(
+                              'Book Appointment',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ),
                       ),

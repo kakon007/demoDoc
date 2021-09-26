@@ -886,7 +886,8 @@ class _FindYourDoctorScreenState extends State<FindYourDoctorScreen> {
                                           child: Scrollbar(
                                             isAlwaysShown: true,
                                             controller: _scrollController2,
-                                            child: ListView(
+                                            child:
+                                            ListView(
                                               controller: _scrollController2,
                                               children: specialityItems
                                                   .map(

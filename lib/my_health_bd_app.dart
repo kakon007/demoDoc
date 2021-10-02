@@ -6,6 +6,7 @@ import 'package:myhealthbd_app/admin/appointment_report/view_models/appointment_
 import 'package:myhealthbd_app/admin/appointment_report/view_models/appointment_doctor_search_view_model.dart';
 import 'package:myhealthbd_app/demo_doctor/view/dashBoard_screen.dart';
 import 'package:myhealthbd_app/demo_doctor/view/home.dart';
+import 'package:myhealthbd_app/demo_doctor/view/login_screen.dart';
 import 'package:myhealthbd_app/demo_doctor/view/zoom_video_viewModel.dart';
 import 'package:myhealthbd_app/doctor/features/appointment_report/view_model/appointment_report_view_model.dart';
 import 'package:myhealthbd_app/doctor/features/appointment_report/view_model/shift_view_model.dart';
@@ -252,7 +253,7 @@ class MyHealthBdApp extends StatelessWidget {
           navigatorObservers: [BotToastNavigatorObserver()],
           navigatorKey: appNavigator.navigatorKey,
           debugShowCheckedModeBanner: false,
-          home: Home(),
+          home: CommonLoginScreen(),
         ),
       ),
     );

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/demo_doctor/view/zoom_video_viewModel.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/util/url_launcher_helper.dart';
+import 'package:provider/provider.dart';
 
 class Appointment extends StatefulWidget {
   @override
@@ -10,8 +12,17 @@ class Appointment extends StatefulWidget {
 }
 
 class _AppointmentState extends State<Appointment> {
+
+  @override
+  void initState() {
+    var vm=Provider.of<ZoomVideoViewModel>(context,listen: false);
+    vm.getData();
+    // TODO: implement initState
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
+    var vm=Provider.of<ZoomVideoViewModel>(context,listen: false);
     var deviceHeight = MediaQuery.of(context).size.height;
     var deviceWidth = MediaQuery.of(context).size.width;
     var width = MediaQuery.of(context).size.width * 0.44;
@@ -487,7 +498,8 @@ class _AppointmentState extends State<Appointment> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                UrlLauncherHelper.launchUrl('https://us05web.zoom.us/j/88958928134?pwd=RTNxcUpraUphY01YaVc4MmltbjlwQT09');
+                                var link=vm.videoList[index].joinUrl;
+                                UrlLauncherHelper.launchUrl(link);
                               },
                               child: Material(
                                 elevation: 2,

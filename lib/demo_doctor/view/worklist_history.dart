@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myhealthbd_app/demo_doctor/view/write_prescription.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 
 class DoctorWorklistHistory extends StatefulWidget {
@@ -47,6 +48,7 @@ class _DoctorWorklistHistoryState extends State<DoctorWorklistHistory> {
               Spacer(),
               GestureDetector(
                 onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>WritePrescription()));
                 },
                 child: Material(
                   elevation: 2,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myhealthbd_app/demo_doctor/view/doctor_home.dart';
 import 'package:myhealthbd_app/demo_doctor/view/home.dart';
+import 'package:myhealthbd_app/demo_doctor/view/login_screen_process.dart';
 import 'package:page_transition/page_transition.dart';
 
 class CommonLoginScreen extends StatefulWidget {
@@ -68,7 +69,7 @@ class _CommonLoginScreenState extends State<CommonLoginScreen> {
                       context,
                       PageTransition(
                           type: PageTransitionType.rightToLeft,
-                          child: DoctorHome()
+                          child: LogInProcess(id: 0,)
                       ),
                     );
                   },child: doctorLogin),
@@ -78,7 +79,7 @@ class _CommonLoginScreenState extends State<CommonLoginScreen> {
                       context,
                       PageTransition(
                           type: PageTransitionType.rightToLeft,
-                          child: Home()
+                          child: LogInProcess(id: 1,)
                       ),
                     );
                   },child: patientLogin)

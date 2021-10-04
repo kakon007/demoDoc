@@ -346,7 +346,6 @@ class _DashboardScreenState extends State<DashboardScreen> with SingleTickerProv
                           children: [
                             Text(
                               StringResources.dasboardAppBarSignInText,
-                              key: Key('signInTextKey'),
                               style: GoogleFonts.poppins(
                                   fontWeight: FontWeight.w600, fontSize: isTablet ? 16 : 12),
                             ),

@@ -1,9 +1,13 @@
+import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:myhealthbd_app/demo_doctor/view/agora_rtc_screen.dart';
 import 'package:myhealthbd_app/demo_doctor/view/zoom_video_viewModel.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
 import 'package:myhealthbd_app/main_app/util/url_launcher_helper.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class Appointment extends StatefulWidget {
@@ -498,8 +502,15 @@ class _AppointmentState extends State<Appointment> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                var link=vm.videoList[index].joinUrl;
-                                UrlLauncherHelper.launchUrl(link);
+                                // var link=vm.videoList[index].joinUrl;
+                                // UrlLauncherHelper.launchUrl(link);
+                                Navigator.push(
+                                  context,
+                                  PageTransition(
+                                    type: PageTransitionType.rightToLeft,
+                                    child:  CallPage(),
+                                  ),
+                                );
                               },
                               child: Material(
                                 elevation: 2,
@@ -523,7 +534,6 @@ class _AppointmentState extends State<Appointment> {
                                   child: Center(
                                     child: Text(
                                       "Join Video Consultation",
-                                      key: Key('joinVideoConsultationKey$index'),
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: isTablet
@@ -559,5 +569,33 @@ class _AppointmentState extends State<Appointment> {
             ]);
           }),
     );
+  }
+  Future<void> onJoin() async {
+    // update input validation
+    // setState(() {
+    //   _channelController.text.isEmpty
+    //       ? _validateError = true
+    //       : _validateError = false;
+    // });
+
+      // await for camera and mic permissions before pushing video page
+      await _handleCameraAndMic(Permission.camera);
+      await _handleCameraAndMic(Permission.microphone);
+      // push video page with given channel name
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CallPage(
+            //channelName: "test",
+            //role: ClientRole.Broadcaster,
+          ),
+        ),
+      );
+
+  }
+
+  Future<void> _handleCameraAndMic(Permission permission) async {
+    final status = await permission.request();
+    print(status);
   }
 }

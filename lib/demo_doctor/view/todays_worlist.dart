@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:myhealthbd_app/demo_doctor/view/agora_rtc_screen.dart';
 import 'package:myhealthbd_app/main_app/util/responsiveness.dart';
+import 'package:page_transition/page_transition.dart';
 
 class DoctorTodaysWorklist extends StatefulWidget {
 
@@ -37,7 +39,7 @@ class _DoctorTodaysWorklistState extends State<DoctorTodaysWorklist> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Patient Name: Jahid Hasan Kakon',style: TextStyle(color: Colors.white,fontSize: 15),),
+                  Text('Patient Name: Jahid',style: TextStyle(color: Colors.white,fontSize: 15),),
                   SizedBox(height: 10,),
                   Text('Patient Serial: 01',style: TextStyle(color: Colors.white,fontSize: 15),),
                   SizedBox(height: 10,),
@@ -47,6 +49,13 @@ class _DoctorTodaysWorklistState extends State<DoctorTodaysWorklist> {
               Spacer(),
               GestureDetector(
                 onTap: () {
+                  Navigator.push(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child:  CallPage(),
+                    ),
+                  );
                 },
                 child: Material(
                   elevation: 2,
@@ -95,7 +104,7 @@ class _DoctorTodaysWorklistState extends State<DoctorTodaysWorklist> {
         ));
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login", style: TextStyle(color: Colors.black)),
+        title: Text("WorkList", style: TextStyle(color: Colors.black)),
         backgroundColor:Colors.white,
       ),
       body: Padding(

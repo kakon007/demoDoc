@@ -57,7 +57,7 @@ class _CommonLoginScreenState extends State<CommonLoginScreen> {
         backgroundColor:Colors.white,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top:300.0),
+        padding: const EdgeInsets.only(top:200.0),
         child: Center(
           child: Container(
             child: Padding(
